@@ -9,6 +9,7 @@ public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private User user = new User();
+	
 	private boolean isLoggedIn = false;
 
 	public boolean login(String username, String password) {
