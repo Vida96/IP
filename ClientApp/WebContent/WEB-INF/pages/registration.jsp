@@ -21,7 +21,6 @@
 			<form class="form-detail" action="#" method="post" id="myform">
 				<div class="form-left">
 					<h2>Osnovne informacije</h2>
-					 
 					<div class="form-group">
 						<div class="form-row form-row-1">
 							<input type="text" name="firstName" id="firstName" class="input-text" placeholder="Ime" oninvalid="this.setCustomValidity('Unesite pravilno ime.')" oninput="this.setCustomValidity('')" required>
@@ -30,34 +29,23 @@
 							<input type="text" name="lastName" id="lastName" class="input-text" placeholder="Prezime" oninvalid="this.setCustomValidity('Unesite pravilno prezime.')" oninput="this.setCustomValidity('')" required>
 						</div>
 					</div>
-					 
 					<div class="form-row form-row-3">
 						<input type="text" name="username" class="input-text id="username" placeholder="Korisničko ime" oninvalid="this.setCustomValidity('Unesite pravilno korisničko ime.')" oninput="this.setCustomValidity('')" required>
 					</div>
-					
 					<div class="form-row form-row-4">
 							<input type="password" name="password" class="password" id="password" placeholder="Lozinka" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
 				   	</div>
-				   	
 				   	<div class="form-row form-row-5">
 							<input type="password" name="password" class="password2" id="password2" placeholder="Potvrda lozinke" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
 				   	</div>
-				   	
 				   	<div class="form-row form-row-6">
-							<input type="mail" name="mail" class="input-text" id="mail" placeholder="Mail" required oninvalid="this.setCustomValidity('Unesite pravilno mail.')" oninput="this.setCustomValidity('')" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"  title="Username should only contain lowercase letters. e.g. john">
+							<input type="mail" name="mail" class="input-text" id="mail" placeholder="Mail" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"  oninvalid="this.setCustomValidity('Unesite pravilno mail. ')" onchange="try{setCustomValidity('')}catch(e){}" oninput="setCustomValidity(' ')">
 				   	</div>
 				</div>
 				<div class="form-right">
 					<h2>Dodatne informacije</h2>
-					<div class="form-group">
-						<div class="form-row form-row-2">
-							<span class="select-btn">
-							  	<i class="zmdi zmdi-chevron-down"></i>
-							</span>
-						</div>
-					</div>
 					<div class="form-row">
-						<select id="country" name="country">
+						<select id="country" name="country" onChange="fillRegions()">
 						    <script>fillCountries();</script>
 						</select>
 						<span class="select-btn">

@@ -28,14 +28,16 @@ public class LoginController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String address = "/WEB-INF/pages/login.jsp";
+		String address = "/WEB-INF/pages/messages.jsp";
+
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
 
 		session.setAttribute("notification", "");
 
 		if (action == null || action.equals("")) {
-			address = "/WEB-INF/pages/login.jsp";
+  address = "/WEB-INF/pages/messages.jsp";
+			//			address = "/WEB-INF/pages/login.jsp";
 		} else if (action.equals("logout")) {
 			session.invalidate();
 			address = "/WEB-INF/pages/login.jsp";

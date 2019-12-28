@@ -39,18 +39,18 @@
 						Prijava na sistem
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Korisničko ime je obavezno">
-						<input class="input100" type="text" name="username" placeholder="Korisničko ime">
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="username" class="input-text id="username" placeholder="Korisničko ime" oninvalid="this.setCustomValidity('Unesite pravilno korisničko ime.')" oninput="this.setCustomValidity('')" required>
 						<span class="focus-input100-1"></span>
 						<span class="focus-input100-2"></span>
 					</div>
 
-					<div class="wrap-input100 rs1 validate-input" data-validate="Lozinka je obavezna">
-						<input class="input100" type="password" name="pass" placeholder="Lozinka">
+					<div class="wrap-input100 rs1 validate-input">
+						<input class="input100" type="password" name="password" class="password" id="password" placeholder="Lozinka" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
 						<span class="focus-input100-1"></span>
 						<span class="focus-input100-2"></span>
 					</div>
-
+						
 					<div class="container-login100-form-btn m-t-20">
 						<button class="login100-form-btn">
 							Prijavi se 
