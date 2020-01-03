@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@page import="net.etfbl.beans.UserBean"%>
+    <jsp:useBean id="userBean" type="net.etfbl.beans.UserBean" scope="session"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,22 +43,28 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <div class="h5">@LeeCross</div>
-                        <div class="h7 text-muted">Fullname : Miracles Lee Cross</div>
-                        <div class="h7">Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
-                            etc.
-                        </div>
+                        <h3>
+                        <%
+                      /*  out.println(userBean.getUser().getFirstName());
+                        out.println(userBean.getUser().getLastName());*/
+                        out.println(userBean.getUser().getUsername());
+                        %>
+                        </h3>
+                        <img src="https://miro.medium.com/max/1187/1*0FqDC0_r1f5xFz3IywLYRA.jpeg" alt="Trulli" width="400" height="333">
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <div class="h6 text-muted">Followers</div>
-                            <div class="h5">5.2342</div>
+                            <div class="h6 text-muted">Broj prijava</div>
+                            <div class="h5">
+                             33
+                             <%
+                     		   //out.println(userBean.getUser().getNumberOfLogging());
+                     	   	%>
+                            </div>
                         </li>
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Following</div>
-                            <div class="h5">6758</div>
-                        </li>
-                        <li class="list-group-item">Vestibulum at eros</li>
+                        <li class="list-group-item">Uzbuna 1 - Alkohol je blizu</li>
+                        <li class="list-group-item">Uzbuna 2 - Alkohol je blizu</li>
+                        <li class="list-group-item">Uzbuna 3 - Alkohol je blizu</li>
                     </ul>
                 </div>
             </div>

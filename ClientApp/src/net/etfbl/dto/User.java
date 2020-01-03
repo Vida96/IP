@@ -1,9 +1,12 @@
 package net.etfbl.dto;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class User {
-
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	private Integer id;
 	private String firstName;
 	private String lastName;
 	private String username;
@@ -13,10 +16,12 @@ public class User {
 	private String region;
 	private String city;
 	private byte[] photoData;
+    private Integer numberOfLogging;
 
-	public User(String firstName, String lastName, String username, String password, String mail, String country,
-			String region, String city, byte[] photoData) {
+    public User(Integer id, String firstName, String lastName, String username, String password, String mail,
+			String country, String region, String city, byte[] photoData, Integer numberOfLogging) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -26,8 +31,15 @@ public class User {
 		this.region = region;
 		this.city = city;
 		this.photoData = photoData;
+		this.numberOfLogging = numberOfLogging;
 	}
-
+    
+    public User(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+	
 	public User() {}
 
 	public String getFirstName() {
@@ -102,6 +114,14 @@ public class User {
 		this.photoData = photoData;
 	}
 
+	public Integer getNumberOfLogging() {
+		return numberOfLogging;
+	}
+
+	public void setNumberOfLogging(Integer numberOfLogging) {
+		this.numberOfLogging = numberOfLogging;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -171,5 +191,4 @@ public class User {
 			return false;
 		return true;
 	}
-
 }

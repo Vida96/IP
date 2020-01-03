@@ -12,8 +12,7 @@ public class ConnectionPool {
   private static ConnectionPool connectionPool;
 
   static {
-    ResourceBundle bundle =
-      PropertyResourceBundle.getBundle("net.etfbl.ip.lab07.dao.ConnectionPool");
+    ResourceBundle bundle = PropertyResourceBundle.getBundle("net.etfbl.dao.ConnectionPool");
     String jdbcURL = bundle.getString("jdbcURL");
     String username = bundle.getString("username");
     String password = bundle.getString("password");

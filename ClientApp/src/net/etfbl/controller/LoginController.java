@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.etfbl.beans.UserBean; 
- 
-/**
- * Servlet implementation class Controller
- */
+import net.etfbl.beans.UserBean;
+import net.etfbl.dto.User;
+
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
 	//private static final long serialVersionUID = 1L;
@@ -28,30 +26,25 @@ public class LoginController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String address = "/WEB-INF/pages/messages.jsp";
-
+		String address = "/WEB-INF/pages/login.jsp";
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
 
 		session.setAttribute("notification", "");
 
 		if (action == null || action.equals("")) {
-  address = "/WEB-INF/pages/messages.jsp";
-			//			address = "/WEB-INF/pages/login.jsp";
+  			address = "/WEB-INF/pages/login.jsp";
 		} else if (action.equals("logout")) {
 			session.invalidate();
 			address = "/WEB-INF/pages/login.jsp";
 		} else if (action.equals("login")) {
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
 			UserBean userBean = new UserBean();
-			if(username == null) {
-				address = "/WEB-INF/pages/login.jsp";
-			}
-			else if (userBean.login(username, password)) {
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");	
+			if (userBean.login(username, password)) {
 				session.setAttribute("userBean", userBean);
-				//MessageBean messageBean = new MessageBean();
-				//session.setAttribute("messageBean", messageBean);
+			//	MessageBean messageBean = new MessageBean();
+		//		session.setAttribute("messageBean", messageBean);
 				address = "/WEB-INF/pages/messages.jsp";
 			} else {
 				session.setAttribute("notification", "Pogresni parametri za pristup");
@@ -59,21 +52,22 @@ public class LoginController extends HttpServlet {
 		} else if (action.equals("registration")) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
+			String mail = request.getParameter("password");
+		
 			UserBean userBean = new UserBean();
 			try {
-				if (username != null) {/*
-					if (userBean.isUserNameAllowed(request.getParameter("username"))) {
-		 //			User user = new User(0, username, password, request.getParameter("lastName"),
-								request.getParameter("firstName"));
+				if (username != null) {
+					if (userBean.areUsernameAndMailAllowed(username, mail)) {
+		 			User user = new User(username, password);
 						if (userBean.add(user)) {
 				//			MessageBean messageBean = new MessageBean();
-							session.setAttribute("messageBean", messageBean);
-							address = "/WEB-INF/pages/messages.jsp";
+					//		session.setAttribute("messageBean", messageBean);
+							address = "/WEB-INF/pages/profile.jsp";
 						}
 					} else {
 						session.setAttribute("notification", "Username je zauzet");
 						address = "/WEB-INF/pages/registration.jsp";
-					}*/
+					}
 				} else {
 					address = "/WEB-INF/pages/registration.jsp";
 				}
@@ -109,8 +103,7 @@ public class LoginController extends HttpServlet {
 				}
 			}
 
-		}
-		 
+		}	 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 		dispatcher.forward(request, response);
 	}
