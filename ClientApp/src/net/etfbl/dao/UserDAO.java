@@ -12,7 +12,7 @@ public class UserDAO {
 	private static final String SQL_SELECT_BY_USERNAME_AND_PASSWORD = "SELECT * FROM user WHERE username=? AND password=?";
 	private static final String SQL_IS_USERNAME_USED = "SELECT * FROM user WHERE username = ?";
 	private static final String SQL_IS_MAIL_USED = "SELECT * FROM user WHERE mail = ?";
-	private static final String SQL_INSERT = "INSERT INTO user (username, password, first_name, last_name) VALUES (?,?,?,?)";
+	private static final String SQL_INSERT = "INSERT INTO user (username, password, firstname, lastname, mail) VALUES (?,?,?,?,?)";
 	
 	public static User selectByUsernameAndPassword(String username, String password){
 		User user = null;
@@ -39,15 +39,14 @@ public class UserDAO {
 		return user;
 	}
 	
-	public static boolean isUsernameUsed(String username) {
+	public static boolean isUsernameAllowed(String username) {
 		boolean result = true;
 		Connection connection = null;
 		ResultSet rs = null;
 		Object values[] = {username};
 		try {
 			connection = connectionPool.checkOut();
-			PreparedStatement pstmt = DAOUtil.prepareStatement(connection,
-					SQL_IS_USERNAME_USED, false, values);
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_IS_USERNAME_USED, false, values);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
 				result = false;
@@ -61,15 +60,14 @@ public class UserDAO {
 		return result;
 	}
 	
-	public static boolean isMailUsed(String mail) {
+	public static boolean isMailAllowed(String mail) {
 		boolean result = true;
 		Connection connection = null;
 		ResultSet rs = null;
 		Object values[] = {mail};
 		try {
 			connection = connectionPool.checkOut();
-			PreparedStatement pstmt = DAOUtil.prepareStatement(connection,
-					SQL_IS_MAIL_USED, false, values);
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_IS_MAIL_USED, false, values);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
 				result = false;
@@ -87,9 +85,9 @@ public class UserDAO {
 		boolean result = false;
 		Connection connection = null;
 		ResultSet generatedKeys = null;
-		Object values[] = { user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName() };
+		Object values[] = { user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getMail()};
 		try {
-	//		connection = connectionPool.checkOut();
+			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
 			pstmt.executeUpdate();
 			generatedKeys = pstmt.getGeneratedKeys();
@@ -97,14 +95,13 @@ public class UserDAO {
 				result = true;
 			}
 			if (generatedKeys.next())
-			//	user.setId(generatedKeys.getInt(1));
+				user.setId(generatedKeys.getInt(1));
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		//	connectionPool.checkIn(connection);
+			connectionPool.checkIn(connection);
 		}
 		return result;
 	}
-
 }

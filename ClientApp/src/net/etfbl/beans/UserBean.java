@@ -33,15 +33,19 @@ public class UserBean implements Serializable {
 		return user;
 	}
 
-	public boolean areUsernameAndMailAllowed(String username, String mail) {
-		return true; /* TO DO */
-	//	if(UserDAO.isUsernameUsed(username))
-//			return UserDAO.isMailUsed(username);
+	public String areUsernameAndMailAllowed(String username, String mail) {
+		String message = "";
+		if(!UserDAO.isUsernameAllowed(username))
+			message = "* Korisničko ime je zauzeto";
+		if(!UserDAO.isMailAllowed(mail))
+			message += " # * Mail je zauzet";
+		else
+			message += " # ";
+		return message;
 	}
 	
 	public boolean add(User user) {
-		return true; /* TO DO */
-		//return UserDAO.insert(user);
+		return UserDAO.insert(user);
 	}
 
 }

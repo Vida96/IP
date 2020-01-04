@@ -106,9 +106,9 @@
 </head>
 <body>
 <div class="signup-form">
-     <form method="POST" action="?action=registration" id="registrationForm">
+     <form method="POST" action="?action=registration" id="registrationForm" onSubmit="return validate();">
 		<h1 align="center">Registracija</h1>
-		<p class="hint-text">Napravite Vaš nalog.Besplatno je i brzo.</p>
+		<p class="hint-text">Napravite Vaš nalog. Besplatno je i brzo.</p>
         <div class="form-group">
 			<div class="row">
 				<div class="col-xs-6">  <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Unesite vaše ime" oninvalid="this.setCustomValidity('Unesite pravilno ime.')" oninput="this.setCustomValidity('')" required></div>
@@ -127,13 +127,15 @@
                          <input type="password" class="form-control" name="confirmedPassword" id="confirmedPassword" placeholder="Potvrdite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
         </div>
             <div class="form-group">
-              <input type="email" class="form-control" name="email" id="email" placeholder="vaš@email.com" title="enter your email." required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"  oninvalid="this.setCustomValidity('Unesite pravilno mail. ')" onchange="try{setCustomValidity('')}catch(e){}" oninput="setCustomValidity(' ')">
+              <input type="email" class="form-control" name="mail" id="mail" placeholder="vaš@email.com" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"  oninvalid="this.setCustomValidity('Unesite pravilno mail. ')" onchange="try{setCustomValidity('')}catch(e){}" oninput="setCustomValidity(' ')">
         </div>
+        <h3 style="color:red; font-size:15px"><%=session.getAttribute("notificationUsername").toString()%></h3> <br/>
+      	<h3 style="color:red; font-size:15px"><%=session.getAttribute("notificationMail").toString()%></h3> <br/>
 		<div class="form-group">
             <button type="submit" class="btn btn-success btn-lg btn-block">Registrujte se</button>
         </div>
     </form>
-	<div class="text-center">Već imate nalog? <a href="#">Prijavite se</a></div>
+	<div class="text-center">Već imate nalog? <a href="?action= ">Prijavite se</a></div>
 </div>
 </body>
 </html>                            

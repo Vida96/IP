@@ -30,7 +30,8 @@ public class LoginController extends HttpServlet {
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
 
-		session.setAttribute("notification", "");
+		session.setAttribute("notificationUsername", "");
+		session.setAttribute("notificationMail", "");
 
 		if (action == null || action.equals("")) {
   			address = "/WEB-INF/pages/login.jsp";
@@ -50,22 +51,27 @@ public class LoginController extends HttpServlet {
 				session.setAttribute("notification", "Pogresni parametri za pristup");
 			}
 		} else if (action.equals("registration")) {
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			String mail = request.getParameter("password");
-		
+			String mail = request.getParameter("mail");
+	
 			UserBean userBean = new UserBean();
+			String attribute;
 			try {
 				if (username != null) {
-					if (userBean.areUsernameAndMailAllowed(username, mail)) {
-		 			User user = new User(username, password);
+					attribute =userBean.areUsernameAndMailAllowed(username, mail);
+					if (attribute.equals(" # ")) {
+		 			User user = new User(firstName, lastName, username, password, mail);
 						if (userBean.add(user)) {
 				//			MessageBean messageBean = new MessageBean();
 					//		session.setAttribute("messageBean", messageBean);
-							address = "/WEB-INF/pages/profile.jsp";
+							address = "/WEB-INF/pages/login.jsp";
 						}
 					} else {
-						session.setAttribute("notification", "Username je zauzet");
+						session.setAttribute("notificationUsername", attribute.split("#")[0]);
+						session.setAttribute("notificationMail", attribute.split("#")[1]);
 						address = "/WEB-INF/pages/registration.jsp";
 					}
 				} else {

@@ -40,8 +40,17 @@ public class User implements Serializable {
 		this.password = password;
 	}
 	
-	public User() {}
+	public User(String firstName, String lastName, String username, String password, String mail) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.mail = mail;
+	}
 
+	public User() {}
+ 
 	public String getFirstName() {
 		return firstName;
 	}
@@ -120,6 +129,14 @@ public class User implements Serializable {
 
 	public void setNumberOfLogging(Integer numberOfLogging) {
 		this.numberOfLogging = numberOfLogging;
+	}
+
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	@Override

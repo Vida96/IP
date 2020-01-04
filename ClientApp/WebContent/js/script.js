@@ -159,8 +159,6 @@ function handleImageChange()
     }
     // Load files into file reader
     reader.readAsDataURL(file);
-
-
     // Post the data
     /*
     var fd = new FormData();
@@ -168,4 +166,14 @@ function handleImageChange()
     fd.append("image", dataurl);
     fd.append("info", "lah_de_dah");
     */
+}
+
+function validate(){
+	var a = document.getElementById("password").value;
+    var b = document.getElementById("confirmedPassword").value;
+    var password = document.getElementById("password");
+    if (a!=b) {
+       password.setCustomValidity("Unesite pravilno lozinku");
+       return false;
+    }
 }
