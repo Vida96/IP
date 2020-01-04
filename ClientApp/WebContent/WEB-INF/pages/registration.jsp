@@ -106,7 +106,7 @@
 </head>
 <body>
 <div class="signup-form">
-     <form method="POST" action="?action=registration" id="registrationForm" onSubmit="return validate();">
+     <form id="registrationForm">
 		<h1 align="center">Registracija</h1>
 		<p class="hint-text">Napravite Vaš nalog. Besplatno je i brzo.</p>
         <div class="form-group">
@@ -132,7 +132,7 @@
         <h3 style="color:red; font-size:15px"><%=session.getAttribute("notificationUsername").toString()%></h3> <br/>
       	<h3 style="color:red; font-size:15px"><%=session.getAttribute("notificationMail").toString()%></h3> <br/>
 		<div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block">Registrujte se</button>
+            <button name="submit" class="btn btn-success btn-lg btn-block" onclick="return validateFields()">Registrujte se</button>
         </div>
     </form>
 	<div class="text-center">Već imate nalog? <a href="?action= ">Prijavite se</a></div>

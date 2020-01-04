@@ -3,6 +3,7 @@ package net.etfbl.controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import net.etfbl.beans.UserBean;
 import net.etfbl.dto.User;
@@ -29,7 +32,7 @@ public class LoginController extends HttpServlet {
 		String address = "/WEB-INF/pages/login.jsp";
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
-
+System.out.println("ACTION" + action);
 		session.setAttribute("notificationUsername", "");
 		session.setAttribute("notificationMail", "");
 
@@ -42,6 +45,8 @@ public class LoginController extends HttpServlet {
 			UserBean userBean = new UserBean();
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");	
+			System.out.println(username);
+			System.out.println(password);
 			if (userBean.login(username, password)) {
 				session.setAttribute("userBean", userBean);
 			//	MessageBean messageBean = new MessageBean();
@@ -51,15 +56,21 @@ public class LoginController extends HttpServlet {
 				session.setAttribute("notification", "Pogresni parametri za pristup");
 			}
 		} else if (action.equals("registration")) {
+			String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+		//	System.out.println(jsonText);
+			JSONObject jsonObject = new JSONObject(jsonText);
+			System.out.println("OBJECT" + jsonObject.getString("firstName"));
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			String mail = request.getParameter("mail");
-	
+
 			UserBean userBean = new UserBean();
 			String attribute;
 			try {
+				System.out.println("USERNAME" + username);
+
 				if (username != null) {
 					attribute =userBean.areUsernameAndMailAllowed(username, mail);
 					if (attribute.equals(" # ")) {
@@ -67,7 +78,8 @@ public class LoginController extends HttpServlet {
 						if (userBean.add(user)) {
 				//			MessageBean messageBean = new MessageBean();
 					//		session.setAttribute("messageBean", messageBean);
-							address = "/WEB-INF/pages/login.jsp";
+							System.out.println("C");
+							address = "/WEB-INF/pages/profile.jsp";
 						}
 					} else {
 						session.setAttribute("notificationUsername", attribute.split("#")[0]);

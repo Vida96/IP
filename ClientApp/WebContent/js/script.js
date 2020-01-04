@@ -88,6 +88,7 @@ function fillCities(){
 
 	  var selectedRegion = document.getElementById("region");
 	 var region = selectedRegion.options[selectedRegion.selectedIndex].value; 
+	
 	  JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region + '&key=6826321a61ebdc72f20551df7f7d374a&callback=cb', "cb");
 
 };
@@ -176,4 +177,72 @@ function validate(){
        password.setCustomValidity("Unesite pravilno lozinku");
        return false;
     }
+}
+
+function validateFields(){
+	/*document.getElementById("usernameLabel").innerHTML = "";
+	document.getElementById("passwordLabel").innerHTML = "";
+	document.getElementById("checkPasswordLabel").innerHTML = "";
+	document.getElementById("mailLabel").innerHTML = "";*/
+	alert(2);
+	let username = document.getElementById("username").value;
+	
+/*	if(/\s/.test(username)) {
+		document.getElementById("usernameLabel").innerHTML = "Korisničko ime ne smije imati razmak";
+		return false;
+	}
+	*/
+	let password = document.getElementById("password").value; 
+	/*
+	if(password.length < 8) {
+		document.getElementById("passwordLabel").innerHTML = "Lozinka mora imati bar 8 karaktera";
+		return false;
+	}*/
+	
+	//let checkPassword = document.getElementById("checkPassword").value;
+	/*if(password !== checkPassword) {
+		document.getElementById("checkPasswordLabel").innerHTML = "Lozinke se ne poklapaju";
+		return false;
+	}*/
+	
+	let mail = document.getElementById("mail").value;
+	//let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	/*if(!regex.test(String(mail).toLowerCase())) {
+		document.getElementById("mailLabel").innerHTML = "Mail nije validan";
+		return false;
+	}
+	*/
+	let object = {
+			firstName: document.getElementById("firstName").value,
+			lastName: document.getElementById("lastName").value,
+			username: document.getElementById("username").value,
+			password: document.getElementById("password").value,
+			mail: document.getElementById("mail").value,
+			action: "registration"
+	}
+	let request = new XMLHttpRequest();
+	
+	request.onreadystatechange = function(){
+		if((request.readyState ==4) && (request.status==200))
+		{
+			alert(222);
+		/*	if(this.responseText.trim() == "NOK_PASS_LENGTH") {
+				document.getElementById("passwordLabel").innerHTML = "Lozinka mora imati vise od 7 karaktera";
+			} else if(this.responseText.trim() == "NOK_PASS_EQUAL") {
+				document.getElementById("checkPasswordLabel").innerHTML = "Lozinke se ne poklapaju";
+			} else if(this.responseText.trim() == "NOK_USERNAME") {
+				document.getElementById("usernameLabel").innerHTML = "Korisnicko ime je zauzeto";
+			} else if(this.responseText.trim() == "NOK_MAIL_TAKEN") {
+				document.getElementById("mailLabel").innerHTML = "Mail je vec u upotrebi";
+			} else if(this.responseText.trim() == "NOK_MAIL_INVALID") {
+				document.getElementById("mailLabel").innerHTML = "Mail nije validan";
+			} else {*/
+			//	window.location.replace("Register?action=registration");
+			//}
+		}
+	}
+	
+	request.open("POST","Registration",true);
+	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+	request.send(JSON.stringify(object));
 }

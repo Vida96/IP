@@ -119,7 +119,7 @@
             <button type="submit" class="btn btn-success btn-lg btn-block">Prijavite se</button>
         </div>
     </form>
-	<div class="text-center"><h4>Nemate nalog? <a href="?action=registration" style="color:red">Registrujte se</a></h4></div>
+	<div class="text-center"><h4>Nemate nalog? <a href="Registration?action=registration" style="color:red">Registrujte se</a></h4></div>
 </div>
 </body>
 </html>         
