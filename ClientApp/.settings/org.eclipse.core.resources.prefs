@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-encoding//WebContent/WEB-INF/pages/messages.jsp=UTF-8
+encoding//WebContent/WEB-INF/pages/home.jsp=UTF-8
 encoding//src/net/etfbl/beans/UserBean.java=UTF-8
 encoding//src/net/etfbl/controller/LoginController.java=UTF-8

@@ -22,11 +22,11 @@ import net.etfbl.dto.User;
  * Servlet implementation class Profile
  */
 @WebServlet("/Profile")
-public class Profile extends HttpServlet {
+public class ProfileController extends HttpServlet {
 	 
 			private static final long serialVersionUID = 1L;
 		    
-		    public Profile() {
+		    public ProfileController() {
 		        super();
 		    }
 
@@ -61,8 +61,8 @@ public class Profile extends HttpServlet {
 				String password = jsonObject.getString("password");
 				String mail = jsonObject.getString("mail");
 				byte[] photoData = null; //jsonObject.getString("photo").getBytes();
-				Integer notificationOnMail = 0;
-				Integer notificationInApp = 0;
+				Integer notificationOnMail = jsonObject.getBoolean("notificationOnMail") ? 1 : 0;
+				Integer notificationInApp = jsonObject.getBoolean("notificationInApp")? 1 : 0;
 				String country = null, region = null, city = null;
 				
 				if (!jsonObject.isNull("country")){
@@ -79,15 +79,17 @@ public class Profile extends HttpServlet {
 				
 				UserBean userBean = new UserBean();
 				String attribute;
-				User user = new User(firstName, lastName, username, password, mail, country, region, city, photoData, false, false);//notificationOnMail, notificationInApp);
+				User user = new User(firstName, lastName, username, password, mail, country, region, city, photoData, notificationOnMail, notificationInApp);
 				try {
 					PrintWriter pw = new PrintWriter(response.getWriter());
 					if (username != null) {
 			 			User u = UserDAO.getUserByUsernameAndActive(username, active);
 			 			user.setId(u.getId());
-			 			user.setNumberOfLogging(u.getNumberOfLogging());
+			 			Integer numberOfLogins = u.getNumberOfLogging();
+			 			user.setNumberOfLogging(numberOfLogins);
 			 			UserDAO.update(user);
-			 	    	session.invalidate();
+			 			if(numberOfLogins == 0) //ako se izmjena vrsi odmah nakon registracije treba ponistiti sesiju, jer nismo jos dobili odobrenje da se mozemo prijavti
+			 				session.invalidate();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

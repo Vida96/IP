@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
+import net.etfbl.beans.PostBean;
 import net.etfbl.beans.UserBean;
 import net.etfbl.dto.User;
 
@@ -40,14 +41,17 @@ public class LoginController extends HttpServlet {
 			//pozvati UserBean, a zatim odraditi i odjavljivanje korisnika
 			address = "/WEB-INF/pages/login.jsp";
 		} else if (action.equals("login")) {
+			System.out.println("USLO");
 			UserBean userBean = new UserBean();
+			PostBean postBean = new PostBean();
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");	
 			if (userBean.login(username, password)) {
+			System.out.println("USLO");
 				session.setAttribute("userBean", userBean);
+			session.setAttribute("postBean", userBean);
 			//	MessageBean messageBean = new MessageBean();
 		//		session.setAttribute("messageBean", messageBean);
-				address = "/WEB-INF/pages/messages.jsp";
 			}  
 		}  
 		else
@@ -60,7 +64,25 @@ public class LoginController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+		JSONObject jsonObject = new JSONObject(jsonText);
+		String address = "/WEB-INF/pages/login.jsp";
+		String action = jsonObject.getString("action");
+		HttpSession session = request.getSession();
+  
+		if (action.equals("logout")) {
+			session.invalidate();
+			//pozvati UserBean, a zatim odraditi i odjavljivanje korisnika
+			address = "/WEB-INF/pages/login.jsp";
+		} else if (action.equals("login")) {
+			UserBean userBean = new UserBean();
+			PostBean postBean = new PostBean();
+			String username = jsonObject.getString("username");
+			String password = jsonObject.getString("password");	
+			if (userBean.login(username, password)) {
+				session.setAttribute("userBean", userBean);
+				session.setAttribute("postBean", postBean);
+			}  
 	}
-
+	}
 }

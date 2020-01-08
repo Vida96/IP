@@ -1,7 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@page import="net.etfbl.beans.UserBean"%>
-    <jsp:useBean id="userBean" type="net.etfbl.beans.UserBean" scope="session"/>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="net.etfbl.dto.User"%>
+<%@page import="net.etfbl.dto.Post"%>
+<%@page import="java.util.List"%>
+<jsp:useBean id="userBean" type="net.etfbl.beans.UserBean" scope="session"/>
+<jsp:useBean id="postBean" type="net.etfbl.beans.PostBean" scope="session"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +25,11 @@
 <title>Prikaz obavjestenja o opasnosti</title>
 </head>
 <body>
-        
+        				            <%
+				               List<Post> posts = postBean.getAllActivePosts();
+				           	   for(Post p : posts)
+				           		   System.out.println(p.getText());
+        				        %>
 <nav class="navbar navbar-light bg-white">
         <a href="#" class="navbar-brand">Bootsbook</a>
         <form class="form-inline">
@@ -56,10 +63,9 @@
                         <li class="list-group-item">
                             <div class="h6 text-muted">Broj prijava</div>
                             <div class="h5">
-                             33
                              <%
-                     		   //out.println(userBean.getUser().getNumberOfLogging());
-                     	   	%>
+                             out.println(userBean.getUser().getNumberOfLogging());
+                             %>
                             </div>
                         </li>
                         <li class="list-group-item">Uzbuna 1 - Alkohol je blizu</li>

@@ -18,9 +18,11 @@ public class User implements Serializable {
 	private String city;
 	private byte[] photoData;
     private Integer numberOfLogging;
+    private Integer notificationOnMail;
+    private Integer notificationInApp;
 
     public User(String firstName, String lastName, String username, String password, String mail,
-			String country, String region, String city, byte[] photoData, Boolean notficationOnMail, Boolean notificationInApp) {
+			String country, String region, String city, byte[] photoData, Integer notificationOnMail, Integer notificationInApp) {
 		super();
 		
 		this.firstName = firstName;
@@ -32,10 +34,27 @@ public class User implements Serializable {
 		this.region = region;
 		this.city = city;
 		this.photoData = photoData;
-		this.numberOfLogging = numberOfLogging;
+		this.notificationOnMail = notificationOnMail;
+		this.notificationInApp = notificationInApp;
 	}
     
-    public User(String username, String password) {
+    public Integer getNotificationOnMail() {
+		return notificationOnMail;
+	}
+
+	public void setNotificationOnMail(Integer notificationOnMail) {
+		this.notificationOnMail = notificationOnMail;
+	}
+
+	public Integer getNotificationInApp() {
+		return notificationInApp;
+	}
+
+	public void setNotificationInApp(Integer notificationInApp) {
+		this.notificationInApp = notificationInApp;
+	}
+
+	public User(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -51,10 +70,11 @@ public class User implements Serializable {
 	}
 	
 	 
-		public User(Integer id, Integer numberOfLogging) {
+		public User(Integer id, Integer numberOfLogging, String username) {
 			super();
 			this.id = id;
 			this.numberOfLogging = numberOfLogging;
+			this.username = username;
 		}
 
 	public User() {}
@@ -63,7 +83,6 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
- 
 	public String getFirstName() {
 		return firstName;
 	}

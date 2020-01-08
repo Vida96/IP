@@ -68,8 +68,17 @@ function validateFields(){
 	
 	var cityOption = document.getElementById("city");
 	if(cityOption.options.length != 0)
-		var city  = cityOption.options[cityOption.selectedIndex].value;
-	
+	var city  = cityOption.options[cityOption.selectedIndex].value;
+	var notificationOnMail;
+	var notificationInApp;
+	if(document.getElementById("notifications-blog").checked){
+	var radioButtons = document.getElementsByName("notifications");
+	notificationOnMail = radioButtons[0].checked;
+	notificationInApp = radioButtons[1].checked;
+	}else{
+		notificationOnMail = 0;
+		notificationInApp = 0;
+	}
 	let object = {
 			firstName: firstName,
 			lastName: lastName,
@@ -81,8 +90,8 @@ function validateFields(){
 			region: region,
 			city: city,
 			photo: null,
-			notificationOnMail: 0,
-			notificationInApp: 0,
+			notificationOnMail: notificationOnMail,
+			notificationInApp: notificationInApp,
 	}
  
 	let request = new XMLHttpRequest();

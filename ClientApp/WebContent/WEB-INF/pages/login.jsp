@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<script><%@include file="/js/script.js"%></script>
+	<script><%@include file="/js/login.js"%></script>
 	<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,16 +106,17 @@
 </head>
 <body>
 <div class="signup-form">
-     <form method="POST" action="?action=registration" id="registrationForm">
+     <form id="registrationForm">
 		<h1 align="center">Prijava</h1>
         <div class="form-group">
                                 <input type="text" class="form-control" name="username" id="username" placeholder="Unesite vaše korisničko ime" oninvalid="this.setCustomValidity('Unesite pravilno korisničko ime.')" oninput="this.setCustomValidity('')" required >
-      
+      <label id="usernameLabel"></label>
         </div>
     	<div class="form-group">
                           <input type="password" class="form-control" name="password" id="password" placeholder="Unesite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
+      <label id="passwordLabel"></label>
         </div>
-            <button type="submit" class="btn btn-success btn-lg btn-block">Prijavite se</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block" onclick="event.preventDefault(); return validateFields()">Prijavite se</button>
         </div>
     </form>
 	<div class="text-center"><h4>Nemate nalog? <a href="Registration?action=registration" style="color:red">Registrujte se</a></h4></div>
