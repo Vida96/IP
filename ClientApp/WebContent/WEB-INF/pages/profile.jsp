@@ -1,7 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	<script><%@include file="/js/registration.js"%></script>
-	<script><%@include file="/js/script.js"%></script>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="net.etfbl.dto.User"%>
+<jsp:useBean id="userBean" type="net.etfbl.beans.UserBean" scope="session"/>
+
+<script><%@include file="/js/registration.js"%></script>
+<script><%@include file="/js/script.js"%></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -12,6 +14,10 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
+<%
+	//	int id = Integer.parseInt(request.getParameter("id"));
+		User user = userBean.getUser();
+	%>
 <head>
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
@@ -20,9 +26,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
-
-<hr>
+<hr>	
 <div class="container bootstrap snippet">
     <div class="row">
   		<div class="col-sm-10"><h1>Izmjena profila</h1></div>
@@ -75,7 +79,7 @@
                           
                           <div class="col-xs-6">
                               <label for="firstName"><h4>Ime</h4></label>
-                              <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Unesite vaše ime" oninvalid="this.setCustomValidity('Unesite pravilno ime.')" oninput="this.setCustomValidity('')" required>
+                              <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Unesite vaše ime" oninvalid="this.setCustomValidity('Unesite pravilno ime.')" oninput="this.setCustomValidity('')" required value=<%= user.getFirstName() %>>
                           </div>
                       </div>
           
@@ -83,35 +87,35 @@
                           
                           <div class="col-xs-6">
                               <label for="lastName"><h4>Prezime</h4></label>
-                              <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Unesite vaše prezime" oninvalid="this.setCustomValidity('Unesite pravilno prezime.')" oninput="this.setCustomValidity('')" required>
+                              <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Unesite vaše prezime" oninvalid="this.setCustomValidity('Unesite pravilno prezime.')" oninput="this.setCustomValidity('')" required value=<%= user.getLastName() %>>
                           </div>
                       </div>
           
                       <div class="form-group">
                           <div class="col-xs-6">
                              <label for="username"><h4>Korisničko ime</h4></label>
-                              <input type="text" class="form-control" name="username" id="username" placeholder="Unesite vaše korisničko ime" oninvalid="this.setCustomValidity('Unesite pravilno korisničko ime.')" oninput="this.setCustomValidity('')" required >
+                              <input type="text" class="form-control" name="username" id="username" placeholder="Unesite vaše korisničko ime" oninvalid="this.setCustomValidity('Unesite pravilno korisničko ime.')" oninput="this.setCustomValidity('')" required value=<%= user.getUsername() %>>
                           </div>
                       </div>
                       <div class="form-group">
              
                           <div class="col-xs-6">
                               <label for="email"><h4>Email</h4></label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="vaš@email.com" title="enter your email." required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"  oninvalid="this.setCustomValidity('Unesite pravilno mail. ')" onchange="try{setCustomValidity('')}catch(e){}" oninput="setCustomValidity(' ')">
+                              <input type="email" class="form-control" name="email" id="email" placeholder="vaš@email.com" title="enter your email." required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"  oninvalid="this.setCustomValidity('Unesite pravilno mail. ')" onchange="try{setCustomValidity('')}catch(e){}" oninput="setCustomValidity(' ')"value=<%= user.getMail() %>>
                           </div>
                       </div>
                       <div class="form-group">
                           
                           <div class="col-xs-6">
                               <label for="password"><h4>Lozinka</h4></label>
-                              <input type="password" class="form-control" name="password" id="password" placeholder="Unesite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
+                              <input type="password" class="form-control" name="password" id="password" placeholder="Unesite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required value=<%= user.getPassword() %>>
                           </div>
                       </div>
                       <div class="form-group">
                           
                           <div class="col-xs-6">
                               <label for="password"><h4>Potvrda lozinke</h4></label>
-                              <input type="password" class="form-control" name="confirmedPassword" id="confirmedPassword" placeholder="Potvrdite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
+                              <input type="password" class="form-control" name="confirmedPassword" id="confirmedPassword" placeholder="Potvrdite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required value=<%= user.getPassword() %>>
                           </div>
                       </div>
                       <div class="form-group">
@@ -127,7 +131,6 @@
                     <div class="col-xs-7">
                              <label for="region"><h4>Region</h4></label>
                                <select style="height:30px;" class="form-control" id="region"  onChange="fillCities()">
-                <script>fillRegion();</script> 
                 </select>
                          </div>
                          </div> 

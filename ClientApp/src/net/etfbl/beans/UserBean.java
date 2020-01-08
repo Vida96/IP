@@ -1,5 +1,6 @@
 package net.etfbl.beans;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
 
 import net.etfbl.dao.UserDAO;
@@ -33,18 +34,23 @@ public class UserBean implements Serializable {
 		return user;
 	}
 
-	public String areUsernameAndMailAllowed(String username, String mail) {
-		String message = "";
-		if(!UserDAO.isUsernameAllowed(username))
-			message = "* Korisničko ime je zauzeto";
-		if(!UserDAO.isMailAllowed(mail))
-			message += " # * Mail je zauzet";
-		else
-			message += " # ";
-		return message;
+	public Boolean areUsernameAndMailAllowed(String username, String mail, PrintWriter pw) {
+		Boolean areAllowed = true;
+		if(!UserDAO.isUsernameAllowed(username)) {
+			areAllowed = false;
+			pw.println("USERNAME_ERROR");
+			pw.close();
+		}
+		if(!UserDAO.isMailAllowed(mail)) {
+			areAllowed = false;
+			pw.println(" # * Mail je zauzet");
+			pw.close();
+		}
+		return areAllowed;
 	}
 	
 	public boolean add(User user) {
+		this.user = user;
 		return UserDAO.insert(user);
 	}
 

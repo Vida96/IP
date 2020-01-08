@@ -59,14 +59,20 @@ function validateFields(){
 	else
 		document.getElementById("mailLabel").innerHTML = ""; 
  
-	 
+	var country = document.getElementById("country"); 
+	var region = document.getElementById("region");
+	var city = document.getElementById("city");
+	
 	let object = {
 			firstName: firstName,
 			lastName: lastName,
 			username: username,
 			password: password,
 			mail: mail,
-			action: "registration"
+			action: "updateProfile",
+			country: country,
+			region: region,
+			city: city			
 	}
  
 	let request = new XMLHttpRequest();
@@ -79,12 +85,12 @@ function validateFields(){
 				return false;
 			}
 			else
-				window.location.replace("Profile?action=updateProfile");
+				window.location.replace("Login?action=");
 	 
 		}
 	}
 	
-	request.open("POST","Registration");
+	request.open("POST","Profile");
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	request.send(JSON.stringify(object));
 }

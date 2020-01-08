@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<script><%@include file="/js/script.js"%></script>
+	<script><%@include file="/js/registration.js"%></script>
 	<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,32 +110,36 @@
 		<h1 align="center">Registracija</h1>
 		<p class="hint-text">Napravite Vaš nalog. Besplatno je i brzo.</p>
         <div class="form-group">
-			<div class="row">
-				<div class="col-xs-6">  <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Unesite vaše ime" oninvalid="this.setCustomValidity('Unesite pravilno ime.')" oninput="this.setCustomValidity('')" required></div>
-				<div class="col-xs-6"><input type="text" class="form-control" name="lastName" id="lastName" placeholder="Unesite vaše prezime" oninvalid="this.setCustomValidity('Unesite pravilno prezime.')" oninput="this.setCustomValidity('')" required></div>
-			</div>        	
-        </div>
+		 <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Unesite vaše ime" required autofocus oninvalid="this.setCustomValidity('Unesite ime')" oninput="this.setCustomValidity('')"required autofocus oninvalid="this.setCustomValidity('Unesite ime')" oninput="this.setCustomValidity('')">
+				  <label id="firstNameLabel"></label>
+			</div>    
+		  
+        <div class="form-group">
+        	 <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Unesite vaše prezime" required autofocus oninput="this.setCustomValidity('')"required autofocus >
+        		<label id="lastNameLabel"></label>
+				</div> 
         <div class="form-group">
                                 <input type="text" class="form-control" name="username" id="username" placeholder="Unesite vaše korisničko ime" oninvalid="this.setCustomValidity('Unesite pravilno korisničko ime.')" oninput="this.setCustomValidity('')" required >
-      
+                                <label id="usernameLabel"></label>
         </div>
         
     	<div class="form-group">
                           <input type="password" class="form-control" name="password" id="password" placeholder="Unesite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
+        				  <label id="passwordLabel"></label>
         </div>
 		<div class="form-group">
                          <input type="password" class="form-control" name="confirmedPassword" id="confirmedPassword" placeholder="Potvrdite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required>
+       		  <label id="confirmedPasswordLabel"></label>
         </div>
             <div class="form-group">
-              <input type="email" class="form-control" name="mail" id="mail" placeholder="vaš@email.com" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"  oninvalid="this.setCustomValidity('Unesite pravilno mail. ')" onchange="try{setCustomValidity('')}catch(e){}" oninput="setCustomValidity(' ')">
+              <input type="email" class="form-control" name="mail" id="mail" placeholder="vaš@email.com">
+        	  <label id="mailLabel"></label>
         </div>
-        <h3 style="color:red; font-size:15px"><%=session.getAttribute("notificationUsername").toString()%></h3> <br/>
-      	<h3 style="color:red; font-size:15px"><%=session.getAttribute("notificationMail").toString()%></h3> <br/>
 		<div class="form-group">
-            <button name="submit" class="btn btn-success btn-lg btn-block" onclick="return validateFields()">Registrujte se</button>
+            <button name="submit" class="btn btn-success btn-lg btn-block" onclick="event.preventDefault(); return validateFields()">Registrujte se</button>
         </div>
     </form>
-	<div class="text-center">Već imate nalog? <a href="?action= ">Prijavite se</a></div>
+	<!-- div class="text-center">Već imate nalog? <a href="?action= ">Prijavite se</a></div> -->
 </div>
 </body>
 </html>                            
