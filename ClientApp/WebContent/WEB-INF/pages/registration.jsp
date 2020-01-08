@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<script><%@include file="/js/registration.js"%></script>
 	<!DOCTYPE html>
 <html lang="en">
@@ -139,7 +138,7 @@
             <button name="submit" class="btn btn-success btn-lg btn-block" onclick="event.preventDefault(); return validateFields()">Registrujte se</button>
         </div>
     </form>
-	<!-- div class="text-center">Već imate nalog? <a href="?action= ">Prijavite se</a></div> -->
+	<div class="text-center">Već imate nalog? <a href="?action= ">Prijavite se</a></div>
 </div>
 </body>
 </html>                            

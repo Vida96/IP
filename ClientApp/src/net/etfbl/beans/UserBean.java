@@ -14,10 +14,10 @@ public class UserBean implements Serializable {
 	private boolean isLoggedIn = false;
 
 	public boolean login(String username, String password) {
-		if ((user = UserDAO.selectByUsernameAndPassword(username, password)) != null) {
+	/*	if ((user = UserDAO.selectByUsernameAndActive(username, 1)) != null) {
 			isLoggedIn = true;
 			return true;
-		}
+		}*/
 		return false;
 	}
 

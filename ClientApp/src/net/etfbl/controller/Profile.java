@@ -10,10 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
 import net.etfbl.beans.UserBean;
+import net.etfbl.dao.UserDAO;
 import net.etfbl.dto.User;
 
 /**
@@ -47,37 +49,49 @@ public class Profile extends HttpServlet {
 				String action = jsonObject.getString("action");
 
 				if ("updateProfile".equals(action)) {
-					validateFields(jsonObject, response);
+					validateFields(jsonObject, response, request, 0); //prvi put se vrsi izmjena profila, odmah nakon registracije pa je active na 0 jer administrator jos nije odobrio profil
 				}
 		    }
 
-			private void validateFields(JSONObject jsonObject, HttpServletResponse response) {
+			private void validateFields(JSONObject jsonObject, HttpServletResponse response, HttpServletRequest request, Integer active) {
+				HttpSession session = request.getSession();
 				String firstName = jsonObject.getString("firstName");
 				String lastName = jsonObject.getString("lastName");
 				String username = jsonObject.getString("username");
 				String password = jsonObject.getString("password");
 				String mail = jsonObject.getString("mail");
-				String country = jsonObject.getString("country");
-				String region = jsonObject.getString("region");
-				String city = jsonObject.getString("city");
-
+				byte[] photoData = null; //jsonObject.getString("photo").getBytes();
+				Integer notificationOnMail = 0;
+				Integer notificationInApp = 0;
+				String country = null, region = null, city = null;
+				
+				if (!jsonObject.isNull("country")){
+					 country = jsonObject.getString("country");
+					}
+				 
+				if (!jsonObject.isNull("region")){
+					region = jsonObject.getString("region");
+					}
+				
+				if (!jsonObject.isNull("city")){
+					 city = jsonObject.getString("city");
+					}
+				
 				UserBean userBean = new UserBean();
 				String attribute;
-				//updateProfila
-				/*try {
+				User user = new User(firstName, lastName, username, password, mail, country, region, city, photoData, false, false);//notificationOnMail, notificationInApp);
+				try {
 					PrintWriter pw = new PrintWriter(response.getWriter());
 					if (username != null) {
-						if (userBean.areUsernameAndMailAllowed(username, mail, pw)) {
-			 			User user = new User(firstName, lastName, username, password, mail);
-							if (userBean.add(user)) {
-								//dodati bean-ove
-							}
-							}
-				
+			 			User u = UserDAO.getUserByUsernameAndActive(username, active);
+			 			user.setId(u.getId());
+			 			user.setNumberOfLogging(u.getNumberOfLogging());
+			 			UserDAO.update(user);
+			 	    	session.invalidate();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-				}*/
+				}
 				
 			}
 }

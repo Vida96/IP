@@ -2,7 +2,7 @@
 <%@page import="net.etfbl.dto.User"%>
 <jsp:useBean id="userBean" type="net.etfbl.beans.UserBean" scope="session"/>
 
-<script><%@include file="/js/registration.js"%></script>
+<script><%@include file="/js/profile.js"%></script>
 <script><%@include file="/js/script.js"%></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -80,6 +80,7 @@
                           <div class="col-xs-6">
                               <label for="firstName"><h4>Ime</h4></label>
                               <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Unesite vaše ime" oninvalid="this.setCustomValidity('Unesite pravilno ime.')" oninput="this.setCustomValidity('')" required value=<%= user.getFirstName() %>>
+                           <label id="firstNameLabel"></label>
                           </div>
                       </div>
           
@@ -88,6 +89,7 @@
                           <div class="col-xs-6">
                               <label for="lastName"><h4>Prezime</h4></label>
                               <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Unesite vaše prezime" oninvalid="this.setCustomValidity('Unesite pravilno prezime.')" oninput="this.setCustomValidity('')" required value=<%= user.getLastName() %>>
+                         <label id="lastNameLabel"></label>
                           </div>
                       </div>
           
@@ -95,6 +97,7 @@
                           <div class="col-xs-6">
                              <label for="username"><h4>Korisničko ime</h4></label>
                               <input type="text" class="form-control" name="username" id="username" placeholder="Unesite vaše korisničko ime" oninvalid="this.setCustomValidity('Unesite pravilno korisničko ime.')" oninput="this.setCustomValidity('')" required value=<%= user.getUsername() %>>
+                           <label id="usernameLabel"></label>
                           </div>
                       </div>
                       <div class="form-group">
@@ -102,6 +105,7 @@
                           <div class="col-xs-6">
                               <label for="email"><h4>Email</h4></label>
                               <input type="email" class="form-control" name="email" id="email" placeholder="vaš@email.com" title="enter your email." required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"  oninvalid="this.setCustomValidity('Unesite pravilno mail. ')" onchange="try{setCustomValidity('')}catch(e){}" oninput="setCustomValidity(' ')"value=<%= user.getMail() %>>
+                          <label id="mailLabel"></label>
                           </div>
                       </div>
                       <div class="form-group">
@@ -109,6 +113,7 @@
                           <div class="col-xs-6">
                               <label for="password"><h4>Lozinka</h4></label>
                               <input type="password" class="form-control" name="password" id="password" placeholder="Unesite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required value=<%= user.getPassword() %>>
+                        <label id="passwordLabel"></label>
                           </div>
                       </div>
                       <div class="form-group">
@@ -116,6 +121,7 @@
                           <div class="col-xs-6">
                               <label for="password"><h4>Potvrda lozinke</h4></label>
                               <input type="password" class="form-control" name="confirmedPassword" id="confirmedPassword" placeholder="Potvrdite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required value=<%= user.getPassword() %>>
+                         <label id="passwordLabel"></label>
                           </div>
                       </div>
                       <div class="form-group">
@@ -169,7 +175,7 @@
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Sačuvaj</button>
+                              	<button class="btn btn-lg btn-success" type="submit" onclick="event.preventDefault(); return validateFields()"><i class="glyphicon glyphicon-ok-sign"></i> Sačuvaj</button>
                                	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-home"></i> Prelazak na početnu stranicu</button>
                             </div>
                       </div>

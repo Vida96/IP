@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class User implements Serializable {
-	
+
+
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String firstName;
@@ -18,10 +19,10 @@ public class User implements Serializable {
 	private byte[] photoData;
     private Integer numberOfLogging;
 
-    public User(Integer id, String firstName, String lastName, String username, String password, String mail,
-			String country, String region, String city, byte[] photoData, Integer numberOfLogging) {
+    public User(String firstName, String lastName, String username, String password, String mail,
+			String country, String region, String city, byte[] photoData, Boolean notficationOnMail, Boolean notificationInApp) {
 		super();
-		this.id = id;
+		
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -48,8 +49,20 @@ public class User implements Serializable {
 		this.password = password;
 		this.mail = mail;
 	}
+	
+	 
+		public User(Integer id, Integer numberOfLogging) {
+			super();
+			this.id = id;
+			this.numberOfLogging = numberOfLogging;
+		}
 
 	public User() {}
+
+	public User(Integer id) {
+		this.id = id;
+	}
+
  
 	public String getFirstName() {
 		return firstName;

@@ -4,38 +4,40 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import net.etfbl.dto.User; 
 
-import net.etfbl.dto.User;
- 
 public class UserDAO {
 	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
-	private static final String SQL_SELECT_BY_USERNAME_AND_PASSWORD = "SELECT * FROM user WHERE username=? AND password=?";
+	
+	private static final String SQL_SELECT_BY_USERNAME_AND_PASSWORD = "SELECT * FROM user WHERE username=? AND active=?";
+	
 	private static final String SQL_IS_USERNAME_USED = "SELECT * FROM user WHERE username = ?";
+
 	private static final String SQL_IS_MAIL_USED = "SELECT * FROM user WHERE mail = ?";
+
 	private static final String SQL_INSERT = "INSERT INTO user (username, password, firstname, lastname, mail) VALUES (?,?,?,?,?)";
 	
-	public static User selectByUsernameAndPassword(String username, String password){
+	private static final String SQL_UPDATE = "UPDATE user set firstname=?, lastname=?, username=?, password=?, photo=?, country=?, region=?, city=?, numberoflogins=? WHERE id=?";
+	
+	public static User getUserByUsernameAndActive(String username, Integer active){
 		User user = null;
-	/*	Connection connection = null;
+		Connection connection = null;
 		ResultSet rs = null;
-		Object values[] = {username, password};
+		Object values[] = {username, active};
 		try {
 			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection,
 					SQL_SELECT_BY_USERNAME_AND_PASSWORD, false, values);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
-	*/
-				/* TO DO */
-			//	user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("last_name"), rs.getString("first_name"));
-		user = new User(username, password);
-	/*		}
+				user = new User(rs.getInt("id"), rs.getInt("numberoflogins"));;
+	  		}
 			pstmt.close();
 		} catch (SQLException exp) {
 			exp.printStackTrace();
 		} finally {
 			connectionPool.checkIn(connection);
-		}*/
+		} 
 		return user;
 	}
 	
@@ -97,6 +99,36 @@ public class UserDAO {
 			if (generatedKeys.next())
 				user.setId(generatedKeys.getInt(1));
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+		return result;
+	}
+	
+	public static boolean update(User user) {
+		boolean result = false;
+		Connection connection = null;
+	
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = connection.prepareStatement(SQL_UPDATE);
+			System.out.println(user.getId());
+			pstmt.setString(1, user.getFirstName());
+			pstmt.setString(2, user.getLastName());
+			pstmt.setString(3, user.getUsername());
+			pstmt.setString(4, user.getPassword());
+			pstmt.setBytes(5, user.getPhotoData());
+			pstmt.setString(6, user.getCountry());
+			pstmt.setString(7, user.getRegion());
+			pstmt.setString(8, user.getCity());
+			pstmt.setInt(9, user.getNumberOfLogging());
+			pstmt.setInt(10, user.getId());
+			pstmt.executeUpdate();
+			if (pstmt.getUpdateCount() > 0) {
+				result = true;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

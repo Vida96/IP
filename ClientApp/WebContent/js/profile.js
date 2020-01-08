@@ -45,7 +45,7 @@ function validateFields(){
 		
 	}
 	
-	let mail = document.getElementById("mail").value;
+	let mail = document.getElementById("email").value;
 	let regex = /[^@]+@[^@]+.[a-zA-Z]{2,6}/;
 	if(!regex.test(String(mail).toLowerCase())) {
 		document.getElementById("mailLabel").innerHTML = "Mail nije validan";
@@ -59,9 +59,16 @@ function validateFields(){
 	else
 		document.getElementById("mailLabel").innerHTML = ""; 
  
-	var country = document.getElementById("country"); 
-	var region = document.getElementById("region");
-	var city = document.getElementById("city");
+	var countryOption = document.getElementById("country");
+	var country  = countryOption.options[countryOption.selectedIndex].text;
+	 
+	var regionOption = document.getElementById("region");
+	if(regionOption.options.length != 0)
+		var region  = regionOption.options[regionOption.selectedIndex].value;
+	
+	var cityOption = document.getElementById("city");
+	if(cityOption.options.length != 0)
+		var city  = cityOption.options[cityOption.selectedIndex].value;
 	
 	let object = {
 			firstName: firstName,
@@ -72,7 +79,10 @@ function validateFields(){
 			action: "updateProfile",
 			country: country,
 			region: region,
-			city: city			
+			city: city,
+			photo: null,
+			notificationOnMail: 0,
+			notificationInApp: 0,
 	}
  
 	let request = new XMLHttpRequest();
@@ -80,6 +90,7 @@ function validateFields(){
 		
 		if((request.readyState ==4) && (request.status==200))
 		{
+			console.log(this.responseText.trim());
 			if(this.responseText.trim() == "USERNAME_ERROR") {
 				document.getElementById("usernameLabel").innerHTML = "Lozinka mora imati vise od 7 karaktera";
 				return false;
