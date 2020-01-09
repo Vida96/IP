@@ -32,6 +32,7 @@ private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool(
 				post.setText(resultSet.getString(2));
 				creator = UserDAO.getById(postId);
 				post.setCreator(creator);
+				System.out.println(post.getCreator().getId());
 				activePosts.add(post);
 			/*	event.setCreationDate(resultSet.getTimestamp(3));
 				event.setIdEvent(resultSet.getInt(4));

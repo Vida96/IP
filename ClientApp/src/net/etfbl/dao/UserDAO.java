@@ -32,7 +32,7 @@ public class UserDAO {
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_BY_USERNAME_AND_ACTIVE, false, values);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
-				user = new User(rs.getInt("id"), rs.getInt("numberoflogins"), rs.getString("username"));
+				user = new User(rs.getInt("id"), rs.getInt("numberoflogins"), rs.getString("username"), rs.getString("firstName"), rs.getString("lastName"));
 	  		}
 			pstmt.close();
 		} catch (SQLException exp) {

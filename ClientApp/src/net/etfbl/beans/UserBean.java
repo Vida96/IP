@@ -34,6 +34,10 @@ public class UserBean implements Serializable {
 		return user;
 	}
 
+	public User getUserById(Integer id) {
+		return UserDAO.getById(id);
+	}
+
 	public Boolean areUsernameAndMailAllowed(String username, String mail, PrintWriter pw) {
 		Boolean areAllowed = true;
 		if(!UserDAO.isUsernameAllowed(username)) {

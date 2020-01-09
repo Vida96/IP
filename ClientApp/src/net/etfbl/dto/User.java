@@ -70,11 +70,13 @@ public class User implements Serializable {
 	}
 	
 	 
-		public User(Integer id, Integer numberOfLogging, String username) {
+		public User(Integer id, Integer numberOfLogging, String username, String firstName, String lastName) {
 			super();
 			this.id = id;
 			this.numberOfLogging = numberOfLogging;
 			this.username = username;
+			this.firstName = firstName;
+			this.lastName = lastName;
 		}
 
 	public User() {}
