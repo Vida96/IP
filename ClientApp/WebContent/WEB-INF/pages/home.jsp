@@ -1,13 +1,16 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="net.etfbl.dto.User"%>
 <%@page import="net.etfbl.dto.Post"%>
+<%@page import="net.etfbl.dto.PostCategory"%>
 <%@page import="java.util.List"%>
 <jsp:useBean id="userBean" type="net.etfbl.beans.UserBean" scope="session"/>
 <jsp:useBean id="postBean" type="net.etfbl.beans.PostBean" scope="session"/>
+<jsp:useBean id="postCategoryBean" type="net.etfbl.beans.PostCategoryBean" scope="session"/>
 <script><%@include file="/js/home.js"%></script>
 <!DOCTYPE html>
-<html onclick="initializeComponents();">
+<html>
 <head>
+<script> window.onload = initializeComponents;</script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -18,6 +21,7 @@
 <style>
 .preview-images-zone {
     border: 1px solid #ddd;
+    width: 300px;
     min-height: 120px;
     /* display: flex; */
     padding: 5px 5px 0px 5px;
@@ -149,7 +153,6 @@ background-color:  #ffffff;;
 <title>Prikaz obavjestenja o opasnosti</title>
 </head>
 <body>
-        				        
 <nav class="navbar navbar-light bg-white">
         <a href="#" class="navbar-brand">Bootsbook</a>
         <form class="form-inline">
@@ -175,20 +178,22 @@ background-color:  #ffffff;;
                         out.println(userBean.getUser().getFirstName() + " " + userBean.getUser().getLastName());
                         %>
                         </h3>
-                        <img src="https://miro.medium.com/max/1187/1*0FqDC0_r1f5xFz3IywLYRA.jpeg" alt="Trulli" width="400" height="333">
+                        <img id="profileImage" src="pixel.gif" onload="this.onload=null; this.src=getImagePath();" />
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <div class="h6 text-muted">Broj prijava</div>
                             <div class="h5">
                              <%
-                             out.println(userBean.getUser().getNumberOfLogging());
+                             out.println(userBean.getUser().getNumberOfLogins());
                              %>
                             </div>
+                            <%if(userBean.getUser().getNotificationInApp() == 1){ %>
                         </li>
                         <li class="list-group-item">Uzbuna 1 - Alkohol je blizu</li>
                         <li class="list-group-item">Uzbuna 2 - Alkohol je blizu</li>
                         <li class="list-group-item">Uzbuna 3 - Alkohol je blizu</li>
+                        <%} %>
                     </ul>
                 </div>
             </div>
@@ -205,24 +210,26 @@ background-color:  #ffffff;;
                     </div>
                     
                     <div class="card-body">
+                     <label>Odabir kategorije:</label>
                     <div class="multiselect" style="float:right">
     <div class="selectBox" >
       <select id="selectedCategories">
-        <option id="txtArea" class="element">Odabir kategorije</option>
-      </select>
+       </select>
       <div class="overSelect"></div>
     </div>
     <div id="checkboxes">
-      <label for="one">
-        <input class="checkboxes" type="checkbox" name="cbCategory" onClick="fillArea();"/>First checkbox</label>
-      <label for="two">
-        <input class="checkboxes" type="checkbox" name="cbCategory" onClick="fillArea();"/>Second checkbox</label>
-      <label for="three">
-        <input class="checkboxes" type="checkbox" name="cbCategory" onClick="fillArea();"/>Third checkbox</label>
+       						   <%
+				               List<PostCategory> postCategories = postCategoryBean.getAllActivePostCategories();
+				           	   for(PostCategory pc : postCategories){
+				           	%>
+				           	<label><input class="checkboxes" type="checkbox" name="cbCategory" onClick="fillArea();"/> <%out.println(pc.getName());%></label>
+				           	<hr>
+                        <%} %>
     </div>
   </div>
   <!-- Autocomplete location search input --> 
 
+<br>
 <br>
 <br>
 <div class="form-group">
@@ -237,7 +244,7 @@ background-color:  #ffffff;;
                             </div>
                         
                          <fieldset class="form-group">
-        <a href="javascript:void(0)" onclick="$('#pro-image').click()">Dodaj sliku ili video</a>
+        <a href="javascript:void(0)" onclick="$('#pro-image').click()">Dodaj sliku</a>
         <input type="file" id="pro-image" name="pro-image" style="display: none;" class="form-control" onChange="readImage()" multiple>
     </fieldset>
                                    <div class="preview-images-zone">

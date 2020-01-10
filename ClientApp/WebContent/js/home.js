@@ -11,7 +11,7 @@ function fillArea(){
   if(counter == 1)
 	  document.getElementById("txtArea").innerHTML = counter + " kategorija";
   else if(counter == 0)
-	  document.getElementById("txtArea").innerHTML = "Odabir kategorije";
+	  document.getElementById("txtArea").innerHTML = "";
   else
 	  document.getElementById("txtArea").innerHTML = counter + " kategorije";
 }
@@ -23,8 +23,7 @@ function initializeComponents()
 	autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
 	    types: ['geocode'],
 	});
-
-	document.addEventListener("click", toggleDropdown);
+  document.addEventListener("click", toggleDropdown);
 
 }
 
@@ -84,4 +83,16 @@ function readImage() {
         }
         document.getElementById("pro-image").innerHTML= '';
 	 }
+}
+
+function getImagePath(){
+     var output =  document.getElementById('profileImage');
+     var file = files[0];
+   // var picReader = new FileReader();
+     picReader.readAsDataURL(file);            
+      picReader.addEventListener('load', function (event) {
+          var picFile = event.target; 
+           var picFile = event.target;
+           output.src = picFile.result;
+     });
 }

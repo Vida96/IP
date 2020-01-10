@@ -60,7 +60,7 @@ public class ProfileController extends HttpServlet {
 				String username = jsonObject.getString("username");
 				String password = jsonObject.getString("password");
 				String mail = jsonObject.getString("mail");
-				byte[] photoData = null; //jsonObject.getString("photo").getBytes();
+				String photoData = null;//jsonObject.getString("photo");
 				Integer notificationOnMail = jsonObject.getBoolean("notificationOnMail") ? 1 : 0;
 				Integer notificationInApp = jsonObject.getBoolean("notificationInApp")? 1 : 0;
 				String country = null, region = null, city = null;
@@ -79,14 +79,14 @@ public class ProfileController extends HttpServlet {
 				
 				UserBean userBean = new UserBean();
 				String attribute;
-				User user = new User(firstName, lastName, username, password, mail, country, region, city, photoData, notificationOnMail, notificationInApp);
+				User user = new User(0, firstName, lastName, username, password, mail, country, region, city, photoData, notificationOnMail, notificationInApp, 0);
 				try {
 					PrintWriter pw = new PrintWriter(response.getWriter());
 					if (username != null) {
 			 			User u = UserDAO.getUserByUsernameAndActive(username, active);
 			 			user.setId(u.getId());
-			 			Integer numberOfLogins = u.getNumberOfLogging();
-			 			user.setNumberOfLogging(numberOfLogins);
+			 			Integer numberOfLogins = u.getNumberOfLogins();
+			 			user.setNumberOfLogins(numberOfLogins);
 			 			UserDAO.update(user);
 			 			if(numberOfLogins == 0) //ako se izmjena vrsi odmah nakon registracije treba ponistiti sesiju, jer nismo jos dobili odobrenje da se mozemo prijavti
 			 				session.invalidate();

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import net.etfbl.beans.PostBean;
+import net.etfbl.beans.PostCategoryBean;
 import net.etfbl.beans.UserBean;
 import net.etfbl.dto.User;
 
@@ -48,8 +49,7 @@ public class LoginController extends HttpServlet {
 			String password = request.getParameter("password");	
 			if (userBean.login(username, password)) {
 			System.out.println("USLO");
-				session.setAttribute("userBean", userBean);
-			session.setAttribute("postBean", userBean);
+				
 			//	MessageBean messageBean = new MessageBean();
 		//		session.setAttribute("messageBean", messageBean);
 			}  
@@ -77,11 +77,13 @@ public class LoginController extends HttpServlet {
 		} else if (action.equals("login")) {
 			UserBean userBean = new UserBean();
 			PostBean postBean = new PostBean();
+			PostCategoryBean postCategoryBean = new PostCategoryBean();
 			String username = jsonObject.getString("username");
 			String password = jsonObject.getString("password");	
 			if (userBean.login(username, password)) {
 				session.setAttribute("userBean", userBean);
 				session.setAttribute("postBean", postBean);
+				session.setAttribute("postCategoryBean", postCategoryBean);
 			}  
 	}
 	}

@@ -114,3 +114,21 @@ function validateFields(){
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	request.send(JSON.stringify(object));
 }
+
+function handleImageChange(){
+    
+	 if (window.File && window.FileList && window.FileReader) {
+		 var files = event.target.files; //FileList object
+	     var output =  document.getElementById('profileImage');
+         var file = files[0];
+       //    if (!file.type.match('image')) continue;
+         var picReader = new FileReader();
+         picReader.readAsDataURL(file);            
+          picReader.addEventListener('load', function (event) {
+               var picFile = event.target; 
+               var picFile = event.target;
+               output.src = picFile.result;
+         });
+	 }
+}
+         

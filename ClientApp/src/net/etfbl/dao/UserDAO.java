@@ -32,8 +32,8 @@ public class UserDAO {
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_BY_USERNAME_AND_ACTIVE, false, values);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
-				user = new User(rs.getInt("id"), rs.getInt("numberoflogins"), rs.getString("username"), rs.getString("firstName"), rs.getString("lastName"));
-	  		}
+				user = new User(rs.getInt("id"),rs.getString("firstName"),rs.getString("lastName"),rs.getString("username"), rs.getString("password"),rs.getString("mail"), rs.getString("photo"), rs.getString("country"), rs.getString("region"), rs.getString("city"), rs.getInt("notificationOnMail") , rs.getInt("notificationInApp"),rs.getInt("numberoflogins"));
+			}
 			pstmt.close();
 		} catch (SQLException exp) {
 			exp.printStackTrace();
@@ -120,11 +120,11 @@ public class UserDAO {
 			pstmt.setString(2, user.getLastName());
 			pstmt.setString(3, user.getUsername());
 			pstmt.setString(4, user.getPassword());
-			pstmt.setBytes(5, user.getPhotoData());
+			pstmt.setString(5, user.getPhoto());
 			pstmt.setString(6, user.getCountry());
 			pstmt.setString(7, user.getRegion());
 			pstmt.setString(8, user.getCity());
-			pstmt.setInt(9, user.getNumberOfLogging());
+			pstmt.setInt(9, user.getNumberOfLogins());
 			pstmt.setInt(10, user.getNotificationOnMail());
 			pstmt.setInt(11, user.getNotificationInApp());
 			pstmt.setInt(12, user.getId());

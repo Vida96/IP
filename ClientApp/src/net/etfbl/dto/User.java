@@ -16,15 +16,15 @@ public class User implements Serializable {
 	private String country;
 	private String region;
 	private String city;
-	private byte[] photoData;
-    private Integer numberOfLogging;
+	private String photo;
+    private Integer numberOfLogins;
     private Integer notificationOnMail;
     private Integer notificationInApp;
 
-    public User(String firstName, String lastName, String username, String password, String mail,
-			String country, String region, String city, byte[] photoData, Integer notificationOnMail, Integer notificationInApp) {
+    public User(Integer id, String firstName, String lastName, String username, String password, String mail,
+			String country, String region, String city, String photo, Integer notificationOnMail, Integer notificationInApp, Integer numberOfLogins) {
 		super();
-		
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -33,9 +33,10 @@ public class User implements Serializable {
 		this.country = country;
 		this.region = region;
 		this.city = city;
-		this.photoData = photoData;
+		this.photo = photo;
 		this.notificationOnMail = notificationOnMail;
 		this.notificationInApp = notificationInApp;
+		this.numberOfLogins = numberOfLogins;
 	}
     
     public Integer getNotificationOnMail() {
@@ -70,13 +71,14 @@ public class User implements Serializable {
 	}
 	
 	 
-		public User(Integer id, Integer numberOfLogging, String username, String firstName, String lastName) {
+		public User(Integer id, Integer numberOfLogins, String username, String firstName, String lastName, String photo) {
 			super();
 			this.id = id;
-			this.numberOfLogging = numberOfLogging;
+			this.numberOfLogins = numberOfLogins;
 			this.username = username;
 			this.firstName = firstName;
 			this.lastName = lastName;
+			this.photo = photo;
 		}
 
 	public User() {}
@@ -149,20 +151,20 @@ public class User implements Serializable {
 		this.city = city;
 	}
 
-	public byte[] getPhotoData() {
-		return photoData;
+	public String getPhoto() {
+		return photo;
 	}
 
-	public void setPhotoData(byte[] photoData) {
-		this.photoData = photoData;
+	public void setphoto(String photo) {
+		this.photo = photo;
 	}
 
-	public Integer getNumberOfLogging() {
-		return numberOfLogging;
+	public Integer getNumberOfLogins() {
+		return numberOfLogins;
 	}
 
-	public void setNumberOfLogging(Integer numberOfLogging) {
-		this.numberOfLogging = numberOfLogging;
+	public void setNumberOfLogins(Integer numberOfLogins) {
+		this.numberOfLogins = numberOfLogins;
 	}
 
     public Integer getId() {
@@ -183,7 +185,7 @@ public class User implements Serializable {
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + Arrays.hashCode(photoData);
+		result = prime * result +((photo == null) ? 0 : photo.hashCode());
 		result = prime * result + ((region == null) ? 0 : region.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -228,7 +230,7 @@ public class User implements Serializable {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (!Arrays.equals(photoData, other.photoData))
+		if (!photo.equals(other.photo))
 			return false;
 		if (region == null) {
 			if (other.region != null)

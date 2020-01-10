@@ -12,9 +12,9 @@ public class PostDAO {
 
 	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 	
-	private static final String SQL_SELECT_ACTIVE_POSTS = "SELECT * FROM post WHERE active=?";
+	private static final String SQL_SELECT_ACTIVE_POSTS = "SELECT * FROM post WHERE active=1";
 	
-	public List<Post> getAllActivePosts(){
+	public static List<Post> getAllActivePosts(){
 		List<Post> activePosts = new java.util.ArrayList<>();
 		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 		Connection connection = null;
