@@ -87,6 +87,9 @@
 .container {
     padding-top: 50px;
 }
+    .pb-cmnt-textarea {
+        resize: none;
+    }
 </style>
 <style>
 .multiselect {
@@ -326,7 +329,7 @@ background-color:  #ffffff;;
                 <!--- \\\\\\\Post-->
                 <!-- Post /////-->
 
-
+      <br>
                 <!--- \\\\\\\Post-->
                 <div class="card gedf-card">
                     <div class="card-header">
@@ -370,21 +373,29 @@ background-color:  #ffffff;;
                             Quos in maiores, soluta doloremque molestiae reiciendis libero expedita assumenda fuga quae.
                             Consectetur id molestias itaque facere? Hic!
                         </p>
-                        <div>
-                            <span class="badge badge-primary">JavaScript</span>
-                            <span class="badge badge-primary">Android</span>
-                            <span class="badge badge-primary">PHP</span>
-                            <span class="badge badge-primary">Node.js</span>
-                            <span class="badge badge-primary">Ruby</span>
-                            <span class="badge badge-primary">Paython</span>
-                        </div>
-                    </div>
+                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                        <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+                       <button type="button" onClick="focusCommentBox()" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
+                       <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podjeli na fb</button>
+                       <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podjeli na twitter</button>
                     </div>
+                        <div class="card gedf-card">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <textarea id="commentBox" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea"></textarea>
+      <div style="float:right; display: none;" class="preview-images-zone"></div>      
+            </div>
+        </div>
+    </div>  
                 </div>
+                
+                    <fieldset style="float:right" class="form-group">
+        <a href="javascript:void(0)" onclick="$('#pro-image2').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>
+        <input type="file" id="pro-image2" name="pro-image2" style="display: none;" class="form-control" onChange="readImage2()" multiple>
+                            
+    </fieldset>
+                  
+                <br><br>    <br><br>
                 <!-- Post /////-->
 
 

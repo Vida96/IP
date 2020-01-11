@@ -24,7 +24,10 @@ function initializeComponents()
 	    types: ['geocode'],
 	});
   document.addEventListener("click", toggleDropdown);
+}
 
+function focusCommentBox(){
+	 document.getElementById("commentBox").focus();
 }
 
 function toggleDropdown(event) {
@@ -95,4 +98,48 @@ function getImagePath(){
            var picFile = event.target;
            output.src = picFile.result;
      });
+}
+
+
+var num = 0;
+function readImage2() {
+       
+	 if (window.File && window.FileList && window.FileReader) {
+		 var files = event.target.files; //FileList object
+	        var output = document.getElementsByClassName("preview-images-zone")[1];
+        
+        for (let i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (!file.type.match('image')) continue;
+            output.style.display = "block";
+            var picReader = new FileReader();
+            picReader.readAsDataURL(file);            
+            picReader.addEventListener('load', function (event) {
+                var picFile = event.target;
+                var div = document.createElement("div");
+               
+             var html =  '<div class="preview-image preview-show-' + num + '">' +
+                            '<div class="image-cancel" data-no="' + num + '">x</div>' +
+                            '<div class="image-zone"><img  width="150" height="100" id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
+                            '</div>';
+             div.innerHTML = html;
+             num = num + 1;
+             
+             output.append(div);
+            });
+
+        }
+        document.getElementById("pro-image").innerHTML= '';
+	 }
+}
+
+function focusShareOnFacebook(width, height){
+	var desc=encodeURIComponent("Hey, I scored "+ 2 +" in a quiz"); 
+	window.open("https://www.facebook.com/sharer.php?u=http://192.168.1.2&caption='Top 3 reasons why you should care about your finance&description=What happens when you don't take care of your finances?&message:sdadsaasdas"); 
+}
+
+function focusShareOnTwitter(){
+	var url = "http://192.168.1.2/ClientApp/Home";
+	var text = "Replace this with your text";
+	window.open('http://twitter.com/share?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
 }
