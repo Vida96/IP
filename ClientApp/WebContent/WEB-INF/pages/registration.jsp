@@ -138,7 +138,7 @@
             <button name="submit" class="btn btn-success btn-lg btn-block" onclick="event.preventDefault(); return validateFields()">Registrujte se</button>
         </div>
     </form>
-	<div class="text-center">Već imate nalog? <a href="?action= ">Prijavite se</a></div>
+	<div class="text-center"><h4>Već imate nalog? <a style="color:black" href="Login">Prijavite se</a></h4></div>
 </div>
 </body>
 </html>                            

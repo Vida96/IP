@@ -43,13 +43,13 @@ public class UserBean implements Serializable {
 		if(!UserDAO.isUsernameAllowed(username)) {
 			areAllowed = false;
 			pw.println("USERNAME_ERROR");
-			pw.close();
 		}
 		if(!UserDAO.isMailAllowed(mail)) {
 			areAllowed = false;
-			pw.println(" # * Mail je zauzet");
-			pw.close();
+			pw.println("MAIL_ERROR");
+			
 		}
+		pw.close();
 		return areAllowed;
 	}
 	

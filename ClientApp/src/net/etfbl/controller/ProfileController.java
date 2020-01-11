@@ -34,12 +34,17 @@ public class ProfileController extends HttpServlet {
 		    	request.setCharacterEncoding("UTF-8");		
 				String address = "/WEB-INF/pages/profile.jsp";
 				String action = request.getParameter("action");
-				if (("updateProfile").equals(action)) {
-					address = "/WEB-INF/pages/profile.jsp";
+				HttpSession session = request.getSession();
+				UserBean userBean = (UserBean)session.getAttribute("userBean");
+				if(userBean==null || !userBean.isLoggedIn())
+				{
+					response.sendRedirect(request.getContextPath()+"/Login");
 				}
-				
-				RequestDispatcher dispatcher = request.getRequestDispatcher(address);
-				dispatcher.forward(request, response);
+				else {
+					address = "/WEB-INF/pages/profile.jsp";
+					RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+					dispatcher.forward(request, response);
+				}
 			}
 		    
 		    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,9 +65,9 @@ public class ProfileController extends HttpServlet {
 				String username = jsonObject.getString("username");
 				String password = jsonObject.getString("password");
 				String mail = jsonObject.getString("mail");
-				String photoData = null;//jsonObject.getString("photo");
-				Integer notificationOnMail = jsonObject.getBoolean("notificationOnMail") ? 1 : 0;
-				Integer notificationInApp = jsonObject.getBoolean("notificationInApp")? 1 : 0;
+				String photoData = jsonObject.getString("photo");
+				Integer notificationOnMail = jsonObject.isNull("notificationOnMail")? 0 : jsonObject.getInt("notificationOnMail");
+				Integer notificationInApp = jsonObject.isNull("notificationInApp")? 0 : jsonObject.getInt("notificationInApp");
 				String country = null, region = null, city = null;
 				
 				if (!jsonObject.isNull("country")){

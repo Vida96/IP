@@ -1,65 +1,68 @@
 function validateFields(){
 	let firstName = document.getElementById("firstName").value;
-	
+	var condition = true;
 	if(firstName == null || firstName == "")
 	{
 		document.getElementById("firstNameLabel").innerHTML = "* Polje ne moze biti prazno";
-		return false; 
-	}	
-	document.getElementById("firstNameLabel").innerHTML = "";
+		condition = false; 
+	}
+	else
+		document.getElementById("firstNameLabel").innerHTML = "";
 	
 	let lastName = document.getElementById("lastName").value;	
 	if(lastName == null || lastName == "")
 	{
 		document.getElementById("lastNameLabel").innerHTML = "* Polje ne smije biti prazno";
-		return false; 
-	}	
-	document.getElementById("lastNameLabel").innerHTML = "";
+		condition = false;
+	}
+	else
+		document.getElementById("lastNameLabel").innerHTML = "";
 		
 	let username = document.getElementById("username").value;
 	 
 	if(/\s/.test(username)) {
  		document.getElementById("usernameLabel").innerHTML = "* Korisničko ime ne smije imati razmak";
-		return false; 
+ 		condition = false;
 	}
 	else if(username == null || username == "")
 	{
 		document.getElementById("usernameLabel").innerHTML = "* Polje ne smije biti prazno";
-		return false; 
-	}	
-	document.getElementById("usernameLabel").innerHTML = "";
+		condition = false; 
+	}else
+		document.getElementById("usernameLabel").innerHTML = "";
  
 	let password = document.getElementById("password").value; 
 	if(password == null || password == "")
 	{
 		document.getElementById("passwordLabel").innerHTML = "* Polje ne smije biti prazno";
-		return false; 
-	}	
-	document.getElementById("passwordLabel").innerHTML = "";
+		condition = false; 
+	}else
+		document.getElementById("passwordLabel").innerHTML = "";
 
 	let confirmedPassword = document.getElementById("confirmedPassword").value;
 	if(password !== confirmedPassword) {
-		console.log(12);
-		document.getElementById("confirmedPasswordLabel").innerHTML = "Lozinke se ne poklapaju";
-		return false;
-		
-	}
+		document.getElementById("confirmedPasswordLabel").innerHTML = "* Lozinke se ne poklapaju";
+		condition = false;
+	}else
+		document.getElementById("confirmedPasswordLabel").innerHTML = "";
 	
 	let mail = document.getElementById("mail").value;
 	let regex = /[^@]+@[^@]+.[a-zA-Z]{2,6}/;
 	if(!regex.test(String(mail).toLowerCase())) {
-		document.getElementById("mailLabel").innerHTML = "Mail nije validan";
-		return false;
+		document.getElementById("mailLabel").innerHTML = "* Mail nije validan";
+		condition = false;
 	}
 	else if(password == null || password == "")
 	{
 		document.getElementById("mailLabel").innerHTML = "* Polje ne smije biti prazno";
-		return false; 
+		condition = false;
 	}	
 	else
 		document.getElementById("mailLabel").innerHTML = ""; 
  
-	 
+	if(condition == false)
+		return false;
+	
 	let object = {
 			firstName: firstName,
 			lastName: lastName,
@@ -74,10 +77,16 @@ function validateFields(){
 		
 		if((request.readyState ==4) && (request.status==200))
 		{
-			if(this.responseText.trim() == "USERNAME_ERROR") {
-				document.getElementById("usernameLabel").innerHTML = "Lozinka mora imati vise od 7 karaktera";
-				return false;
+			if(this.responseText.includes("USERNAME_ERROR")) {
+				document.getElementById("usernameLabel").innerHTML = "* Korisničko ime je već zauzeto";
+				condition = false;
 			}
+			if(this.responseText.includes("MAIL_ERROR")) {
+				document.getElementById("mailLabel").innerHTML = "* Mail je već zauzet";
+				condition = false;
+			}
+			if(condition == false)
+				return false;
 			else
 				window.location.replace("Profile?action=updateProfile");
 	 

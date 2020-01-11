@@ -21,22 +21,22 @@
 <style>
 .preview-images-zone {
     border: 1px solid #ddd;
-    width: 300px;
-    min-height: 120px;
+    width: 100%;
+    min-height: 150px;
     /* display: flex; */
     padding: 5px 5px 0px 5px;
     position: relative;
     overflow:auto;
 }
 .preview-images-zone > .preview-image:first-child {
-    height: 100px;
-    width: 100px;
+    height: 140px;
+    width: 140px;
     position: relative;
     margin-right: 5px;
 }
 .preview-images-zone > .preview-image {
-    height: 90px;
-    width: 90px;
+    height: 120px;
+    width: 120px;
     position: relative;
     margin-right: 5px;
     float: left;
@@ -181,7 +181,7 @@ background-color:  #ffffff;;
                         out.println(userBean.getUser().getFirstName() + " " + userBean.getUser().getLastName());
                         %>
                         </h3>
-                        <img id="profileImage" src="pixel.gif" onload="this.onload=null; this.src=getImagePath();" />
+                        <img id="profileImage" style="width:400px;height:200px" src=<%=userBean.getUser().getPhoto()%> />
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -218,14 +218,14 @@ background-color:  #ffffff;;
     <div class="selectBox" >
       <select id="selectedCategories">
        </select>
-      <div class="overSelect"></div>
+      <div class="overSelect" id="txtArea"></div>
     </div>
     <div id="checkboxes">
        						   <%
 				               List<PostCategory> postCategories = postCategoryBean.getAllActivePostCategories();
 				           	   for(PostCategory pc : postCategories){
 				           	%>
-				           	<label><input class="checkboxes" type="checkbox" name="cbCategory" onClick="fillArea();"/> <%out.println(pc.getName());%></label>
+				           	<label><input id=<%=pc.getId()%> class="checkboxes" type="checkbox" name="cbCategory" onClick="fillArea();"/> <%out.println(pc.getName());%></label>
 				           	<hr>
                         <%} %>
     </div>
@@ -242,17 +242,16 @@ background-color:  #ffffff;;
                             <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                                 <div class="form-group">
                                     <label>Detalji potencijalne opasnosti:</label>
-                                    <textarea class="form-control" id="message" rows="3" placeholder="Unesite tekst"></textarea>
+                                    <textarea class="form-control" id="dangerDetails" rows="3" placeholder="Unesite tekst"></textarea>
                                 </div>
                             </div>
                         
                          <fieldset class="form-group">
-        <a href="javascript:void(0)" onclick="$('#pro-image').click()">Dodaj sliku</a>
-        <input type="file" id="pro-image" name="pro-image" style="display: none;" class="form-control" onChange="readImage()" multiple>
+        <a href="javascript:void(0)" onclick="$('#pro-image').click()">Dodaj sliku ili video</a>
+        <input accept="image/*,video/*" type="file" id="pro-image" name="pro-image" style="display: none;" class="form-control" onChange="readImage()" multiple>
     </fieldset>
                                    <div class="preview-images-zone">
-     
-       </div>
+    </div>
     <div style="float:right">
 <label>
 <span>Ukoliko se radi o hitnom upozorenju, molimo Vas da oznacite</span>
@@ -265,7 +264,7 @@ background-color:  #ffffff;;
      
                         <div style="float:right" class="btn-toolbar justify-content-between">
                             <div class="btn-group">
-                                <button type="submit" class="btn btn-primary">Podjeli</button>
+                                <button type="submit" class="btn btn-primary" onClick="shareDanger()">Podjeli</button>
                             </div>
                             
                         </div>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.etfbl.beans.UserBean;
 import net.etfbl.dto.User;
 
 
@@ -23,15 +24,15 @@ public class HomeController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
-		String address = "/WEB-INF/pages/home.jsp";
-		HttpSession session = request.getSession();
-		RequestDispatcher dispatcher = request.getRequestDispatcher(address);
-		dispatcher.forward(request, response);
-		/*	UserBean studentBean = (User)session.getAttribute("studentBean");
-		if(studentBean == null || !studentBean.isLoggedIn()) {
+    	HttpSession session = request.getSession();
+		UserBean userBean = (UserBean)session.getAttribute("userBean");
+		if(userBean == null || !userBean.isLoggedIn()) {
 			response.sendRedirect(request.getContextPath() + "/Login");
-		} else {*/
-		//	}
+		} else {
+			String address = "/WEB-INF/pages/home.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+			dispatcher.forward(request, response);
+		}
     }
 
 	/**

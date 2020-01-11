@@ -24,6 +24,7 @@ private static final String SQL_SELECT_ACTIVE_CATEGORIES = "SELECT * FROM postTy
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				PostCategory category = new PostCategory();
+				category.setId(resultSet.getInt(1));
 				category.setName(resultSet.getString(2));
 				activeCategories.add(category);
 			}

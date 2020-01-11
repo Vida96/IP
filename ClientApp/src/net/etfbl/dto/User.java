@@ -22,7 +22,7 @@ public class User implements Serializable {
     private Integer notificationInApp;
 
     public User(Integer id, String firstName, String lastName, String username, String password, String mail,
-			String country, String region, String city, String photo, Integer notificationOnMail, Integer notificationInApp, Integer numberOfLogins) {
+    		String photo, String country, String region, String city, Integer notificationOnMail, Integer notificationInApp, Integer numberOfLogins) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
