@@ -17,7 +17,6 @@ private static final String SQL_SELECT_ACTIVE_CATEGORIES = "SELECT * FROM postTy
 		List<PostCategory> activeCategories = new java.util.ArrayList<>();
 		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 		Connection connection = null;
-		User creator = null;
 		try {
 			connection = connectionPool.checkOut();
 			PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ACTIVE_CATEGORIES);

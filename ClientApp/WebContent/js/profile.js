@@ -89,6 +89,7 @@ function validateFields(){
 	
     var output =  document.getElementById('profileImage');
     var photo;
+    alert(output.getAttribute('src'))
     if(output.getAttribute('src') == "")
     {
     	var userCountry = countries.filter(function (c) {

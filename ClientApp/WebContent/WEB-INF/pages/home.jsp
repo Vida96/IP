@@ -17,7 +17,50 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+<style>
+#weatherContainer {
+    background-color: rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 1px 5px black;
+    padding: 30px;
+    border-radius: 10px;
+    visibility: hidden;
+    width:100%;
+}
+#weatherContainer h1 {
+    margin: 5px;
+    font-size: 42px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+#searchContainer {
+    padding: 15px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#weatherMain {
+    display: block;
+    margin-bottom: 20px;
+}
+#weatherMain div {
+    display: inline-block;
+}
+#weatherDescriptionHeader {
+    font-size: 28px;
+    vertical-align: 50%;
+}
+#temperature {
+    font-size: 38px;
+    vertical-align: 25%;
+}
+.bottom-details {
+    display: block;
+    font-size: 24px;
+    text-align: right;
+}
+hr {
+    margin-bottom: 20px;
+}
+</style>
 <style>
 .preview-images-zone {
     border: 1px solid #ddd;
@@ -181,7 +224,7 @@ background-color:  #ffffff;;
                         out.println(userBean.getUser().getFirstName() + " " + userBean.getUser().getLastName());
                         %>
                         </h3>
-                        <img id="profileImage" style="width:400px;height:200px" src=<%=userBean.getUser().getPhoto()%> />
+                        <img id="profileImage" style="width:400px;height:200px" src=<%=userBean.getUser().getCity()%> />
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -255,7 +298,7 @@ background-color:  #ffffff;;
     <div style="float:right">
 <label>
 <span>Ukoliko se radi o hitnom upozorenju, molimo Vas da oznacite</span>
-<input type="checkbox" class="checkbox style-2 right" checked="checked">
+<input type="checkbox" id="emergencyCb" class="checkbox style-2 right" checked="checked">
 </label> </div>
 <br>
 
@@ -390,7 +433,7 @@ background-color:  #ffffff;;
                 
                     <fieldset style="float:right" class="form-group">
         <a href="javascript:void(0)" onclick="$('#pro-image2').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>
-        <input type="file" id="pro-image2" name="pro-image2" style="display: none;" class="form-control" onChange="readImage2()" multiple>
+        <input type="file" id="pro-image2" name="pro-image2" style="display: none;" class="form-control" onChange="readImageForComment()" multiple>
                             
     </fieldset>
                   
@@ -454,25 +497,22 @@ background-color:  #ffffff;;
             </div>
             <div class="col-md-3">
                 <div class="card gedf-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                            card's content.</p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
+                    <div id="weatherContainer">
+            <div id="weatherDescription">
+                <h1 id="cityHeader"></h1>
+                <div id="weatherMain">
+                    <div id="temperature"></div>
+                    <div id="weatherDescriptionHeader"></div>
+                    <div><img id="documentIconImg"></div>
                 </div>
-                <div class="card gedf-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                                card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
+                <hr>
+                <div id="windSpeed" class="bottom-details"></div>
+                <div id="humidity" class="bottom-details"></div>
+            </div>
+        </div>
+                </div>
+               <script>searchWeather();</script>
+  
             </div>
         </div>
     </div>

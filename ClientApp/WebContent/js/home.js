@@ -56,6 +56,8 @@ function showCheckboxes() {
 }
 
 var num = 0;
+var images = [];
+var video;
 function readImage() {
        
 	 if (window.File && window.FileList && window.FileReader) {
@@ -73,6 +75,7 @@ function readImage() {
                 var div = document.createElement("div");
     var html;           
 if(file.type.match('image')){
+	images.push(picFile.result);
 html = '<div style="float: left;" class="preview-image preview-show-' + num + '">' +
     '<div class="image-cancel" data-no="' + num + '">x</div>' +
     '<div class="image-zone"><img style="width:100px;height:100px"  id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
@@ -80,7 +83,8 @@ html = '<div style="float: left;" class="preview-image preview-show-' + num + '"
 }
 else
 {
-	 var fileURL = URL.createObjectURL(file)
+	 var fileURL = URL.createObjectURL(file);
+	 video = fileURL;
 	html = '<div style="float: left;" class="preview-image preview-show-' + num + '">' +
     '<div class="image-cancel" data-no="' + num + '">x</div>' +
     '<div class="image-zone"><video style="width:100px;height:100px" controls autoplay src="'+ fileURL + '"></video>' +
@@ -111,7 +115,7 @@ function getImagePath(){
 }
 
 var num = 0;
-function readImage2() {
+function readImageForComment() {
        
 	 if (window.File && window.FileList && window.FileReader) {
 		 var files = event.target.files; //FileList object
@@ -155,9 +159,8 @@ function focusShareOnTwitter(){
 
 function shareDanger(){
 	
-	var desription = document.getElementById('dangerDetails');
-	var location = document.getElementById('searchInput');	
-	 
+	var description = document.getElementById('dangerDetails').value;
+	var location = document.getElementById('searchInput');	 
 	var checkboxes = document.getElementsByName('cbCategory');
 	var checkboxesChecked = [];
 	for (var i=0; i< checkboxes.length; i++) {
@@ -166,12 +169,69 @@ function shareDanger(){
 	   }
 	}
 	
+    var url = description;
+    var regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i, match = String(url).match(regExp);
+    
+    if (match) {
+    	  video = match;
+    }
+    
+    var emergencyCb = document.getElementById('emergencyCb');
+    
 	let object = {
-		desription: desription,
+		description: description,
 		location: location,
 		checkboxesChecked: checkboxesChecked,
-		images: null,
-	    video: null,
+		images: images,
+	    video: video,
+	    isEmergency: emergencyCb.checked
 	}
  
+	images = [];
+	video = null;
 }
+function searchWeather() {
+	 //   getSearchMethod(searchTerm);
+
+	let appId = 'c184fa574eb152bfe0cab958d44d62de';
+	let units = 'metric';//'imperial'; // other option is metric
+	let searchMethod = 'q';
+	let cityName = 'Banja Luka';
+	    fetch(`http://api.openweathermap.org/data/2.5/weather?q=Banja Luka&APPID=c184fa574eb152bfe0cab958d44d62de&units=metric`)
+	        .then((result) => {
+	            return result.json();
+	        }).then((res) => {
+	            init(res);
+	    });
+	}
+
+   
+	function init(resultFromServer) {
+	    let weatherDescriptionHeader = document.getElementById('weatherDescriptionHeader');
+	    let temperatureElement = document.getElementById('temperature');
+	    let humidityElement = document.getElementById('humidity');
+	    let windSpeedElement = document.getElementById('windSpeed');
+	    let cityHeader = document.getElementById('cityHeader');
+
+	    let weatherIcon = document.getElementById('documentIconImg');
+	    weatherIcon.src = 'http://openweathermap.org/img/w/' + resultFromServer.weather[0].icon + '.png';
+
+	    let resultDescription = resultFromServer.weather[0].description;
+	    weatherDescriptionHeader.innerText = resultDescription.charAt(0).toUpperCase() + resultDescription.slice(1);
+	    temperatureElement.innerHTML = Math.floor(resultFromServer.main.temp) + '&#176;';
+	    windSpeedElement.innerHTML = 'Winds at  ' + Math.floor(resultFromServer.wind.speed) + ' m/s';
+	    cityHeader.innerHTML = resultFromServer.name;
+	    humidityElement.innerHTML = 'Humidity levels at ' + resultFromServer.main.humidity +  '%';
+
+	    setPositionForWeatherInfo();
+	}
+
+	function setPositionForWeatherInfo() {
+	    let weatherContainer = document.getElementById('weatherContainer');
+	    let weatherContainerHeight = weatherContainer.clientHeight;
+	    let weatherContainerWidth = weatherContainer.clientWidth;
+
+	    weatherContainer.style.left = `calc(50% - ${weatherContainerWidth/2}px)`;
+	    weatherContainer.style.top = `calc(50% - ${weatherContainerHeight/1.3}px)`;
+	    weatherContainer.style.visibility = 'visible';
+	}

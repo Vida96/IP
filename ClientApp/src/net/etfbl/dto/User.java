@@ -39,7 +39,15 @@ public class User implements Serializable {
 		this.numberOfLogins = numberOfLogins;
 	}
     
-    public Integer getNotificationOnMail() {
+    @Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
+				+ ", password=" + password + ", mail=" + mail + ", country=" + country + ", region=" + region
+				+ ", city=" + city + ", photo=" + photo + ", numberOfLogins=" + numberOfLogins + ", notificationOnMail="
+				+ notificationOnMail + ", notificationInApp=" + notificationInApp + "]";
+	}
+
+	public Integer getNotificationOnMail() {
 		return notificationOnMail;
 	}
 

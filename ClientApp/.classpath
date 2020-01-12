@@ -42,5 +42,7 @@
 	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/json-20190722.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/mysql-connector-java-8.0.17.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/protobuf-java-3.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/javax.mail-1.6.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

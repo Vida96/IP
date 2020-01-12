@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import net.etfbl.dto.PostCategory;
 import net.etfbl.dto.User; 
 
 public class UserDAO {
@@ -21,6 +24,8 @@ public class UserDAO {
 	
 	private static final String SQL_UPDATE = "UPDATE user set firstname=?, lastname=?, username=?, password=?, photo=?, country=?, region=?, city=?, numberoflogins=?, notificationOnMail=?, notificationInApp=? WHERE id=?";
 	
+	private static final String SQL_SELECT_USERS_FOR_EMERGENCY_MAIL = "SELECT mail FROM user WHERE active=1 AND notificationOnMail=1";
+	
 	public static User getUserByUsernameAndActive(String username, Integer active){
 		User user = null;
 		Connection connection = null;
@@ -34,6 +39,7 @@ public class UserDAO {
 			if (rs.next()){
 				user = new User(rs.getInt("id"),rs.getString("firstName"),rs.getString("lastName"),rs.getString("username"), rs.getString("password"),rs.getString("mail"), rs.getString("photo"), rs.getString("country"), rs.getString("region"), rs.getString("city"), rs.getInt("notificationOnMail") , rs.getInt("notificationInApp"),rs.getInt("numberoflogins"));
 			}
+																														
 			pstmt.close();
 		} catch (SQLException exp) {
 			exp.printStackTrace();
@@ -161,5 +167,25 @@ public class UserDAO {
 			connectionPool.checkIn(connection);
 		} 
 		return user;
+	}
+
+	public static List<String> getUsersMailsForEmergencyMail() {
+		List<String> usersMails = new java.util.ArrayList<>();
+		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
+		Connection connection = null;
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_USERS_FOR_EMERGENCY_MAIL);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				String mail = resultSet.getString(1);
+				usersMails.add(mail);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+		return usersMails;
 	}
 }

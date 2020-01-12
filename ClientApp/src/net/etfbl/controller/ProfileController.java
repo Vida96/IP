@@ -36,7 +36,7 @@ public class ProfileController extends HttpServlet {
 				String action = request.getParameter("action");
 				HttpSession session = request.getSession();
 				UserBean userBean = (UserBean)session.getAttribute("userBean");
-				if(userBean==null || !userBean.isLoggedIn())
+				if(userBean==null)
 				{
 					response.sendRedirect(request.getContextPath()+"/Login");
 				}
