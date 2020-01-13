@@ -80,17 +80,18 @@ function validateFields(){
 	var notificationInApp;
 	if(document.getElementById("notifications-blog").checked){
 	var radioButtons = document.getElementsByName("notifications");
+	 
 	notificationOnMail = radioButtons[0].checked;
 	notificationInApp = radioButtons[1].checked;
 	}else{
-		notificationOnMail = 0;
-		notificationInApp = 0;
+		notificationOnMail = false;
+		notificationInApp = false;
 	}
 	
     var output =  document.getElementById('profileImage');
     var photo;
-    alert(output.getAttribute('src'))
-    if(output.getAttribute('src') == "")
+    
+    if((output.getAttribute('src') == "") || (output.getAttribute('src') == 'https://www.serenbooks.com/sites/default/files/default_images/default-user-image.png'))
     {
     	var userCountry = countries.filter(function (c) {
     	    return c.name === country;

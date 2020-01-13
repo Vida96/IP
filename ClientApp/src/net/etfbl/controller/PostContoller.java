@@ -1,6 +1,7 @@
 package net.etfbl.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -58,10 +59,10 @@ public class PostContoller extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean userBean = (UserBean)session.getAttribute("userBean");
 		String description = null, location = null, video = null;
-		String[] images = null;
+		List<String> images = null;
 		Integer[] categoriesId = null;
 		
-		if (!jsonObject.isNull("country")){
+		if (!jsonObject.isNull("description")){
 			description = jsonObject.getString("description");
 		}
 		if (!jsonObject.isNull("location")){
@@ -73,28 +74,29 @@ public class PostContoller extends HttpServlet {
 			for(int i = 0; i < jsonCategoriesId.length(); i++)
 				categoriesId[i] = jsonCategoriesId.getInt(i); //lista ID-eva kategorija kojoj objava pripada
 		}
-		if (!jsonObject.isNull("checkboxesChecked")){
+		if (!jsonObject.isNull("images")){
 			JSONArray jsonImages = jsonObject.getJSONArray("images");
-			images = new String[jsonImages.length()];
+			images = new ArrayList<>();
 			for(int i = 0; i < jsonImages.length(); i++)
-				images[i] = jsonImages.getString(i);
+				images.add(jsonImages.getString(i));
 		}
-		if (!jsonObject.isNull("checkboxesChecked")){
+		if (!jsonObject.isNull("video")){
 			video = jsonObject.getString("video");
 		}
 
-		Integer isEmergency = jsonObject.getInt("isEmergency");
+		Integer isEmergency = jsonObject.getBoolean("isEmergency")? 1 : 0;
 		User postCreator = userBean.getUser();
 		long timeNow = Calendar.getInstance().getTimeInMillis();
 		java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
 		
-		Post post = new Post(description, postCreator, ts, location, video);
-		
-		if(isEmergency == 1 )
+		Post post = new Post(description, postCreator, ts, location, video, isEmergency);
+		post.setImages(images);
+		System.out.println(post.toString());
+		System.out.println(isEmergency);
+ 	/*if(isEmergency == 1 )
 		{
 			sendMailToUsers(post, userBean.getUser().getMail());
-		}
-		
+		}*/ 
 /*		Date dt = new java.util.Date();
 		String currentTime = sdf.format(dt);*/
 
@@ -111,7 +113,8 @@ public class PostContoller extends HttpServlet {
 	}
 
 	private void sendMail(String senderMail, String recieverMail, Post post) {
-		  try{  
+ 
+		try{   
 		         MimeMessage message = new MimeMessage(session);  
 		         message.setFrom(new InternetAddress("nikolavidovic47@yahoo.com"));  
 		         message.addRecipient(Message.RecipientType.TO,new InternetAddress("nikolavidovic47@yahoo.com"));  
@@ -125,3 +128,53 @@ public class PostContoller extends HttpServlet {
 		      }catch (MessagingException mex) {mex.printStackTrace();}  
 	}
 }
+
+
+/*
+ https://mkyong.com/java/java-how-to-send-email/
+Properties prop = System.getProperties();
+prop.put("mail.smtp.host", SMTP_SERVER); //optional, defined in SMTPTransport
+prop.put("mail.smtp.auth", "true");
+prop.put("mail.smtp.port", "25"); // default port 25
+
+Session session = Session.getInstance(prop, null);
+Message msg = new MimeMessage(session);
+
+try {
+
+	// from
+    msg.setFrom(new InternetAddress(EMAIL_FROM));
+
+	// to 
+    msg.setRecipients(Message.RecipientType.TO,
+            InternetAddress.parse(EMAIL_TO, false));
+
+	// cc
+    msg.setRecipients(Message.RecipientType.CC,
+            InternetAddress.parse(EMAIL_TO_CC, false));
+
+	// subject
+    msg.setSubject(EMAIL_SUBJECT);
+	
+	// content 
+    msg.setText(EMAIL_TEXT);
+	
+    msg.setSentDate(new Date());
+
+	// Get SMTPTransport
+    SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
+	
+	// connect
+    t.connect(SMTP_SERVER, USERNAME, PASSWORD);
+	
+	// send
+    t.sendMessage(msg, msg.getAllRecipients());
+
+    System.out.println("Response: " + t.getLastServerResponse());
+
+    t.close();
+
+} catch (MessagingException e) {
+    e.printStackTrace();
+}
+*/

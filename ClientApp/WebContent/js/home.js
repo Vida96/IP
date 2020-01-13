@@ -114,24 +114,27 @@ function getImagePath(){
      });
 }
 
-var num = 0;
+var imageComment;
 function readImageForComment() {
-       
+
+	var num = 0;
 	 if (window.File && window.FileList && window.FileReader) {
 		 var files = event.target.files; //FileList object
 	        var output = document.getElementsByClassName("preview-images-zone")[1];
         
         for (let i = 0; i < files.length; i++) {
-            var file = files[i];
+         
+        	var file = files[i];
             if (!file.type.match('image')) continue;
             output.style.display = "block";
             var picReader = new FileReader();
             picReader.readAsDataURL(file);            
             picReader.addEventListener('load', function (event) {
+            if(num != 1){
             var picFile = event.target;
             var div = document.createElement("div");
-               
-             var html =  '<div class="preview-image preview-show-' + num + '">' +
+            imageComment = picFile.result;
+            var html =  '<div class="preview-image preview-show-' + num + '">' +
                             '<div class="image-cancel" data-no="' + num + '">x</div>' +
                             '<div class="image-zone"><img  width="150" height="100" id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
                             '</div>';
@@ -139,7 +142,8 @@ function readImageForComment() {
              num = num + 1;
              
              output.append(div);
-            });
+             focusCommentBox();
+            }});
 
         }
         document.getElementById("pro-image").innerHTML= '';
@@ -160,7 +164,7 @@ function focusShareOnTwitter(){
 function shareDanger(){
 	
 	var description = document.getElementById('dangerDetails').value;
-	var location = document.getElementById('searchInput');	 
+	var location = document.getElementById('searchInput').value;	 
 	var checkboxes = document.getElementsByName('cbCategory');
 	var checkboxesChecked = [];
 	for (var i=0; i< checkboxes.length; i++) {
@@ -175,7 +179,10 @@ function shareDanger(){
     if (match) {
     	  video = match;
     }
-    
+
+    for (let i = 0; i < images.length; i++) {
+    	alert(images[i])
+    }
     var emergencyCb = document.getElementById('emergencyCb');
     
 	let object = {
@@ -187,17 +194,48 @@ function shareDanger(){
 	    isEmergency: emergencyCb.checked
 	}
  
+	let request = new XMLHttpRequest();
+	request.onreadystatechange = function(){
+		
+		if((request.readyState ==4) && (request.status==200))
+		{
+			/*if(this.responseText.includes("USERNAME_ERROR")) {
+				document.getElementById("usernameLabel").innerHTML = "* Korisničko ime je već zauzeto";
+				condition = false;
+			}
+			if(this.responseText.includes("MAIL_ERROR")) {
+				document.getElementById("mailLabel").innerHTML = "* Mail je već zauzet";
+				condition = false;
+			}
+			if(condition == false)
+				return false;
+			else
+				window.location.replace("Profile?action=updateProfile");*/
+			alert(success);
+	 
+		}
+	}
+	
+	request.open("POST","Post");
+	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+	request.send(JSON.stringify(object));
+
+	//izbrisati sve podatke 
 	images = [];
 	video = null;
 }
-function searchWeather() {
-	 //   getSearchMethod(searchTerm);
 
+var weatherNum = 0;
+function searchWeatherForCities(){
+	searchWeather("Banja Luka");
+	searchWeather("Doboj");
+	searchWeather("Mrkonjic Grad");
+}
+function searchWeather(cityName) {
 	let appId = 'c184fa574eb152bfe0cab958d44d62de';
-	let units = 'metric';//'imperial'; // other option is metric
+	let units = 'metric';//'imperial'; 
 	let searchMethod = 'q';
-	let cityName = 'Banja Luka';
-	    fetch(`http://api.openweathermap.org/data/2.5/weather?q=Banja Luka&APPID=c184fa574eb152bfe0cab958d44d62de&units=metric`)
+	fetch(`http://api.openweathermap.org/data/2.5/weather?q=` + cityName + `&APPID=c184fa574eb152bfe0cab958d44d62de&units=metric`)
 	        .then((result) => {
 	            return result.json();
 	        }).then((res) => {
@@ -207,13 +245,14 @@ function searchWeather() {
 
    
 	function init(resultFromServer) {
-	    let weatherDescriptionHeader = document.getElementById('weatherDescriptionHeader');
-	    let temperatureElement = document.getElementById('temperature');
-	    let humidityElement = document.getElementById('humidity');
-	    let windSpeedElement = document.getElementById('windSpeed');
-	    let cityHeader = document.getElementById('cityHeader');
+		
+	    let weatherDescriptionHeader = document.getElementById('weatherDescriptionHeader'+weatherNum);
+	    let temperatureElement = document.getElementById('temperature'+weatherNum);
+	    let humidityElement = document.getElementById('humidity'+weatherNum);
+	    let windSpeedElement = document.getElementById('windSpeed'+weatherNum);
+	    let cityHeader = document.getElementById('cityHeader'+weatherNum);
 
-	    let weatherIcon = document.getElementById('documentIconImg');
+	    let weatherIcon = document.getElementById('documentIconImg'+weatherNum);
 	    weatherIcon.src = 'http://openweathermap.org/img/w/' + resultFromServer.weather[0].icon + '.png';
 
 	    let resultDescription = resultFromServer.weather[0].description;
@@ -227,11 +266,37 @@ function searchWeather() {
 	}
 
 	function setPositionForWeatherInfo() {
-	    let weatherContainer = document.getElementById('weatherContainer');
+	    let weatherContainer = document.getElementById('weatherContainer'+weatherNum);
 	    let weatherContainerHeight = weatherContainer.clientHeight;
 	    let weatherContainerWidth = weatherContainer.clientWidth;
 
 	    weatherContainer.style.left = `calc(50% - ${weatherContainerWidth/2}px)`;
 	    weatherContainer.style.top = `calc(50% - ${weatherContainerHeight/1.3}px)`;
 	    weatherContainer.style.visibility = 'visible';
+	    weatherNum = weatherNum + 1;
 	}
+	
+	function onEnterPress() {
+	    var key = window.event.keyCode;
+ 
+	    if (key === 13) {
+	    	var text = document.getElementById("commentBox").value;
+	    	addComment(text, imageComment);
+
+	        var previewImage = document.getElementsByClassName("preview-images-zone")[1];
+	        previewImage.innerHTML = "";
+	        previewImage.style.display = "none";
+	    	document.getElementById("commentBox").value = "";
+	    	document.getElementById("commentBox").blur();
+	    	addComment(text, imageComment);
+	    	return false;
+	    }
+	    else {
+	        return true;
+	    }
+	}
+	
+	function addComment(text, imageComment){
+	 
+		
+	}	

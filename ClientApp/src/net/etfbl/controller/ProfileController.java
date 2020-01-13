@@ -66,8 +66,8 @@ public class ProfileController extends HttpServlet {
 				String password = jsonObject.getString("password");
 				String mail = jsonObject.getString("mail");
 				String photoData = jsonObject.getString("photo");
-				Integer notificationOnMail = jsonObject.isNull("notificationOnMail")? 0 : jsonObject.getInt("notificationOnMail");
-				Integer notificationInApp = jsonObject.isNull("notificationInApp")? 0 : jsonObject.getInt("notificationInApp");
+				Integer notificationOnMail = jsonObject.isNull("notificationOnMail")? 0 : jsonObject.getBoolean("notificationOnMail")? 1 : 0;
+				Integer notificationInApp = jsonObject.isNull("notificationInApp")? 0 : jsonObject.getBoolean("notificationInApp")? 1 : 0;
 				String country = null, region = null, city = null;
 				
 				if (!jsonObject.isNull("country")){
@@ -84,7 +84,8 @@ public class ProfileController extends HttpServlet {
 				
 				UserBean userBean = new UserBean();
 				String attribute;
-				User user = new User(0, firstName, lastName, username, password, mail, country, region, city, photoData, notificationOnMail, notificationInApp, 0);
+				 
+				User user = new User(0, firstName, lastName, username, password, mail, photoData, country, region, city, notificationOnMail, notificationInApp, 0);
 				try {
 					PrintWriter pw = new PrintWriter(response.getWriter());
 					if (username != null) {

@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style>
-#weatherContainer {
+.weatherContainer {
     background-color: rgba(0, 0, 0, 0.25);
     box-shadow: 1px 1px 5px black;
     padding: 30px;
@@ -26,29 +26,29 @@
     visibility: hidden;
     width:100%;
 }
-#weatherContainer h1 {
+.weatherContainer h1 {
     margin: 5px;
     font-size: 42px;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
-#searchContainer {
+.searchContainer {
     padding: 15px;
     position: absolute;
     top: 0;
     right: 0;
 }
-#weatherMain {
+.weatherMain {
     display: block;
     margin-bottom: 20px;
 }
-#weatherMain div {
+.weatherMain div {
     display: inline-block;
 }
-#weatherDescriptionHeader {
+.weatherDescriptionHeader {
     font-size: 28px;
     vertical-align: 50%;
 }
-#temperature {
+.temperature {
     font-size: 38px;
     vertical-align: 25%;
 }
@@ -220,11 +220,12 @@ background-color:  #ffffff;;
                 <div class="card">
                     <div class="card-body">
                         <h3>
+                       
                         <%
                         out.println(userBean.getUser().getFirstName() + " " + userBean.getUser().getLastName());
                         %>
                         </h3>
-                        <img id="profileImage" style="width:400px;height:200px" src=<%=userBean.getUser().getCity()%> />
+                        <img id="profileImage" style="width:100%" src=<%=userBean.getUser().getPhoto()%> />
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -249,7 +250,7 @@ background-color:  #ffffff;;
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Obavjest o potencijalnoj opasnosti</a>
+                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Detalji potencijalne opasnosti</a>
                             </li>
                           
                         </ul>
@@ -284,8 +285,8 @@ background-color:  #ffffff;;
 </div>
                             <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                                 <div class="form-group">
-                                    <label>Detalji potencijalne opasnosti:</label>
-                                    <textarea class="form-control" id="dangerDetails" rows="3" placeholder="Unesite tekst"></textarea>
+                                    <label>Opis potencijalne opasnosti:</label>
+                                    <textarea class="form-control" id="dangerDetails" rows="3" placeholder="Unesite tekst ili link"></textarea>
                                 </div>
                             </div>
                         
@@ -424,7 +425,7 @@ background-color:  #ffffff;;
                         <div class="card gedf-card">
             <div class="panel panel-info">
                 <div class="panel-body">
-                    <textarea id="commentBox" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea"></textarea>
+                    <textarea id="commentBox" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress();"></textarea>
       <div style="float:right; display: none;" class="preview-images-zone"></div>      
             </div>
         </div>
@@ -497,21 +498,52 @@ background-color:  #ffffff;;
             </div>
             <div class="col-md-3">
                 <div class="card gedf-card">
-                    <div id="weatherContainer">
-            <div id="weatherDescription">
-                <h1 id="cityHeader"></h1>
-                <div id="weatherMain">
-                    <div id="temperature"></div>
-                    <div id="weatherDescriptionHeader"></div>
-                    <div><img id="documentIconImg"></div>
+                    <div class="weatherContainer" id="weatherContainer0">
+            <div class="weatherDescription" id="weatherDescription0">
+                <h1 id="cityHeader0"></h1>
+                <div class="weatherMain" id="weatherMain0">
+                    <div class="temperature" id="temperature0"></div>
+                    <div class="weatherDescriptionHeader" id="weatherDescriptionHeader0"></div>
+                    <div><img id="documentIconImg0"></div>
                 </div>
                 <hr>
-                <div id="windSpeed" class="bottom-details"></div>
-                <div id="humidity" class="bottom-details"></div>
+                <div id="windSpeed0" class="bottom-details"></div>
+                <div id="humidity0" class="bottom-details"></div>
+            </div>
+        </div>
+         <br>
+            <div class="weatherContainer" id="weatherContainer1">
+            <div class="weatherDescription" id="weatherDescription1">
+                <h1 id="cityHeader1"></h1>
+                <div class="weatherMain" id="weatherMain1">
+                    <div class="temperature" id="temperature1"></div>
+                    <div class="weatherDescriptionHeader" id="weatherDescriptionHeader1"></div>
+                    <div><img id="documentIconImg1"></div>
+                </div>
+                <hr>
+                <div id="windSpeed1" class="bottom-details"></div>
+                <div id="humidity1" class="bottom-details"></div>
+            </div>
+        </div>
+        <br>
+           <div class="weatherContainer" id="weatherContainer2">
+            <div class="weatherDescription" id="weatherDescription2">
+                <h1 id="cityHeader2"></h1>
+                <div class="weatherMain" id="weatherMain2">
+                    <div class="temperature" id="temperature2"></div>
+                    <div class="weatherDescriptionHeader" id="weatherDescriptionHeader2"></div>
+                    <div><img id="documentIconImg2"></div>
+                </div>
+                <hr>
+                <div id="windSpeed2" class="bottom-details"></div>
+                <div id="humidity2" class="bottom-details"></div>
             </div>
         </div>
                 </div>
-               <script>searchWeather();</script>
+                
+                
+                
+               <script>searchWeatherForCities();</script>
   
             </div>
         </div>

@@ -34,10 +34,9 @@
     </div>
     <div class="row">
   		<div class="col-sm-3"><!--left col-->
-              
-
+               
       <div class="text-center">
-        <img id="profileImage" src="https://ids.si.edu/ids/deliveryService?id=https%3A%2F%2Fnpg.si.edu%2Fmedia%2F192X192%2F9500008B_1.jpg&max=250" class="avatar img-circle img-thumbnail" alt="avatar">
+        <img id="profileImage" src="https://www.serenbooks.com/sites/default/files/default_images/default-user-image.png" class="avatar img-circle img-thumbnail" alt="avatar">
         <input type='file'id="selectedImage" onChange="handleImageChange()" class="hidden"/>  
 <label for="selectedImage">Odaberite profilnu sliku</label>
       </div></hr><br>
@@ -121,7 +120,7 @@
                           <div class="col-xs-6">
                               <label for="password"><h4>Potvrda lozinke</h4></label>
                               <input type="password" class="form-control" name="confirmedPassword" id="confirmedPassword" placeholder="Potvrdite lozinku" oninvalid="this.setCustomValidity('Unesite pravilno lozinku.')" oninput="this.setCustomValidity('')" required value=<%= user.getPassword() %>>
-                         <label id="passwordLabel"></label>
+                         	  <label id="confirmedPasswordLabel"></label>
                           </div>
                       </div>
                       <div class="form-group">

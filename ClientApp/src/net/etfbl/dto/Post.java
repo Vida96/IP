@@ -11,6 +11,7 @@ public class Post {
 	private String location;
 	private String video;
     private List images;
+    private Integer isEmergency;
 	
     public Post(Integer id, String text, User creator, Date creationTime, String location, String video) {
 		super();
@@ -22,13 +23,14 @@ public class Post {
 		this.video = video;
 	}
 
-    public Post(String text, User creator, Date creationTime, String location, String video) {
+    public Post(String text, User creator, Date creationTime, String location, String video, Integer isEmergency) {
 		super();
 		this.text = text;
 		this.creator = creator;
 		this.creationTime = creationTime;
 		this.location = location;
 		this.video = video;
+		this.isEmergency = isEmergency;
 	}
 
 	public Integer getId() {
@@ -85,6 +87,12 @@ public class Post {
 
 	public void setImages(List images) {
 		this.images = images;
+	}
+
+	@Override
+	public String toString() {
+		return "Post [id=" + id + ", text=" + text + ", creator=" + creator + ", creationTime=" + creationTime
+				+ ", location=" + location + ", video=" + video + ", images=" + images + "]";
 	}
 }
 
