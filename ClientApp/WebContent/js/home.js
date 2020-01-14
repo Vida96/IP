@@ -180,9 +180,6 @@ function shareDanger(){
     	  video = match;
     }
 
-    for (let i = 0; i < images.length; i++) {
-    	alert(images[i])
-    }
     var emergencyCb = document.getElementById('emergencyCb');
     
 	let object = {
@@ -199,20 +196,18 @@ function shareDanger(){
 		
 		if((request.readyState ==4) && (request.status==200))
 		{
-			/*if(this.responseText.includes("USERNAME_ERROR")) {
-				document.getElementById("usernameLabel").innerHTML = "* Korisničko ime je već zauzeto";
-				condition = false;
+			//izbrisati sve podatke 
+			images = [];
+			video = null;
+			document.getElementById('dangerDetails').value = "";
+			document.getElementById('searchInput').value = "";	 
+			checkboxes = document.getElementsByName('cbCategory');
+			for (var i=0; i< checkboxes.length; i++) {
+				checkboxes[i].checked = false;	
 			}
-			if(this.responseText.includes("MAIL_ERROR")) {
-				document.getElementById("mailLabel").innerHTML = "* Mail je već zauzet";
-				condition = false;
-			}
-			if(condition == false)
-				return false;
-			else
-				window.location.replace("Profile?action=updateProfile");*/
-			alert(success);
-	 
+		    var previewImage = document.getElementsByClassName("preview-images-zone")[0];
+	        previewImage.innerHTML = "";
+	        previewImage.style.display = "none";
 		}
 	}
 	
@@ -220,13 +215,23 @@ function shareDanger(){
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	request.send(JSON.stringify(object));
 
-	//izbrisati sve podatke 
-	images = [];
-	video = null;
 }
 
 var weatherNum = 0;
 function searchWeatherForCities(){
+	
+	/*var citiesForWeather = [];
+	while(citiesForWeather.length < 3){
+	    var r = Math.floor(Math.random() * 100) + 1;
+	    var city = cities[r];
+	    if(citiesForWeather.indexOf(city) === -1) 
+	    	citiesForWeather.push(r);
+	}
+	
+	citiesForWeather.forEach(function(city) {
+		searchWeather(city)
+		});
+		*/
 	searchWeather("Banja Luka");
 	searchWeather("Doboj");
 	searchWeather("Mrkonjic Grad");

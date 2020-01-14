@@ -1,19 +1,20 @@
 package net.etfbl.dto;
 
-import java.util.Date;
 import java.util.List;
 
 public class Post {
 	private Integer id;
 	private String text;
 	private User creator;
-	private Date creationTime; 
+	private String creationTime; 
 	private String location;
 	private String video;
-    private List images;
+    private List<String> images;
     private Integer isEmergency;
+	private List<Comment> commments;
+	private Integer userId;
 	
-    public Post(Integer id, String text, User creator, Date creationTime, String location, String video) {
+	public Post(Integer id, String text, User creator, String creationTime, String location, String video) {
 		super();
 		this.id = id;
 		this.text = text;
@@ -23,7 +24,7 @@ public class Post {
 		this.video = video;
 	}
 
-    public Post(String text, User creator, Date creationTime, String location, String video, Integer isEmergency) {
+    public Post(String text, User creator, String creationTime, String location, String video, Integer isEmergency) {
 		super();
 		this.text = text;
 		this.creator = creator;
@@ -57,11 +58,11 @@ public class Post {
 		this.creator = creator;
 	}
 
-	public Date getCreationTime() {
+	public String getCreationTime() {
 		return creationTime;
 	}
 
-	public void setCreationTime(Date creationTime) {
+	public void setCreationTime(String creationTime) {
 		this.creationTime = creationTime;
 	}
 
@@ -81,12 +82,37 @@ public class Post {
 		this.video = video;
 	}
 
-	public List getImages() {
+	public List<String> getImages() {
 		return images;
 	}
 
-	public void setImages(List images) {
+	public void setImages(List<String> images) {
 		this.images = images;
+	}
+
+	public List<Comment> getCommments() {
+		return commments;
+	}
+
+	public void setCommments(List<Comment> commments) {
+		this.commments = commments;
+	}
+
+  	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+
+	public Integer getIsEmergency() {
+		return isEmergency;
+	}
+
+	public void setIsEmergency(Integer isEmergency) {
+		this.isEmergency = isEmergency;
 	}
 
 	@Override

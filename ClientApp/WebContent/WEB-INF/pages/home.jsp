@@ -20,6 +20,7 @@
 <style>
 .weatherContainer {
     background-color: rgba(0, 0, 0, 0.25);
+    background-image: url("https://lh3.googleusercontent.com/tFLhMKVH90elgpEiYflqzUv8W6sBlefoxkFH7TpmT-8bRWpIJQaEl6GZjAZ9RIPUziZhtRU9=w640-h400-e365");
     box-shadow: 1px 1px 5px black;
     padding: 30px;
     border-radius: 10px;
@@ -199,20 +200,23 @@ background-color:  #ffffff;;
 <title>Prikaz obavjestenja o opasnosti</title>
 </head>
 <body>
-<nav class="navbar navbar-light bg-white">
-        <a href="#" class="navbar-brand">Bootsbook</a>
-        <form class="form-inline">
-            <div class="input-group">
-                <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button" id="button-addon2">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </nav>
 
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <ul class="navbar-nav mr-auto">
+  <li class="nav-item active">
+    <a class="nav-link" href="#">Početna strana<span class="sr-only">(current)</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="Profile">Izmjena profila</a>
+  </li>
+</ul>
+<ul class="navbar-nav ml-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="Login?action=signOut">Odjava</a>
+  </li>
+</ul>
+</nav>
+<br>
 
     <div class="container-fluid gedf-wrapper">
         <div class="row">
@@ -299,7 +303,7 @@ background-color:  #ffffff;;
     <div style="float:right">
 <label>
 <span>Ukoliko se radi o hitnom upozorenju, molimo Vas da oznacite</span>
-<input type="checkbox" id="emergencyCb" class="checkbox style-2 right" checked="checked">
+<input type="checkbox" id="emergencyCb" class="checkbox style-2 right">
 </label> </div>
 <br>
 
@@ -411,12 +415,26 @@ background-color:  #ffffff;;
 
                         <p class="card-text">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam omnis nihil, aliquam est, voluptates officiis iure soluta
-                            alias vel odit, placeat reiciendis ut libero! Quas aliquid natus cumque quae repellendus. Lorem
-                            ipsum dolor sit amet consectetur adipisicing elit. Ipsa, excepturi. Doloremque, reprehenderit!
-                            Quos in maiores, soluta doloremque molestiae reiciendis libero expedita assumenda fuga quae.
-                            Consectetur id molestias itaque facere? Hic!
+                            alias vel odit, placeat reiciendis ut libero! Quas aliquid natus cumque quae repellendus.
                         </p>
                      </div>
+                     <div class="preview-images-zone">
+        <div class="preview-image preview-show-1">
+            <div class="image-cancel" data-no="1">x</div>
+            <div class="image-zone"><img id="pro-img-1" src="https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzA5Ny85NTkvb3JpZ2luYWwvc2h1dHRlcnN0b2NrXzYzOTcxNjY1LmpwZw=="></div>
+            <div class="tools-edit-image"><a href="javascript:void(0)" data-no="1" class="btn btn-light btn-edit-image">edit</a></div>
+        </div>
+        <div class="preview-image preview-show-2">
+            <div class="image-cancel" data-no="2">x</div>
+            <div class="image-zone"><img id="pro-img-2" src="https://www.codeproject.com/KB/GDI-plus/ImageProcessing2/flip.jpg"></div>
+            <div class="tools-edit-image"><a href="javascript:void(0)" data-no="2" class="btn btn-light btn-edit-image">edit</a></div>
+        </div>
+        <div class="preview-image preview-show-3">
+            <div class="image-cancel" data-no="3">x</div>
+            <div class="image-zone"><img id="pro-img-3" src="http://i.stack.imgur.com/WCveg.jpg"></div>
+            <div class="tools-edit-image"><a href="javascript:void(0)" data-no="3" class="btn btn-light btn-edit-image">edit</a></div>
+        </div>
+    </div>
                     <div class="card-footer">
                        <button type="button" onClick="focusCommentBox()" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
                        <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podjeli na fb</button>
@@ -438,7 +456,7 @@ background-color:  #ffffff;;
                             
     </fieldset>
                   
-                <br><br>    <br><br>
+                   <br><br>
                 <!-- Post /////-->
 
 
@@ -492,10 +510,9 @@ background-color:  #ffffff;;
                     </div>
                 </div>
                 <!-- Post /////-->
-
-
-
-            </div>
+                 <br> <br>
+            
+                </div>
             <div class="col-md-3">
                 <div class="card gedf-card">
                     <div class="weatherContainer" id="weatherContainer0">

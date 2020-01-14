@@ -53,7 +53,7 @@ public class CommentController extends HttpServlet {
 			image = jsonObject.getString("image");
 		}
 		
-		Comment postComment = new Comment(description, image); //id objave dodati
+		Comment postComment = new Comment(description, image, 1); //id objave dodati
 		CommentDAO.insert(postComment);
 	}
 

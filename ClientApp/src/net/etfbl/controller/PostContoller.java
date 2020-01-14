@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -25,6 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import net.etfbl.beans.UserBean;
+import net.etfbl.dao.ImageDAO;
+import net.etfbl.dao.PostDAO;
 import net.etfbl.dao.UserDAO;
 import net.etfbl.dto.Post;
 import net.etfbl.dto.User;
@@ -86,20 +89,20 @@ public class PostContoller extends HttpServlet {
 
 		Integer isEmergency = jsonObject.getBoolean("isEmergency")? 1 : 0;
 		User postCreator = userBean.getUser();
-		long timeNow = Calendar.getInstance().getTimeInMillis();
-		java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
 		
-		Post post = new Post(description, postCreator, ts, location, video, isEmergency);
+		java.util.Date dt = new java.util.Date();
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentTime = sdf.format(dt);
+		
+		Post post = new Post(description, postCreator, currentTime, location, video, isEmergency);
 		post.setImages(images);
-		System.out.println(post.toString());
-		System.out.println(isEmergency);
- 	/*if(isEmergency == 1 )
+		post.setUserId(userBean.getUser().getId());
+		PostDAO.insert(post);
+		ImageDAO.insert(images, 1); //postId
+		if(isEmergency == 1 )
 		{
 			sendMailToUsers(post, userBean.getUser().getMail());
-		}*/ 
-/*		Date dt = new java.util.Date();
-		String currentTime = sdf.format(dt);*/
-
+		}
 		
 	}
 
@@ -113,19 +116,61 @@ public class PostContoller extends HttpServlet {
 	}
 
 	private void sendMail(String senderMail, String recieverMail, Post post) {
- 
-		try{   
-		         MimeMessage message = new MimeMessage(session);  
-		         message.setFrom(new InternetAddress("nikolavidovic47@yahoo.com"));  
-		         message.addRecipient(Message.RecipientType.TO,new InternetAddress("nikolavidovic47@yahoo.com"));  
-		         message.setSubject("Ping");  
-		         message.setText("Hello, this is example of sending email  ");  
-		  
-		         // Send message  
-		         Transport.send(message);  
-		         System.out.println("message sent successfully....");  
-		  
-		      }catch (MessagingException mex) {mex.printStackTrace();}  
+		  // Recipient's email ID needs to be mentioned.
+        String to = "nikolavidovic813@gmail.com";
+
+        // Sender's email ID needs to be mentioned
+        String from = "nikolavidovic813@gmail.com";
+
+        // Assuming you are sending email from through gmails smtp
+        String host = "smtp.gmail.com";
+
+        // Get system properties
+        Properties properties = System.getProperties();
+
+        // Setup mail server
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", "465");
+        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+
+        // Get the Session object.// and pass username and password
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+
+            protected PasswordAuthentication getPasswordAuthentication() {
+
+                return new PasswordAuthentication("nikolavidovic813@gmail.com", "srbin1996");
+
+            }
+
+        });
+
+        // Used to debug SMTP issues
+//        session.setDebug(true);
+
+        try {
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(session);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress(from));
+
+            // Set To: header field of the header.
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+            // Set Subject: header field
+            message.setSubject("This is the Subject Line!");
+
+            // Now set the actual message
+            message.setText("This is actual message");
+
+            System.out.println("sending...");
+            // Send message
+            Transport.send(message);
+            System.out.println("Sent message successfully....");
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
 	}
 }
 
