@@ -262,7 +262,7 @@ function JsonpHttpRequest(url, callback, alpha2Code) {
     }
 }
 
-function fillCountries(){
+function fillCountries(country){
 	var request = new XMLHttpRequest();
 	request.onreadystatechange = function() {
 		if ((request.readyState == 4) && (request.status == 200)) {	
@@ -280,7 +280,7 @@ function fillCountries(){
 }
 
 function searchWeatherForCities(country){
-	fillCountries();
+	fillCountries(country);
 	/*
 	searchWeather("Banja Luka");
 	searchWeather("Doboj");

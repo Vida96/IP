@@ -580,7 +580,9 @@ background-color:  #ffffff;;
                 
                 
                 
-               <script>searchWeatherForCities();</script>
+               <script>
+               var country = "<%= userBean.getUser().getCountry() %>";
+               searchWeatherForCities(country);</script>
   
             </div>
         </div>
