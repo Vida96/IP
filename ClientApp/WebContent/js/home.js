@@ -209,6 +209,7 @@ function shareDanger(){
 		    var previewImage = document.getElementsByClassName("preview-images-zone")[0];
 	        previewImage.innerHTML = "";
 	        previewImage.style.display = "none";
+	        document.getElementById("txtArea").innerHTML = "";
 		}
 	}
 	
@@ -219,23 +220,72 @@ function shareDanger(){
 }
 
 var weatherNum = 0;
-function searchWeatherForCities(){
-	
-	/*var citiesForWeather = [];
-	while(citiesForWeather.length < 3){
-	    var r = Math.floor(Math.random() * 100) + 1;
-	    var city = cities[r];
-	    if(citiesForWeather.indexOf(city) === -1) 
-	    	citiesForWeather.push(r);
+var countries = [];
+var regions = [];
+var citiesForWeather = [];
+
+function JsonpHttpsRequest(url, callback) {
+	  var e = document.createElement('script');
+	    e.src = url;
+	    document.body.appendChild(e);
+	  
+	window[callback] = (data) => {
+    	data.forEach(function(city) {
+    		citiesForWeather.push(city);
+    	});  
+    	if(citiesForWeather.length > 3){
+    	    var cities = [];
+    		while(cities.length < 3){
+    		    var r = Math.floor(Math.random() * citiesForWeather.length) + 1;
+    		    
+    		    var city = citiesForWeather[r].city;
+    		    if(cities.indexOf(city) === -1) 
+    		    	cities.push(city);
+    		}
+    		
+    		cities.forEach(function(city) {
+    			searchWeather(city)
+    			});
+    	}
+    }
+}
+
+function JsonpHttpRequest(url, callback, alpha2Code) {
+    var e = document.createElement('script');
+    e.src = url;
+    document.body.appendChild(e);
+    window[callback] = (data) => {
+    regions = data;   
+    regions.forEach(function(region) {
+    	JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region.region + '&key=5b47cb4975aac7db892603d659b225fd&callback=cb', "cb"); 
+    });
+    }
+}
+
+function fillCountries(){
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function() {
+		if ((request.readyState == 4) && (request.status == 200)) {	
+			var result = JSON.parse(request.responseText);
+			countries = result;
+			var userCountry = countries.filter(function (c) {
+	    	    return c.name === country;
+	    	})[0];
+			JsonpHttpRequest('http://battuta.medunes.net/api/region/' + userCountry.alpha2Code + '/all/?key=5b47cb4975aac7db892603d659b225fd&callback=cb', "cb", userCountry.alpha2Code);
+		
+	};
 	}
-	
-	citiesForWeather.forEach(function(city) {
-		searchWeather(city)
-		});
-		*/
+		request.open("GET", "https://restcountries.eu/rest/v2/region/europe", true);
+		request.send(null);		
+}
+
+function searchWeatherForCities(country){
+	fillCountries();
+	/*
 	searchWeather("Banja Luka");
 	searchWeather("Doboj");
 	searchWeather("Mrkonjic Grad");
+	*/
 }
 
 function searchWeather(cityName) {
@@ -247,7 +297,9 @@ function searchWeather(cityName) {
 	            return result.json();
 	        }).then((res) => {
 	            init(res);
-	    });
+	    }).catch(function() {
+	        console.log("error");
+	    });;
 	}
 
    
@@ -318,7 +370,7 @@ function searchWeather(cityName) {
 			  url: "https://api.rss2json.com/v1/api.json?rss_url=" + feedURL,
 			  dataType: 'jsonp',
 			  success: function(result) {
-			    console.log(result.items);
+			//    console.log(result.items);
 			  }
 			});
 	}

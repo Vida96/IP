@@ -24,7 +24,7 @@ public class UserDAO {
 	
 	private static final String SQL_UPDATE = "UPDATE user set firstname=?, lastname=?, username=?, password=?, photo=?, country=?, region=?, city=?, numberoflogins=?, notificationOnMail=?, notificationInApp=? WHERE id=?";
 	
-	private static final String SQL_SELECT_USERS_FOR_EMERGENCY_MAIL = "SELECT mail FROM user WHERE active=1 AND notificationOnMail=1";
+	private static final String SQL_SELECT_USERS_FOR_EMERGENCY_MAIL = "SELECT mail FROM user WHERE active=1 AND notificationOnMail=1 AND mail <>?";
 	
 	public static User getUserByUsernameAndActive(String username, Integer active){
 		User user = null;
@@ -169,16 +169,19 @@ public class UserDAO {
 		return user;
 	}
 
-	public static List<String> getUsersMailsForEmergencyMail() {
+	public static List<String> getUsersMailsForEmergencyMail(String senderMail) {
 		List<String> usersMails = new java.util.ArrayList<>();
 		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 		Connection connection = null;
+		Object values[] = {senderMail};
+	
 		try {
 			connection = connectionPool.checkOut();
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_USERS_FOR_EMERGENCY_MAIL);
+			PreparedStatement preparedStatement = DAOUtil.prepareStatement(connection, SQL_SELECT_USERS_FOR_EMERGENCY_MAIL, false, values);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				String mail = resultSet.getString(1);
+				System.out.println(mail);
 				usersMails.add(mail);
 			}
 		} catch (Exception e) {

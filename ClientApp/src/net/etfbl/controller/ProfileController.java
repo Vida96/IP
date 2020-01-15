@@ -32,7 +32,7 @@ public class ProfileController extends HttpServlet {
 
 		    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		    	request.setCharacterEncoding("UTF-8");		
-				String address = "/WEB-INF/pages/profile.jsp";
+				String address = "/WEB-INF/pages/profileUpdate.jsp";
 				String action = request.getParameter("action");
 				HttpSession session = request.getSession();
 				UserBean userBean = (UserBean)session.getAttribute("userBean");
@@ -41,7 +41,7 @@ public class ProfileController extends HttpServlet {
 					response.sendRedirect(request.getContextPath()+"/Login");
 				}
 				else {
-					address = "/WEB-INF/pages/profile.jsp";
+					address = "/WEB-INF/pages/profileUpdate.jsp";
 					RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 					dispatcher.forward(request, response);
 				}

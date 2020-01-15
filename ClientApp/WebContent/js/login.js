@@ -33,7 +33,6 @@ function validateFields(){
 		
 		if((request.readyState ==4) && (request.status==200))
 		{
-			alert(2)
 			if(this.responseText.trim() == "USERNAME_ERROR") {
 				document.getElementById("usernameLabel").innerHTML = "Neispravno korisnicko ime ili lozinka";
 				return false;
