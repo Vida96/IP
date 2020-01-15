@@ -13,7 +13,7 @@
 <script> window.onload = initializeComponents;</script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+ 
 <!------ Include the above in your HEAD tag ---------->
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -184,15 +184,16 @@ background-color:  #ffffff;;
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+ 
 <!------ Include the above in your HEAD tag ---------->
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyASALqo3BcfC125acwVTv1AspJGx1K-F_E"></script>
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
         crossorigin="anonymous">
         
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+ 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -307,7 +308,6 @@ background-color:  #ffffff;;
 </label> </div>
 <br>
 
-
 <br>
      
                         <div style="float:right" class="btn-toolbar justify-content-between">
@@ -407,39 +407,59 @@ background-color:  #ffffff;;
 
                     </div>
                     <div class="card-body">
-                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> 10 min ago</div>
-                        <a class="card-link" href="#">
-                            <h5 class="card-title"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit consectetur
-                                deserunt illo esse distinctio.</h5>
-                        </a>
-
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam omnis nihil, aliquam est, voluptates officiis iure soluta
-                            alias vel odit, placeat reiciendis ut libero! Quas aliquid natus cumque quae repellendus.
-                        </p>
-                     </div>
-                     <div class="preview-images-zone">
-        <div class="preview-image preview-show-1">
-            <div class="image-cancel" data-no="1">x</div>
-            <div class="image-zone"><img id="pro-img-1" src="https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzA5Ny85NTkvb3JpZ2luYWwvc2h1dHRlcnN0b2NrXzYzOTcxNjY1LmpwZw=="></div>
-            <div class="tools-edit-image"><a href="javascript:void(0)" data-no="1" class="btn btn-light btn-edit-image">edit</a></div>
-        </div>
-        <div class="preview-image preview-show-2">
-            <div class="image-cancel" data-no="2">x</div>
-            <div class="image-zone"><img id="pro-img-2" src="https://www.codeproject.com/KB/GDI-plus/ImageProcessing2/flip.jpg"></div>
-            <div class="tools-edit-image"><a href="javascript:void(0)" data-no="2" class="btn btn-light btn-edit-image">edit</a></div>
-        </div>
-        <div class="preview-image preview-show-3">
-            <div class="image-cancel" data-no="3">x</div>
-            <div class="image-zone"><img id="pro-img-3" src="http://i.stack.imgur.com/WCveg.jpg"></div>
-            <div class="tools-edit-image"><a href="javascript:void(0)" data-no="3" class="btn btn-light btn-edit-image">edit</a></div>
+                     
+                    
+    <div class="well"> 
+        <div class="row">
+             <div class="col-md-12">
+              <div style="vertical-align : top;margin-left : 10px; " class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 40 minuta</div>
+                <h1 style="vertical-align : top;margin-left : 10px; " >TITULO LARGO DE UNA INVESTIGACION cualquiera</h1> 
+                     
+                 <div class="pull-left col-md-4 col-xs-12 thumb-contenido"><img width="350" height="200"  class="center-block img-responsive" src='https://thumbs.dreamstime.com/b/danger-warning-sign-word-text-as-stencil-yellow-black-stripes-painted-over-concrete-wall-cement-texture-background-129318369.jpg' /></div>
+             
+                     <p  style="vertical-align : top;margin-left : 15px; " >Sed porttitor lectus nibh. Nulla quis lorem ut libero malesuada feugiat. 
+                 Quisque velit nisi, pretium ut lacinia in, elementum id enim. Sed porttitor lectus nibh.
+                 Nulla porttitor accumsan tincidunt. Vivamus suscipit tortor eget felis porttitor volutpat.
+                 Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur aliquet quam id dui posuere blandit.
+                 Sed porttitor lectus nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sapien massa, 
+                 convallis a pellentesque nec, egestas non nisi. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat.
+                 Donec rutrum congue leo eget malesuada.<br><br>
+              </p> 
+             </div>
         </div>
     </div>
+ 
+                     </div>
+             
                     <div class="card-footer">
                        <button type="button" onClick="focusCommentBox()" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
                        <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podjeli na fb</button>
                        <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podjeli na twitter</button>
                     </div>
+                     <div class="row" style="margin:5px" >
+    <div class="col-sm-2 text-center">
+      <img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" class="img-circle" height="130" width="130" alt="Avatar">
+    </div>
+    <div class="col-sm-10">
+      <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
+      <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg">
+      <br>
+      </div>
+    </div>
+    <hr>
+       <div class="row" style="margin:5px" >
+    <div class="col-sm-2 text-center">
+      <img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" class="img-circle" height="130" width="130" alt="Avatar">
+    </div>
+    <div class="col-sm-10">
+      <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
+      <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg">
+      <br>
+      </div>
+    </div>
+    
                         <div class="card gedf-card">
             <div class="panel panel-info">
                 <div class="panel-body">
@@ -456,7 +476,7 @@ background-color:  #ffffff;;
                             
     </fieldset>
                   
-                   <br><br>
+                   <br><br><br>
                 <!-- Post /////-->
 
 

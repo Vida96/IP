@@ -24,6 +24,7 @@ function initializeComponents()
 	    types: ['geocode'],
 	});
   document.addEventListener("click", toggleDropdown);
+  getFeed();
 }
 
 function focusCommentBox(){
@@ -236,6 +237,7 @@ function searchWeatherForCities(){
 	searchWeather("Doboj");
 	searchWeather("Mrkonjic Grad");
 }
+
 function searchWeather(cityName) {
 	let appId = 'c184fa574eb152bfe0cab958d44d62de';
 	let units = 'metric';//'imperial'; 
@@ -305,3 +307,20 @@ function searchWeather(cityName) {
 	 
 		
 	}	
+	
+	
+	function getFeed()
+	{
+ 
+		var feedURL = "https://europa.eu/newsroom/calendar.xml_en?field_nr_events_by_topic_tid=151";
+		$.ajax({
+			  type: 'GET',
+			  url: "https://api.rss2json.com/v1/api.json?rss_url=" + feedURL,
+			  dataType: 'jsonp',
+			  success: function(result) {
+			    console.log(result.items);
+			  }
+			});
+	}
+	
+	 
