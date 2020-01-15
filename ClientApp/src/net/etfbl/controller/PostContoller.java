@@ -107,7 +107,7 @@ public class PostContoller extends HttpServlet {
 	}
 
 	private void sendMailToUsers(Post post, String senderMail) {
-		List<String> usersMails = UserDAO.getUsersMailsForEmergencyMail();
+		List<String> usersMails = UserDAO.getUsersMailsForEmergencyMail(senderMail);
 		
 	 for(String recieverMail : usersMails) {
 		System.out.println(recieverMail);	
