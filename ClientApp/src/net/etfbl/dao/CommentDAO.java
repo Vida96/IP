@@ -14,7 +14,7 @@ public class CommentDAO {
 
 	private static final String SQL_INSERT = "INSERT INTO comment (text, image, postId) VALUES (?,?,?)";
 	
-	private static final String SQL_SELECT_POST_COMMENTS = "SELECT * FROM comment WHERE postid=?";
+	private static final String SQL_SELECT_POST_COMMENTS = "SELECT * FROM comment WHERE post_id=?";
 	
 	public static boolean insert(Comment postComment) {
 		boolean result = false;

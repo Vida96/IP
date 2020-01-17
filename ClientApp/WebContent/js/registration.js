@@ -47,7 +47,7 @@ function validateFields(){
 		document.getElementById("confirmedPasswordLabel").innerHTML = "";
 	
 	let mail = document.getElementById("mail").value;
-	let regex = /[^@]+@[^@]+.[a-zA-Z]{2,6}/;
+	let regex = /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/;
 	if(!regex.test(String(mail).toLowerCase())) {
 		document.getElementById("mailLabel").innerHTML = "* Mail nije validan";
 		condition = false;

@@ -29,7 +29,7 @@
 }
 .weatherContainer h1 {
     margin: 5px;
-    font-size: 42px;
+    font-size: 25px;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 .searchContainer {
@@ -46,7 +46,7 @@
     display: inline-block;
 }
 .weatherDescriptionHeader {
-    font-size: 28px;
+    font-size: 22px;
     vertical-align: 50%;
 }
 .temperature {
@@ -55,7 +55,7 @@
 }
 .bottom-details {
     display: block;
-    font-size: 24px;
+    font-size: 15px;
     text-align: right;
 }
 hr {
@@ -333,7 +333,7 @@ background-color:  #ffffff;;
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                                    <img class="rounded-circle" width="45" src=<%=p.getCreator().getPhoto()%> alt="">
                                 </div>
                                 <div class="ml-2">
                                     <div class="h5 m-0">@<%out.println(p.getCreator().getUsername());%></div>
@@ -412,12 +412,11 @@ background-color:  #ffffff;;
     <div class="well"> 
         <div class="row">
              <div class="col-md-12">
-              <div style="vertical-align : top;margin-left : 10px; " class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 40 minuta</div>
-                <h1 style="vertical-align : top;margin-left : 10px; " >TITULO LARGO DE UNA INVESTIGACION cualquiera</h1> 
+              <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 40 minuta</div>
+                <h1>TITULO LARGO DE UNA INVESTIGACION cualquiera</h1> 
                      
-                 <div class="pull-left col-md-4 col-xs-12 thumb-contenido"><img width="350" height="200"  class="center-block img-responsive" src='https://thumbs.dreamstime.com/b/danger-warning-sign-word-text-as-stencil-yellow-black-stripes-painted-over-concrete-wall-cement-texture-background-129318369.jpg' /></div>
-             
-                     <p  style="vertical-align : top;margin-left : 15px; " >Sed porttitor lectus nibh. Nulla quis lorem ut libero malesuada feugiat. 
+                 <img width="200" height="200"  class="center-block img-responsive" src='https://thumbs.dreamstime.com/b/danger-warning-sign-word-text-as-stencil-yellow-black-stripes-painted-over-concrete-wall-cement-texture-background-129318369.jpg' />
+            	 <p>Sed porttitor lectus nibh. Nulla quis lorem ut libero malesuada feugiat. 
                  Quisque velit nisi, pretium ut lacinia in, elementum id enim. Sed porttitor lectus nibh.
                  Nulla porttitor accumsan tincidunt. Vivamus suscipit tortor eget felis porttitor volutpat.
                  Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur aliquet quam id dui posuere blandit.
@@ -433,12 +432,12 @@ background-color:  #ffffff;;
              
                     <div class="card-footer">
                        <button type="button" onClick="focusCommentBox()" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
-                       <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podjeli na fb</button>
-                       <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podjeli na twitter</button>
+                       <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
+                       <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
                     </div>
                      <div class="row" style="margin:5px" >
     <div class="col-sm-2 text-center">
-      <img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" class="img-circle" height="130" width="130" alt="Avatar">
+                <img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">
     </div>
     <div class="col-sm-10">
       <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
@@ -450,7 +449,7 @@ background-color:  #ffffff;;
     <hr>
        <div class="row" style="margin:5px" >
     <div class="col-sm-2 text-center">
-      <img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" class="img-circle" height="130" width="130" alt="Avatar">
+    	<img class="rounded-circle" width="60" src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" alt="">
     </div>
     <div class="col-sm-10">
       <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
@@ -477,62 +476,8 @@ background-color:  #ffffff;;
     </fieldset>
                   
                    <br><br><br>
-                <!-- Post /////-->
-
-
-                <!--- \\\\\\\Post-->
-                <div class="card gedf-card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
-                                </div>
-                                <div class="ml-2">
-                                    <div class="h5 m-0">@LeeCross</div>
-                                    <div class="h7 text-muted">Miracles Lee Cross</div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="dropdown">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-ellipsis-h"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                        <div class="h6 dropdown-header">Configuration</div>
-                                        <a class="dropdown-item" href="#">Save</a>
-                                        <a class="dropdown-item" href="#">Hide</a>
-                                        <a class="dropdown-item" href="#">Report</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+    
                     </div>
-                    <div class="card-body">
-                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Hace 40 min</div>
-                        <a class="card-link" href="#">
-                            <h5 class="card-title">Totam non adipisci hic! Possimus ducimus amet, dolores illo ipsum quos
-                                cum.</h5>
-                        </a>
-
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sunt fugit reprehenderit consectetur exercitationem odio,
-                            quam nobis? Officiis, similique, harum voluptate, facilis voluptas pariatur dolorum tempora sapiente
-                            eius maxime quaerat.
-                            <a href="https://mega.nz/#!1J01nRIb!lMZ4B_DR2UWi9SRQK5TTzU1PmQpDtbZkMZjAIbv97hU" target="_blank">https://mega.nz/#!1J01nRIb!lMZ4B_DR2UWi9SRQK5TTzU1PmQpDtbZkMZjAIbv97hU</a>
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                        <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
-                    </div>
-                </div>
-                <!-- Post /////-->
-                 <br> <br>
-            
-                </div>
             <div class="col-md-3">
                 <div class="card gedf-card">
                     <div class="weatherContainer" id="weatherContainer0">

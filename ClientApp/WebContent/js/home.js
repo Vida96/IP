@@ -183,6 +183,9 @@ function shareDanger(){
 
     var emergencyCb = document.getElementById('emergencyCb');
     
+    if((video == null) && (images.length == 0) && (description == "") && (location == ""))
+    	return false;
+    
 	let object = {
 		description: description,
 		location: location,
@@ -206,6 +209,7 @@ function shareDanger(){
 			for (var i=0; i< checkboxes.length; i++) {
 				checkboxes[i].checked = false;	
 			}
+			document.getElementById('emergencyCb').checked = false;	
 		    var previewImage = document.getElementsByClassName("preview-images-zone")[0];
 	        previewImage.innerHTML = "";
 	        previewImage.style.display = "none";
@@ -223,29 +227,31 @@ var weatherNum = 0;
 var countries = [];
 var regions = [];
 var citiesForWeather = [];
+var cities = [];
 
-function JsonpHttpsRequest(url, callback) {
+function JsonpHttpsRequest(url, callback, isLastRegion) {
 	  var e = document.createElement('script');
 	    e.src = url;
 	    document.body.appendChild(e);
 	  
 	window[callback] = (data) => {
     	data.forEach(function(city) {
-    		citiesForWeather.push(city);
-    	});  
-    	if(citiesForWeather.length > 3){
-    	    var cities = [];
+    		citiesForWeather.push(city);	
+    	}); 
+    	
+    	if(isLastRegion && citiesForWeather.length > 0 && cities.length < 3){
     		while(cities.length < 3){
-    		    var r = Math.floor(Math.random() * citiesForWeather.length) + 1;
+    		    var r = Math.floor(Math.random() * citiesForWeather.length);
     		    
     		    var city = citiesForWeather[r].city;
     		    if(cities.indexOf(city) === -1) 
     		    	cities.push(city);
     		}
-    		
     		cities.forEach(function(city) {
     			searchWeather(city)
     			});
+    		cities = [];
+    		citiesForWeather = [];
     	}
     }
 }
@@ -255,10 +261,15 @@ function JsonpHttpRequest(url, callback, alpha2Code) {
     e.src = url;
     document.body.appendChild(e);
     window[callback] = (data) => {
-    regions = data;   
-    regions.forEach(function(region) {
-    	JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region.region + '&key=277351d6d51092ada87a03b9a8920b11&callback=cb', "cb"); 
-    });
+    regions = data;  
+    var isLastRegion = false;
+    regions.forEach(function(region, idx, array){
+    	   if (idx === regions.length - 1){ 
+    	 		isLastRegion = true;
+    	   }
+    	   	JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region.region + '&key=277351d6d51092ada87a03b9a8920b11&callback=cb', "cb", isLastRegion); 
+    	    
+    	});
     }
 }
 
@@ -272,7 +283,6 @@ function fillCountries(country){
 	    	    return c.name === country;
 	    	})[0];
 			JsonpHttpRequest('http://battuta.medunes.net/api/region/' + userCountry.alpha2Code + '/all/?key=277351d6d51092ada87a03b9a8920b11&callback=cb', "cb", userCountry.alpha2Code);
-		
 	};
 	}
 		request.open("GET", "https://restcountries.eu/rest/v2/region/europe", true);

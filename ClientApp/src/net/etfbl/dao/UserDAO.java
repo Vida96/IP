@@ -159,6 +159,7 @@ public class UserDAO {
 				user = new User();
 				user.setId(rs.getInt("id"));
 				user.setUsername(rs.getString("username"));
+				user.setphoto(rs.getString("photo"));
 	  		}
 			pstmt.close();
 		} catch (SQLException exp) {
@@ -181,7 +182,6 @@ public class UserDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				String mail = resultSet.getString(1);
-				System.out.println(mail);
 				usersMails.add(mail);
 			}
 		} catch (Exception e) {

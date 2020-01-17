@@ -60,10 +60,10 @@ public class PostDAO {
 			PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ACTIVE_UNEMERGENCY_POSTS);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				Integer userId = rs.getInt("userId");
+				Integer userId = rs.getInt("user_Id");
 				postCreator = UserDAO.getById(userId);
 				postId = rs.getInt("id");
-				Post post = new Post(postId, rs.getString("text"), postCreator, rs.getString("creationTime"), rs.getString("location"), rs.getString(" video"));
+				Post post = new Post(postId, rs.getString("text"), postCreator, rs.getString("time"), rs.getString("location"), rs.getString("video"));
 				images  = ImageDAO.getById(postId);
 				post.setImages(images);
 				comments = CommentDAO.getAllpostComments(postId);

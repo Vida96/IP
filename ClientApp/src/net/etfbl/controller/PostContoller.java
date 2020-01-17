@@ -53,14 +53,16 @@ public class PostContoller extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-		JSONObject jsonObject = new JSONObject(jsonText);
-		createDanger(jsonObject, request);
-	}
-
-	private void createDanger(JSONObject jsonObject, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		UserBean userBean = (UserBean)session.getAttribute("userBean");
+		if((userBean != null) && (userBean.isLoggedIn())){ 
+		String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+		JSONObject jsonObject = new JSONObject(jsonText);
+		createDanger(jsonObject, request, userBean);
+		}
+	}
+
+	private void createDanger(JSONObject jsonObject, HttpServletRequest request, UserBean userBean) {
 		String description = null, location = null, video = null;
 		List<String> images = null;
 		Integer[] categoriesId = null;
@@ -108,10 +110,9 @@ public class PostContoller extends HttpServlet {
 
 	private void sendMailToUsers(Post post, String senderMail) {
 		List<String> usersMails = UserDAO.getUsersMailsForEmergencyMail(senderMail);
-		
+
 	 for(String recieverMail : usersMails) {
 		System.out.println(recieverMail);	
-		 //sendMail(senderMail, recieverMail, post);
 		} 
 	}
 

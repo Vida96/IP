@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ImageDAO {
 
-	private static final String SQL_SELECT_BY_ID = "SELECT * FROM photo WHERE postId=?";
+	private static final String SQL_SELECT_BY_POST_ID = "SELECT * FROM photo WHERE post_Id=?";
 	
 	private static final String SQL_INSERT = "INSERT INTO photo (name, post_id) VALUES (?,?)";
 	
@@ -47,7 +47,7 @@ public class ImageDAO {
 		Object values[] = {postId};
 		try {
 			connection = connectionPool.checkOut();
-			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_BY_ID, false, values);
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_BY_POST_ID, false, values);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
 				String photoName = rs.getString("name");
