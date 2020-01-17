@@ -321,7 +321,7 @@ background-color:  #ffffff;;
  
                
                 <!-- Post /////-->
-
+<div class="postsZone">
 
    						   <%
 				               List<Post> posts = postBean.getAllActivePosts();
@@ -378,6 +378,7 @@ background-color:  #ffffff;;
 				           	
 				           	 <% } %>
 
+</div>
                 <!--- \\\\\\\Post-->
                 <!-- Post /////-->
 
@@ -440,7 +441,7 @@ background-color:  #ffffff;;
                        <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
                        <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
                     </div>
-                    <div class="commentZone">
+                    <div class="commentsZone">
                      <div class="row" style="margin:5px" >
     <div class="col-sm-2 text-center">
                 <img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">
@@ -476,7 +477,7 @@ background-color:  #ffffff;;
                 </div>
                           
                     <fieldset style="float:right" class="form-group">
-        <a href="javascript:void(0)" onclick="$('#pro-image2').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>
+        <a  href="javascript:void(0)" style="float:right;" onclick="$('#pro-image2').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>
         <input type="file" id="pro-image2" name="pro-image2" style="display: none;" class="form-control" onChange="readImageForComment()" multiple>
                             
     </fieldset>

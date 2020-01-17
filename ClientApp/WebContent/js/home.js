@@ -184,8 +184,11 @@ function shareDanger(){
     }else{
     	var str = description;
     	var urlRE= new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
-    	link = str.match(urlRE)[0];
-    	description = description.replace(link,'');
+    	if(str.match(urlRE) != null)
+    	{
+    		link = str.match(urlRE)[0];
+    		description = description.replace(link,'');
+    		}
     }
 
     var emergencyCb = document.getElementById('emergencyCb');
@@ -208,6 +211,10 @@ function shareDanger(){
 		
 		if((request.readyState ==4) && (request.status==200))
 		{
+			
+			//appendDiv
+			displayDanger();
+			
 			//izbrisati sve podatke 
 			images = [];
 			video = null;
@@ -229,6 +236,30 @@ function shareDanger(){
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	request.send(JSON.stringify(object));
 
+}
+
+function displayDanger(){
+    var div = document.createElement("div");
+    var output = document.getElementsByClassName("postsZone")[0];  
+    
+	var html =  '<br><div class="card gedf-card"><div class="card-header"><div class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-between align-items-center">' +
+    '<div class="mr-2"><img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt=""></div><div class="ml-2"><div class="h5 m-0">@LeeCross</div><div class="h7 text-muted">Miracles Lee Cross</div>' +
+    '</div></div><div><div class="dropdown"><button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+    '<i class="fa fa-ellipsis-h"></i></button><div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1"><div class="h6 dropdown-header">Configuration</div>' +
+    '<a class="dropdown-item" href="#">Save</a><a class="dropdown-item" href="#">Hide</a><a class="dropdown-item" href="#">Report</a></div></div></div></div></div>' +
+    '<div class="card-body"><div class="well"> <div class="row"><div class="col-md-12"><div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 40 minuta</div>' +
+    '<h1>TITULO LARGO DE UNA INVESTIGACION cualquiera</h1><img width="200" height="200"  class="center-block img-responsive" src="https:thumbs.dreamstime.com/b/danger-warning-sign-word-text-as-stencil-yellow-black-stripes-painted-over-concrete-wall-cement-texture-background-129318369.jpg" />' +
+    '<p>Sed porttitor lectus nibh. Nulla quis lorem ut libero malesuada feugiat. Donec rutrum congue leo eget malesuada.<br><br></p></div></div></div></div>' +
+    '<div class="card-footer"><button type="button" onClick="focusCommentBox()" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>' +
+    '<button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>' +
+    '<button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>' +
+    '</div></div><div class="card gedf-card"><div class="panel panel-info"><div class="panel-body"><textarea id="commentBox" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress();"></textarea>' +
+    '<div style="float:right; display: none;" class="preview-images-zone"></div></div></div></div><fieldset style="float:right" class="form-group"><a  href="javascript:void(0)" style="float:right;" onclick="$("#pro-image2").click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>' +
+    '<input type="file" id="pro-image2" name="pro-image2" style="display: none;" class="form-control" onChange="readImageForComment()" multiple></fieldset><br><br>';
+
+	div.innerHTML = html + output.innerHTML;
+	output.innerHTML = "";
+	output.append(div);	
 }
 
 var weatherNum = 0;
@@ -376,16 +407,15 @@ function searchWeather(cityName) {
 	function addComment(text, imageComment){
 
         var div = document.createElement("div");
-        var output = document.getElementsByClassName("commentZone")[0];  
-		var html =  ' <div class="row" style="margin:5px"> <div class="col-sm-2 text-center"> <img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">' +
-'</div><div class="col-sm-10"><h4>John Row <small>Sep 25, 2015, 8:25 PM</small>' +
-'<img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg"><br></div></div>';
-div.innerHTML = html + output.innerHTML;
-output.innerHTML = "";
-output.append(div);
-		
+        var output = document.getElementsByClassName("commentsZone")[0];  
+        
+		var html =  '<div class="row" style="margin:5px"><div class="col-sm-2 text-center"><img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">' +
+			'</div><div class="col-sm-10"><h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4><p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>' +
+			'<img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg"><br></div></div><hr>';
+		div.innerHTML = html + output.innerHTML;
+		output.innerHTML = "";
+		output.append(div);
 	}	
-	
 	
 	function getFeed()
 	{
