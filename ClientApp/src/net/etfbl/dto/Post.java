@@ -9,12 +9,14 @@ public class Post {
 	private String creationTime; 
 	private String location;
 	private String video;
-    private List<String> images;
+	private String link;
+	private List<String> images;
     private Integer isEmergency;
 	private List<Comment> commments;
 	private Integer userId;
 	
-	public Post(Integer id, String text, User creator, String creationTime, String location, String video) {
+	
+	public Post(Integer id, String text, User creator, String creationTime, String location, String video, String link) {
 		super();
 		this.id = id;
 		this.text = text;
@@ -22,9 +24,10 @@ public class Post {
 		this.creationTime = creationTime;
 		this.location = location;
 		this.video = video;
+		this.link = link;
 	}
 
-    public Post(String text, User creator, String creationTime, String location, String video, Integer isEmergency) {
+    public Post(String text, User creator, String creationTime, String location, String video, Integer isEmergency, String link) {
 		super();
 		this.text = text;
 		this.creator = creator;
@@ -32,6 +35,7 @@ public class Post {
 		this.location = location;
 		this.video = video;
 		this.isEmergency = isEmergency;
+		this.link = link;
 	}
 
 	public Integer getId() {
@@ -115,6 +119,14 @@ public class Post {
 		this.isEmergency = isEmergency;
 	}
 
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+	
 	@Override
 	public String toString() {
 		return "Post [id=" + id + ", text=" + text + ", creator=" + creator + ", creationTime=" + creationTime

@@ -55,7 +55,7 @@ function validateFields(){
 	let mail = document.getElementById("email").value;
 	let regex = /[^@]+@[^@]+.[a-zA-Z]{2,6}/;
 	if(!regex.test(String(mail).toLowerCase())) {
-		document.getElementById("mailLabel").innerHTML = "Mail nije validan";
+		document.getElementById("mailLabel").innerHTML = "* Samo google mail prihvatljiv";
 		return false;
 	}
 	else if(password == null || password == "")

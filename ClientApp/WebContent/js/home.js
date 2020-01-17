@@ -174,11 +174,18 @@ function shareDanger(){
 	   }
 	}
 	
-    var url = description;
+	var url = description;
     var regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i, match = String(url).match(regExp);
+    var link;
     
     if (match) {
     	  video = match;
+    	  description = description.replace(video,'');
+    }else{
+    	var str = description;
+    	var urlRE= new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
+    	link = str.match(urlRE)[0];
+    	description = description.replace(link,'');
     }
 
     var emergencyCb = document.getElementById('emergencyCb');
@@ -192,7 +199,8 @@ function shareDanger(){
 		checkboxesChecked: checkboxesChecked,
 		images: images,
 	    video: video,
-	    isEmergency: emergencyCb.checked
+	    isEmergency: emergencyCb.checked,
+	    link: link
 	}
  
 	let request = new XMLHttpRequest();
@@ -357,7 +365,7 @@ function searchWeather(cityName) {
 	        previewImage.style.display = "none";
 	    	document.getElementById("commentBox").value = "";
 	    	document.getElementById("commentBox").blur();
-	    	addComment(text, imageComment);
+	    	 
 	    	return false;
 	    }
 	    else {
@@ -366,7 +374,15 @@ function searchWeather(cityName) {
 	}
 	
 	function addComment(text, imageComment){
-	 
+
+        var div = document.createElement("div");
+        var output = document.getElementsByClassName("commentZone")[0];  
+		var html =  ' <div class="row" style="margin:5px"> <div class="col-sm-2 text-center"> <img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">' +
+'</div><div class="col-sm-10"><h4>John Row <small>Sep 25, 2015, 8:25 PM</small>' +
+'<img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg"><br></div></div>';
+div.innerHTML = html + output.innerHTML;
+output.innerHTML = "";
+output.append(div);
 		
 	}	
 	

@@ -63,7 +63,7 @@ public class PostContoller extends HttpServlet {
 	}
 
 	private void createDanger(JSONObject jsonObject, HttpServletRequest request, UserBean userBean) {
-		String description = null, location = null, video = null;
+		String description = null, location = null, video = null, link = null;
 		List<String> images = null;
 		Integer[] categoriesId = null;
 		
@@ -88,7 +88,10 @@ public class PostContoller extends HttpServlet {
 		if (!jsonObject.isNull("video")){
 			video = jsonObject.getString("video");
 		}
-
+		if (!jsonObject.isNull("link")){
+			link = jsonObject.getString("link");
+		}
+		
 		Integer isEmergency = jsonObject.getBoolean("isEmergency")? 1 : 0;
 		User postCreator = userBean.getUser();
 		
@@ -96,7 +99,7 @@ public class PostContoller extends HttpServlet {
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String currentTime = sdf.format(dt);
 		
-		Post post = new Post(description, postCreator, currentTime, location, video, isEmergency);
+		Post post = new Post(description, postCreator, currentTime, location, video, isEmergency, link);
 		post.setImages(images);
 		post.setUserId(userBean.getUser().getId());
 		PostDAO.insert(post);

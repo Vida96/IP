@@ -15,7 +15,7 @@ public class PostDAO {
 
 	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 	  
-	private static final String SQL_INSERT = "INSERT INTO post (text, user_id, time, location, video, isEmergency) VALUES (?,?, ?,?,?, ?)";
+	private static final String SQL_INSERT = "INSERT INTO post (text, user_id, time, location, video, link, isEmergency) VALUES (?,?, ?,?,?,?,?)";
 	
 	private static final String SQL_SELECT_ACTIVE_UNEMERGENCY_POSTS = "SELECT * FROM post WHERE active=1 AND isEmergency=0";
 	
@@ -25,7 +25,7 @@ public class PostDAO {
 		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 		ResultSet generatedKeys = null;
 		Integer postId;
-		Object values[] = { post.getText(), post.getUserId(), post.getCreationTime(), post.getLocation(), post.getVideo(), post.getIsEmergency()};
+		Object values[] = { post.getText(), post.getUserId(), post.getCreationTime(), post.getLocation(), post.getVideo(), post.getLink(), post.getIsEmergency()};
 		try {
 			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
@@ -63,7 +63,7 @@ public class PostDAO {
 				Integer userId = rs.getInt("user_Id");
 				postCreator = UserDAO.getById(userId);
 				postId = rs.getInt("id");
-				Post post = new Post(postId, rs.getString("text"), postCreator, rs.getString("time"), rs.getString("location"), rs.getString("video"));
+				Post post = new Post(postId, rs.getString("text"), postCreator, rs.getString("time"), rs.getString("location"), rs.getString("video"), rs.getString("link"));
 				images  = ImageDAO.getById(postId);
 				post.setImages(images);
 				comments = CommentDAO.getAllpostComments(postId);
