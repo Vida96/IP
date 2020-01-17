@@ -175,7 +175,6 @@
                            <div class="col-xs-12">
                                 <br>
                               	<button class="btn btn-lg btn-success" type="submit" onclick="event.preventDefault(); return validateFields()"><i class="glyphicon glyphicon-ok-sign"></i> Sačuvaj</button>
-                               	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-home"></i> Prelazak na početnu stranicu</button>
                             </div>
                       </div>
               	</form>
