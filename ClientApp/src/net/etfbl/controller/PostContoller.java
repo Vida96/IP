@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import net.etfbl.beans.UserBean;
 import net.etfbl.dao.ImageDAO;
+import net.etfbl.dao.PostCategoryDAO;
 import net.etfbl.dao.PostDAO;
 import net.etfbl.dao.UserDAO;
 import net.etfbl.dto.Post;
@@ -65,7 +66,7 @@ public class PostContoller extends HttpServlet {
 	private void createDanger(JSONObject jsonObject, HttpServletRequest request, UserBean userBean) {
 		String description = null, location = null, video = null, link = null;
 		List<String> images = null;
-		Integer[] categoriesId = null;
+		List<Integer> categoriesId = null;
 		
 		if (!jsonObject.isNull("description")){
 			description = jsonObject.getString("description");
@@ -75,9 +76,9 @@ public class PostContoller extends HttpServlet {
 		}
 		if (!jsonObject.isNull("checkboxesChecked")){
 			JSONArray jsonCategoriesId = jsonObject.getJSONArray("checkboxesChecked");
-			categoriesId = new Integer[jsonCategoriesId.length()];
+			categoriesId = new ArrayList<Integer>();
 			for(int i = 0; i < jsonCategoriesId.length(); i++)
-				categoriesId[i] = jsonCategoriesId.getInt(i); //lista ID-eva kategorija kojoj objava pripada
+				categoriesId.add(jsonCategoriesId.getInt(i)); //lista ID-eva kategorija kojoj objava pripada
 		}
 		if (!jsonObject.isNull("images")){
 			JSONArray jsonImages = jsonObject.getJSONArray("images");
@@ -95,15 +96,16 @@ public class PostContoller extends HttpServlet {
 		Integer isEmergency = jsonObject.getBoolean("isEmergency")? 1 : 0;
 		User postCreator = userBean.getUser();
 		
-		java.util.Date dt = new java.util.Date();
+		java.util.Date postTime = new java.util.Date();
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String currentTime = sdf.format(dt);
+		String currentTime = sdf.format(postTime);
 		
-		Post post = new Post(description, postCreator, currentTime, location, video, isEmergency, link);
+		Post post = new Post(description, postCreator, postTime, location, video, isEmergency, link);
 		post.setImages(images);
 		post.setUserId(userBean.getUser().getId());
 		PostDAO.insert(post);
 		ImageDAO.insert(images, 1); //postId
+		PostCategoryDAO.insert(categoriesId, 1); //postId
 		if(isEmergency == 1 )
 		{
 			sendMailToUsers(post, userBean.getUser().getMail());

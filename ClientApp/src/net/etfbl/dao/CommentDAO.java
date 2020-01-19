@@ -12,7 +12,7 @@ import net.etfbl.dto.User;
 
 public class CommentDAO {
 
-	private static final String SQL_INSERT = "INSERT INTO comment (text, image, postId) VALUES (?,?,?)";
+	private static final String SQL_INSERT = "INSERT INTO comment (text, image, time, postId) VALUES (?,?,?,?)";
 	
 	private static final String SQL_SELECT_POST_COMMENTS = "SELECT * FROM comment WHERE post_id=?";
 	
@@ -52,7 +52,7 @@ public class CommentDAO {
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_POST_COMMENTS, false, values);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				Comment comment = new Comment(rs.getString(1), rs.getString(2), rs.getInt(3));
+				Comment comment = new Comment(rs.getString(2), rs.getString(3), rs.getInt(4), "");//, rs.getString(5));
 				postComments.add(comment);
 			}
 		} catch (Exception e) {

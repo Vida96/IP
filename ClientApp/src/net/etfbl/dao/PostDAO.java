@@ -17,7 +17,7 @@ public class PostDAO {
 	  
 	private static final String SQL_INSERT = "INSERT INTO post (text, user_id, time, location, video, link, isEmergency) VALUES (?,?, ?,?,?,?,?)";
 	
-	private static final String SQL_SELECT_ACTIVE_UNEMERGENCY_POSTS = "SELECT * FROM post WHERE active=1 AND isEmergency=0";
+	private static final String SQL_SELECT_ACTIVE_UNEMERGENCY_POSTS = "SELECT * FROM post WHERE active=1 AND isEmergency=0"; //dohvatanje svih aktivnih objava i opasnosti koje nisu hitna upozorenja za prikaz po sredini stranice
 	
 	public static boolean insert(Post post) {
 		boolean result = false;
@@ -52,7 +52,7 @@ public class PostDAO {
 		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 		Connection connection = null;
 		User postCreator = null;
-		List<String> images;
+		List<String> images, categories;
 		List<Comment> comments;
 		Integer postId;
 		try {
@@ -63,11 +63,13 @@ public class PostDAO {
 				Integer userId = rs.getInt("user_Id");
 				postCreator = UserDAO.getById(userId);
 				postId = rs.getInt("id");
-				Post post = new Post(postId, rs.getString("text"), postCreator, rs.getString("time"), rs.getString("location"), rs.getString("video"), rs.getString("link"));
+				Post post = new Post(postId, rs.getString("text"), postCreator, rs.getTimestamp("time"), rs.getString("location"), rs.getString("video"), rs.getString("link"));
 				images  = ImageDAO.getById(postId);
 				post.setImages(images);
 				comments = CommentDAO.getAllpostComments(postId);
 				post.setCommments(comments);
+				categories = PostHasPostCategory.getById(postId);
+				post.setCategories(categories);
 				activePosts.add(post);
 			}
 		} catch (Exception e) {

@@ -27,8 +27,8 @@ function initializeComponents()
   getFeed();
 }
 
-function focusCommentBox(){
-	 document.getElementById("commentBox").focus();
+function focusCommentBox(id){
+	 document.getElementById("commentBox"+id).focus();
 }
 
 function toggleDropdown(event) {
@@ -116,12 +116,12 @@ function getImagePath(){
 }
 
 var imageComment;
-function readImageForComment() {
-
+function readImageForComment(id) {
+	
 	var num = 0;
 	 if (window.File && window.FileList && window.FileReader) {
 		 var files = event.target.files; //FileList object
-	        var output = document.getElementsByClassName("preview-images-zone")[1];
+		    var output = document.getElementsByClassName("preview-images-zone"+id)[0];
         
         for (let i = 0; i < files.length; i++) {
          
@@ -143,7 +143,7 @@ function readImageForComment() {
              num = num + 1;
              
              output.append(div);
-             focusCommentBox();
+             focusCommentBox(id);
             }});
 
         }
@@ -162,15 +162,17 @@ function focusShareOnTwitter(){
 	window.open('http://twitter.com/share?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
 }
 
-function shareDanger(){
+function shareDanger(username, fullName, userPhoto){
 	
 	var description = document.getElementById('dangerDetails').value;
 	var location = document.getElementById('searchInput').value;	 
 	var checkboxes = document.getElementsByName('cbCategory');
 	var checkboxesChecked = [];
+	var cateoriesNames = [];
 	for (var i=0; i< checkboxes.length; i++) {
 	   if (checkboxes[i].checked) {
 	    	 checkboxesChecked.push(checkboxes[i].id);
+	    	 cateoriesNames.push(checkboxes[i].name);
 	   }
 	}
 	
@@ -213,7 +215,8 @@ function shareDanger(){
 		{
 			
 			//appendDiv
-			displayDanger();
+			if(emergencyCb.checked == 0)
+				displayDanger(username, fullName, userPhoto, description, location, images, video, link);
 			
 			//izbrisati sve podatke 
 			images = [];
@@ -238,18 +241,26 @@ function shareDanger(){
 
 }
 
-function displayDanger(){
+function displayDanger(username, fullName, userPhoto, description, location, images, video, link){
     var div = document.createElement("div");
     var output = document.getElementsByClassName("postsZone")[0];  
-    
+    var imagesHtml ="";
+    images.forEach(function (image, index) {
+    	if(index != 0 && index % 4 == 0)
+    		imagesHtml += ' <img width="200" height="200" style="padding-bottom: 5px;" class="center-block img-responsive" src=' + image + '/><br>';
+    	else
+    		imagesHtml += ' <img width="200" height="200" style="padding-bottom: 5px;" class="center-block img-responsive" src=' + image + '/> ';
+    	});
+     
 	var html =  '<br><div class="card gedf-card"><div class="card-header"><div class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-between align-items-center">' +
-    '<div class="mr-2"><img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt=""></div><div class="ml-2"><div class="h5 m-0">@LeeCross</div><div class="h7 text-muted">Miracles Lee Cross</div>' +
+    '<div class="mr-2"><img class="rounded-circle" width="45" src=' + userPhoto + ' alt=""></div><div class="ml-2"><div class="h5 m-0">@' + username + '</div><div class="h7 text-muted">' + fullName + '</div>' +
     '</div></div><div><div class="dropdown"><button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
     '<i class="fa fa-ellipsis-h"></i></button><div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1"><div class="h6 dropdown-header">Configuration</div>' +
     '<a class="dropdown-item" href="#">Save</a><a class="dropdown-item" href="#">Hide</a><a class="dropdown-item" href="#">Report</a></div></div></div></div></div>' +
-    '<div class="card-body"><div class="well"> <div class="row"><div class="col-md-12"><div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 40 minuta</div>' +
-    '<h1>TITULO LARGO DE UNA INVESTIGACION cualquiera</h1><img width="200" height="200"  class="center-block img-responsive" src="https:thumbs.dreamstime.com/b/danger-warning-sign-word-text-as-stencil-yellow-black-stripes-painted-over-concrete-wall-cement-texture-background-129318369.jpg" />' +
-    '<p>Sed porttitor lectus nibh. Nulla quis lorem ut libero malesuada feugiat. Donec rutrum congue leo eget malesuada.<br><br></p></div></div></div></div>' +
+    '<div class="card-body"><div class="well"> <div class="row"><div class="col-md-12"><div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 0 minuta</div>' +
+    '<h1>TITULO LARGO DE UNA INVESTIGACION cualquiera</h1>' +	imagesHtml
+     +
+    '<p>' + description + '<br><br></p></div></div></div></div>' +
     '<div class="card-footer"><button type="button" onClick="focusCommentBox()" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>' +
     '<button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>' +
     '<button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>' +
@@ -306,7 +317,7 @@ function JsonpHttpRequest(url, callback, alpha2Code) {
     	   if (idx === regions.length - 1){ 
     	 		isLastRegion = true;
     	   }
-    	   	JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region.region + '&key=277351d6d51092ada87a03b9a8920b11&callback=cb', "cb", isLastRegion); 
+    	   	JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region.region + '&key=ceab192fc6bd24fbec5aa769affe791c&callback=cb', "cb", isLastRegion); 
     	    
     	});
     }
@@ -321,7 +332,7 @@ function fillCountries(country){
 			var userCountry = countries.filter(function (c) {
 	    	    return c.name === country;
 	    	})[0];
-			JsonpHttpRequest('http://battuta.medunes.net/api/region/' + userCountry.alpha2Code + '/all/?key=277351d6d51092ada87a03b9a8920b11&callback=cb', "cb", userCountry.alpha2Code);
+			JsonpHttpRequest('http://battuta.medunes.net/api/region/' + userCountry.alpha2Code + '/all/?key=ceab192fc6bd24fbec5aa769affe791c&callback=cb', "cb", userCountry.alpha2Code);
 	};
 	}
 		request.open("GET", "https://restcountries.eu/rest/v2/region/europe", true);
@@ -384,37 +395,49 @@ function searchWeather(cityName) {
 	    weatherNum = weatherNum + 1;
 	}
 	
-	function onEnterPress() {
+	function onEnterPress(id, fullName, userPhoto) {
 	    var key = window.event.keyCode;
  
 	    if (key === 13) {
-	    	var text = document.getElementById("commentBox").value;
-	    	addComment(text, imageComment);
+	    	var text = document.getElementById("commentBox"+id).value;
+	    	if(text != '' || imageComment != null){
+	    	addComment(text, imageComment, id, fullName, userPhoto);
 
-	        var previewImage = document.getElementsByClassName("preview-images-zone")[1];
+	        var previewImage = document.getElementsByClassName("preview-images-zone"+id)[0];
 	        previewImage.innerHTML = "";
 	        previewImage.style.display = "none";
-	    	document.getElementById("commentBox").value = "";
-	    	document.getElementById("commentBox").blur();
-	    	 
+	    	document.getElementById("commentBox"+id).value = "";
+	    	document.getElementById("commentBox"+id).blur();
+	    	imageComment = null;
 	    	return false;
-	    }
+	    }}
 	    else {
 	        return true;
 	    }
 	}
 	
-	function addComment(text, imageComment){
-
+	function addComment(text, imageComment, id, fullName, userPhoto){
+		 
         var div = document.createElement("div");
-        var output = document.getElementsByClassName("commentsZone")[0];  
+        var output = document.getElementsByClassName("commentsZone"+id)[0];  
+        var html;
+        var datetime =   new Date().toLocaleString();
         
-		var html =  '<div class="row" style="margin:5px"><div class="col-sm-2 text-center"><img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">' +
-			'</div><div class="col-sm-10"><h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4><p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>' +
-			'<img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg"><br></div></div><hr>';
+        if(imageComment != null){
+        	html =  '<div class="row" style="margin:5px"><div class="col-sm-2 text-center"><img class="rounded-circle" width="70" src=' + userPhoto + ' alt="">' +
+			'</div><div class="col-sm-10"><h4>' + fullName  + ' <small>' + datetime + '</small></h4><p>' + text + '</p>' +
+			'<img height="170" width="170" src=' + imageComment + '><br></div></div><hr>';
+        }else{
+        	html =  '<div class="row" style="margin:5px"><div class="col-sm-2 text-center"><img class="rounded-circle" width="70" src=' + userPhoto + ' alt="">' +
+			'</div><div class="col-sm-10"><h4>' + fullName  + ' <small>' + datetime + '</small></h4><p>' + text + '</p>' +
+			'<br></div></div><hr>';
+        }
+        
 		div.innerHTML = html + output.innerHTML;
 		output.innerHTML = "";
 		output.append(div);
+		
+		//sendComment //poslati komentar POST zahtjevom
 	}	
 	
 	function getFeed()

@@ -160,6 +160,8 @@ public class UserDAO {
 				user.setId(rs.getInt("id"));
 				user.setUsername(rs.getString("username"));
 				user.setphoto(rs.getString("photo"));
+				user.setFirstName(rs.getString("firstName"));
+				user.setLastName(rs.getString("lastName"));
 	  		}
 			pstmt.close();
 		} catch (SQLException exp) {

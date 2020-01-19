@@ -53,7 +53,10 @@ public class CommentController extends HttpServlet {
 			image = jsonObject.getString("image");
 		}
 		
-		Comment postComment = new Comment(description, image, 1); //id objave dodati
+		java.util.Date dt = new java.util.Date();
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentTime = sdf.format(dt);
+		Comment postComment = new Comment(description, image, 1, currentTime); //id objave dodati
 		CommentDAO.insert(postComment);
 	}
 

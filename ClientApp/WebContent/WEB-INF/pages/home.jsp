@@ -3,6 +3,7 @@
 <%@page import="net.etfbl.dto.Post"%>
 <%@page import="net.etfbl.dto.PostCategory"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Date"%>
 <jsp:useBean id="userBean" type="net.etfbl.beans.UserBean" scope="session"/>
 <jsp:useBean id="postBean" type="net.etfbl.beans.PostBean" scope="session"/>
 <jsp:useBean id="postCategoryBean" type="net.etfbl.beans.PostCategoryBean" scope="session"/>
@@ -240,14 +241,102 @@ background-color:  #ffffff;;
                              out.println(userBean.getUser().getNumberOfLogins());
                              %>
                             </div>
-                            <%if(userBean.getUser().getNotificationInApp() == 1){ %>
                         </li>
-                        <li class="list-group-item">Uzbuna 1 - Alkohol je blizu</li>
-                        <li class="list-group-item">Uzbuna 2 - Alkohol je blizu</li>
-                        <li class="list-group-item">Uzbuna 3 - Alkohol je blizu</li>
-                        <%} %>
-                    </ul>
+                     </ul>
+						</div>
+						  <%if(userBean.getUser().getNotificationInApp() == 1){ %>
+						<!-- Post /////-->
+<div class="emergencyPostsZone">
+
+   						   <%
+				               List<Post> posts = postBean.getAllActivePosts();
+   						   	   int[] i = {0};
+				           	   for(Post p : posts){
+				           	%>
+				           	
+				           	                <div style=" margin-top: 15px;" class="card gedf-card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mr-2">
+                                    <img class="rounded-circle" width="70" src=<%=p.getCreator().getPhoto()%> alt="">
+                                </div>
+                                <div class="ml-2">
+                                    <div class="h5 m-0">@<%out.println(p.getCreator().getUsername());%></div>
+                                    <div class="h7 text-muted"><%out.println(p.getCreator().getFirstName() + " " + p.getCreator().getLastName());%></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                             <%
+                        Date commentTime = p.getCreationTime();
+                        Long result = ((new Date().getTime()/60000) - (commentTime.getTime()/60000));
+                       	String differnce;
+                        if(result > 60)
+                       	{
+                       		result /= 60;
+                       		differnce = result.toString() + " h";
+                       	}else
+                       	{
+                       		differnce = result.toString() + " min";
+                       	}
+                       	if(result < 0 )
+                       		System.out.println((new Date())  + " " + (commentTime));
+                        %>
+                    
+                    <div class="card-body">
+                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"> Prije <%=differnce%> </i>
+                     
+                        <%
+                        String location = p.getLocation();
+                        if(location != null && !location.isEmpty()){%>
+                    	<i style="float:right" class="fa fa-map-marker" aria-hidden="true"> <%=location%></i>
+                        <%}%>
+                        </div>
+                        <h3 class="card-title">
+                             <%
+                            List<String> categories = p.getCategories();	
+                            if(categories != null){
+                            	for(String category : categories)
+                            		if(categories.indexOf(category) == 0)
+                            			out.print("Kategorije opasnosti: " + category);
+                            		else
+                            			out.print(", " + category);
+                            }
+                            %>
+                            </h3>
+                        <%
+   						List<String> images = p.getImages();
+                        for(String image : images){%>
+                        <img width="200" height="200"  class="center-block img-responsive" src='<%=image%>' />
+                        <%}%>
+                        
+                        <p class="card-text">
+                             <% out.println(p.getText()); %>
+                        </p>
+                       	<%
+                       	String link;
+                       	if((link = p.getLink()) != null){%>
+                        <a href=<%=link%> class="card-link">Pročitajte više</a>
+                        <%}%>
+                    </div>
                 </div>
+				      <br>     	
+				           	 <%
+				           	 i[0]++;
+				           	 } %>
+
+
+                <!--- \\\\\\\Post-->
+                <!-- Post /////-->
+
+      <br>
+                 
+        
+        </div> <!-- ne diraj ovaj tag kada budes brisao -->
+                        <%} %>
+
             </div>
             <div class="col-md-6 gedf-main">
                 <!--- \\\\\\\Post-->
@@ -320,11 +409,13 @@ background-color:  #ffffff;;
                 </div>
  
                
+               
                 <!-- Post /////-->
 <div class="postsZone">
 
    						   <%
 				               List<Post> posts = postBean.getAllActivePosts();
+   						   	   int[] i = {0};
 				           	   for(Post p : posts){
 				           	%>
 				           	
@@ -333,34 +424,59 @@ background-color:  #ffffff;;
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src=<%=p.getCreator().getPhoto()%> alt="">
+                                    <img class="rounded-circle" width="70" src=<%=p.getCreator().getPhoto()%> alt="">
                                 </div>
                                 <div class="ml-2">
                                     <div class="h5 m-0">@<%out.println(p.getCreator().getUsername());%></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="dropdown">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-ellipsis-h"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                        <div class="h6 dropdown-header">Configuration</div>
-                                        <a class="dropdown-item" href="#">Save</a>
-                                        <a class="dropdown-item" href="#">Hide</a>
-                                        <a class="dropdown-item" href="#">Report</a>
-                                    </div>
+                                    <div class="h7 text-muted"><%out.println(p.getCreator().getFirstName() + " " + p.getCreator().getLastName());%></div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
+                             <%
+                        Date commentTime = p.getCreationTime();
+                        Long result = ((new Date().getTime()/60000) - (commentTime.getTime()/60000));
+                       	String differnce;
+                        if(result > 60)
+                       	{
+                       		result /= 60;
+                       		differnce = result.toString() + " h";
+                       	}else
+                       	{
+                       		differnce = result.toString() + " min";
+                       	}
+                       	if(result < 0 )
+                       		System.out.println((new Date())  + " " + (commentTime));
+                        %>
+                    
                     <div class="card-body">
-                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>10 min ago</div>
-                        <a class="card-link" href="#">
-                            <h5 class="card-title">Kategorija 1</h5>
-                        </a>
-
+                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"> Prije <%=differnce%> </i>
+                     
+                        <%
+                        String location = p.getLocation();
+                        if(location != null && !location.isEmpty()){%>
+                    	<i style="float:right" class="fa fa-map-marker" aria-hidden="true"> <%=location%></i>
+                        <%}%>
+                        </div>
+                        <h3 class="card-title">
+                             <%
+                            List<String> categories = p.getCategories();	
+                            if(categories != null){
+                            	for(String category : categories)
+                            		if(categories.indexOf(category) == 0)
+                            			out.print("Kategorije opasnosti: " + category);
+                            		else
+                            			out.print(", " + category);
+                            }
+                            %>
+                            </h3>
+                        <%
+   						List<String> images = p.getImages();
+                        for(String image : images){%>
+                        <img width="200" height="200"  class="center-block img-responsive" src='<%=image%>' />
+                        <%}%>
+                        
                         <p class="card-text">
                              <% out.println(p.getText()); %>
                         </p>
@@ -371,14 +487,43 @@ background-color:  #ffffff;;
                         <%}%>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Komentariši</a>
-                        <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Podjeli</a>
+                       <button type="button" onClick="focusCommentBox(<%=i[0]%>)" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
+                       <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
+                       <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
                     </div>
+                    <div class="commentsZone<%=i[0]%>">
+                     <div class="row" style="margin:5px" >
+    <div class="col-sm-2 text-center">
+                <img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">
+    </div>
+    <div class="col-sm-10">
+      <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
+      <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg">
+      <br>
+      </div>
+    </div>
+    <div class="card gedf-card">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <textarea id="commentBox<%=i[0]%>" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress('<%=i[0]%>', '<%=userBean.getUser().getUsername()%>', '<%=userBean.getUser().getPhoto()%>');"></textarea>
+      <div style="float:right; display: none;" class="preview-images-zone<%=i[0]%>"></div>      
+            </div>
+        </div>
+    </div>  
                 </div>
-				           	
-				           	 <% } %>
+                    <fieldset style="float:right" class="form-group">
+        <a  href="javascript:void(0)" style="float:right;" onclick="$('#pro-image2<%=i[0]%>').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>
+      
+        <input type="file" id="pro-image2<%=i[0]%>" name="pro-image2<%=i[0]%>" style="display: none;" class="form-control" onChange="readImageForComment('<%=i[0] %>')"></input>
+    </fieldset>
+                </div>
+				      <br>     	
+				           	 <%
+				           	 i[0]++;
+				           	 } %>
 
-</div>
+
                 <!--- \\\\\\\Post-->
                 <!-- Post /////-->
 
@@ -482,6 +627,8 @@ background-color:  #ffffff;;
                             
     </fieldset>
         </div>
+        
+        </div> <!-- ne diraj ovaj tag kada budes brisao -->
                    <br><br><br>
     
                     </div>
