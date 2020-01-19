@@ -398,24 +398,24 @@ background-color:  #ffffff;;
 <br>
 
 <br>
-     
+   <% 
+   List<Post> posts = postBean.getAllActivePosts();
+  	  %>  
                         <div style="float:right" class="btn-toolbar justify-content-between">
                             <div class="btn-group">
-                                <button type="submit" class="btn btn-primary" onClick="shareDanger()">Podjeli</button>
+                                <button type="submit" class="btn btn-primary" onClick="shareDanger('<%=posts.size()%>', '<%=userBean.getUser().getUsername()%>', '<%=userBean.getUser().getFirstName() + " " + userBean.getUser().getLastName()%>','<%=userBean.getUser().getPhoto()%>')">Podjeli</button>
                             </div>
                             
                         </div>
                     </div>
                 </div>
  
-               
-               
+                
                 <!-- Post /////-->
 <div class="postsZone">
 
-   						   <%
-				               List<Post> posts = postBean.getAllActivePosts();
-   						   	   int[] i = {0};
+   						  <%
+   						 	   int[] i = {0}; 
 				           	   for(Post p : posts){
 				           	%>
 				           	
@@ -497,7 +497,8 @@ background-color:  #ffffff;;
                 <img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">
     </div>
     <div class="col-sm-10">
-      <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
+      <h4>John Row</h4>
+      <div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> Prije 40 minuta</div>
       <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       <img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg">
       <br>
@@ -604,7 +605,8 @@ background-color:  #ffffff;;
     	<img class="rounded-circle" width="60" src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" alt="">
     </div>
     <div class="col-sm-10">
-      <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
+      <h4>John Row &nbsp &nbsp</h4>
+      <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 40 minuta</div>
       <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       <img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg">
       <br>
@@ -681,7 +683,8 @@ background-color:  #ffffff;;
                 
                <script>
                var country = "<%= userBean.getUser().getCountry() %>";
-               searchWeatherForCities(country);</script>
+           //    searchWeatherForCities(country);
+           </script>
   
             </div>
         </div>
