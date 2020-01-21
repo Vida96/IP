@@ -60,9 +60,10 @@ var num = 0;
 var images = [];
 var video;
 function readImage() {
-       
+ 
 	 if (window.File && window.FileList && window.FileReader) {
 		 var files = event.target.files; //FileList object
+		 
 	        var output = document.getElementsByClassName("preview-images-zone")[0];
 
         for (let i = 0; i < files.length; i++) {
@@ -75,9 +76,10 @@ function readImage() {
                 var picFile = event.target;
                 var div = document.createElement("div");
     var html;           
+    alert(file.name);
+    //https://cdn.pixabay.com/photo/2015/06/08/15/29/mountain-climbing-802099_1280.jpg
 if(file.type.match('image')){
 	images.push(picFile.result);
-html = '<div style="float: left;" class="preview-image preview-show-' + num + '">' +
     '<div class="image-cancel" data-no="' + num + '">x</div>' +
     '<div class="image-zone"><img style="width:100px;height:100px"  id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
     '</div>';
@@ -172,7 +174,7 @@ function shareDanger(id, username, fullName, userPhoto){
 	for (var i=0; i< checkboxes.length; i++) {
 	   if (checkboxes[i].checked) {
 	    	 checkboxesChecked.push(checkboxes[i].id);
-	    	 cateoriesNames.push(checkboxes[i].name);
+	    	  
 	   }
 	}
 	
@@ -186,6 +188,7 @@ function shareDanger(id, username, fullName, userPhoto){
     }else{
     	var str = description;
     	var urlRE= new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
+    	
     	if(str.match(urlRE) != null)
     	{
     		link = str.match(urlRE)[0];
@@ -195,7 +198,7 @@ function shareDanger(id, username, fullName, userPhoto){
 
     var emergencyCb = document.getElementById('emergencyCb');
     
-    if((video == null) && (images.length == 0) && (description == "") && (location == ""))
+    if((video == null) && (images.length == 0) && (description == "") && (link == "") && (location == ""))
     	return false;
     
 	let object = {
@@ -215,8 +218,9 @@ function shareDanger(id, username, fullName, userPhoto){
 		{
 			
 			//appendDiv
+		  
 			if(emergencyCb.checked == 0)
-				displayDanger(username, fullName, userPhoto, description, location, images, video, link, id);
+				displayDanger(username, fullName, userPhoto, description, location, images, video, link, id, cateoriesNames);
 			
 			//izbrisati sve podatke 
 			images = [];
@@ -240,35 +244,54 @@ function shareDanger(id, username, fullName, userPhoto){
 
 }
 
-function displayDanger(username, fullName, userPhoto, description, location, images, video, link, id){
+function displayDanger(username, fullName, userPhoto, description, location, images, video, link, id, categoriesNames){
     var div = document.createElement("div");
     var output = document.getElementsByClassName("postsZone")[0];  
     var imagesHtml ="";
+    var categoriesHtml ="";
+    var i = 0; 
+    categoriesNames.forEach(function (category, index) {
+    	
+		if(categoriesNames.indexOf(category) == 0)
+			categoriesHtml+= "<h3 class='card-title'>Kategorije opasnosti: " + category;
+		else
+			categoriesHtml+= ", " + category;
+		if (categoriesNames.indexOf(category) == (categoriesNames.length - 1))
+			categoriesHtml+=" </h3>";  
+    });
+   
     images.forEach(function (image, index) {
     	if(index != 0 && index % 4 == 0)
-    		imagesHtml += ' <img width="200" height="200" style="padding-bottom: 5px;" class="center-block img-responsive" src=' + image + '/><br>';
+    		imagesHtml += ' <div style="float: left;" class="image-zone"><img style="width:200px;height:200px"  id="pro-img-' + i++ + '" src="' + image + '"></div> &nbsp;<br>';
     	else
-    		imagesHtml += ' <img width="200" height="200" style="padding-bottom: 5px;" class="center-block img-responsive" src=' + image + '/> ';
-    	});
+    		imagesHtml += '<div style="float: left;" class="image-zone"><img style="width:200px;height:200px"  id="pro-img-' + i++ + '" src="' + image + '"></div>&nbsp;';
+    	}); 
+    if(imagesHtml != ""){
+    	imagesHtml += '<br><br><br><br><br><br><br><br><br>'
+    }
+    var linkHtml = "";
+
+    
+    if(link != null){
+    	linkHtml+='<a href=' + link + 'class="card-link">Pro&#269;itajte vi&#353;e</a>' 
+    }
     
     var proimage = "pro-image2" + id;
     var commentBox = "commentBox" + id;
 	var previewImagesZone = "preview-images-zone" + id;
-    
+   
     var html =  '<br><div class="card gedf-card"><div class="card-header"><div class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-between align-items-center">' +
     '<div class="mr-2"><img class="rounded-circle" width="45" src=' + userPhoto + ' alt=""></div><div class="ml-2"><div class="h5 m-0">@' + username + '</div><div class="h7 text-muted">' + fullName + '</div>' +
-    '</div></div><div><div class="dropdown"><button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-    '<i class="fa fa-ellipsis-h"></i></button><div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1"><div class="h6 dropdown-header">Configuration</div>' +
-    '<a class="dropdown-item" href="#">Save</a><a class="dropdown-item" href="#">Hide</a><a class="dropdown-item" href="#">Report</a></div></div></div></div></div>' +
+    '</div></div><div></div></div></div>' +
     '<div class="card-body"><div class="well"> <div class="row"><div class="col-md-12"><div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 0 minuta</div>' +
-    '<h1>TITULO LARGO DE UNA INVESTIGACION cualquiera</h1>' +	imagesHtml
+    '<h1>'+ categoriesHtml +'</h1>' +	imagesHtml
      +
-    '<p>' + description + '<br><br></p></div></div></div></div>' +
-    '<div class="card-footer"><button type="button" onClick="focusCommentBox(' + id + ')" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>' +
+    '<p>' + description + '<br></p>'  + linkHtml + '</div></div></div></div>' +
+    '<div class="card-footer"><button type="button" onClick="focusCommentBox(' + id + ')" class="btn btn-link"><i class="fa fa-comment"></i>Komentari&#353;i</button>' +
     '<button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>' +
     '<button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>' +
-    '</div></div>   <div class="commentsZone'+id+'"><div class="card gedf-card"><div class="panel panel-info"><div class="panel-body"><textarea id=' + commentBox +' style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress(' + id + ', ' + username + ', ' + userPhoto + '\ ); ") ></textarea>' +
-    '<div style="float:right; display: none;" class=' + previewImagesZone + '></div></div></div></div></div><fieldset style="float:right" class="form-group"><a  href="javascript:void(0)" style="float:right;"onclick="$(#pro-image2' + id +').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>' +
+    '</div></div>   <div class="commentsZone'+id+'"><div class="card gedf-card"><div class="panel panel-info"><div class="panel-body"><textarea id=' + commentBox +' style="width:100%" placeholder="Napi&#353;ite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress(\'' + id + '\',\'' + fullName + '\',\'' + userPhoto + '\')";  ></textarea>' +
+    '<div style="float:right; display: none;" class=' + previewImagesZone + '></div></div></div></div></div><fieldset style="float:right" class="form-group"><a  href="javascript:void(0)" style="float:right;"onclick="$(\'#pro-image2' + id + '\').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>' +
     '<input type="file" id='+ proimage +' name=' + proimage + ' style="display: none;" class="form-control" onChange="readImageForComment(' + id + ')" ></fieldset><br><br>';
 
 	div.innerHTML = html + output.innerHTML;
