@@ -76,11 +76,12 @@ function readImage() {
                 var picFile = event.target;
                 var div = document.createElement("div");
     var html;           
-    alert(file.name);
-    //https://cdn.pixabay.com/photo/2015/06/08/15/29/mountain-climbing-802099_1280.jpg
+  
 if(file.type.match('image')){
 	images.push(picFile.result);
-    '<div class="image-cancel" data-no="' + num + '">x</div>' +
+	console.log(picFile.result);
+	html = '<div style="float: left;" class="preview-image preview-show-' + num + '">' +
+	'<div class="image-cancel" data-no="' + num + '">x</div>' +
     '<div class="image-zone"><img style="width:100px;height:100px"  id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
     '</div>';
 }
@@ -170,11 +171,13 @@ function shareDanger(id, username, fullName, userPhoto){
 	var location = document.getElementById('searchInput').value;	 
 	var checkboxes = document.getElementsByName('cbCategory');
 	var checkboxesChecked = [];
-	var cateoriesNames = [];
+	var categoriesNames = [];
+	var cbId;
 	for (var i=0; i< checkboxes.length; i++) {
 	   if (checkboxes[i].checked) {
-	    	 checkboxesChecked.push(checkboxes[i].id);
-	    	  
+	       cbId = checkboxes[i].id.split(" "); 
+		   checkboxesChecked.push(cbId[0]);
+		   categoriesNames.push(cbId[1]);   	  
 	   }
 	}
 	
@@ -220,7 +223,7 @@ function shareDanger(id, username, fullName, userPhoto){
 			//appendDiv
 		  
 			if(emergencyCb.checked == 0)
-				displayDanger(username, fullName, userPhoto, description, location, images, video, link, id, cateoriesNames);
+				displayDanger(username, fullName, userPhoto, description, location, images, video, link, id, categoriesNames);
 			
 			//izbrisati sve podatke 
 			images = [];
@@ -249,6 +252,7 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     var output = document.getElementsByClassName("postsZone")[0];  
     var imagesHtml ="";
     var categoriesHtml ="";
+    var locationHtml ="";
     var i = 0; 
     categoriesNames.forEach(function (category, index) {
     	
@@ -256,6 +260,7 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
 			categoriesHtml+= "<h3 class='card-title'>Kategorije opasnosti: " + category;
 		else
 			categoriesHtml+= ", " + category;
+		
 		if (categoriesNames.indexOf(category) == (categoriesNames.length - 1))
 			categoriesHtml+=" </h3>";  
     });
@@ -271,7 +276,9 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     }
     var linkHtml = "";
 
-    
+    if(location != null && location != ''){
+    	locationHtml+= '<i style="float:right" class="fa fa-map-marker" aria-hidden="true">&nbsp;' + location + '</i>';
+    }
     if(link != null){
     	linkHtml+='<a href=' + link + 'class="card-link">Pro&#269;itajte vi&#353;e</a>' 
     }
@@ -283,14 +290,14 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     var html =  '<br><div class="card gedf-card"><div class="card-header"><div class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-between align-items-center">' +
     '<div class="mr-2"><img class="rounded-circle" width="45" src=' + userPhoto + ' alt=""></div><div class="ml-2"><div class="h5 m-0">@' + username + '</div><div class="h7 text-muted">' + fullName + '</div>' +
     '</div></div><div></div></div></div>' +
-    '<div class="card-body"><div class="well"> <div class="row"><div class="col-md-12"><div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 0 minuta</div>' +
+    '<div class="card-body"><div class="well"> <div class="row"><div class="col-md-12"><div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 0 minuta' + locationHtml + '</div>' +
     '<h1>'+ categoriesHtml +'</h1>' +	imagesHtml
      +
     '<p>' + description + '<br></p>'  + linkHtml + '</div></div></div></div>' +
     '<div class="card-footer"><button type="button" onClick="focusCommentBox(' + id + ')" class="btn btn-link"><i class="fa fa-comment"></i>Komentari&#353;i</button>' +
     '<button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>' +
     '<button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>' +
-    '</div></div>   <div class="commentsZone'+id+'"><div class="card gedf-card"><div class="panel panel-info"><div class="panel-body"><textarea id=' + commentBox +' style="width:100%" placeholder="Napi&#353;ite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress(\'' + id + '\',\'' + fullName + '\',\'' + userPhoto + '\')";  ></textarea>' +
+    '</div></div><div class="commentsZone'+id+'"><div class="card gedf-card"><div class="panel panel-info"><div class="panel-body"><textarea id=' + commentBox +' style="width:100%" placeholder="Napi&#353;ite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress(\'' + id + '\',\'' + fullName + '\',\'' + userPhoto + '\')";  ></textarea>' +
     '<div style="float:right; display: none;" class=' + previewImagesZone + '></div></div></div></div></div><fieldset style="float:right" class="form-group"><a  href="javascript:void(0)" style="float:right;"onclick="$(\'#pro-image2' + id + '\').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>' +
     '<input type="file" id='+ proimage +' name=' + proimage + ' style="display: none;" class="form-control" onChange="readImageForComment(' + id + ')" ></fieldset><br><br>';
 
@@ -443,21 +450,27 @@ function searchWeather(cityName) {
 	}
 	
 	function addComment(text, imageComment, id, fullName, userPhoto){
-		 
-        var div = document.createElement("div");
+
+	    var div = document.createElement("div");
         var output = document.getElementsByClassName("commentsZone"+id)[0];  
-        alert("commentsZone"+id)
+        var nodesSameClass = output.getElementsByClassName("row");
+        var numberOfComments = nodesSameClass.length;
+        
         var html;
+        var hrTag = "";
         var datetime = new Date().toLocaleString();
+        
+        if(numberOfComments != 0)
+        	hrTag = "<hr>";
         
         if(imageComment != null){
         	html =  '<div class="row" style="margin:5px"><div class="col-sm-2 text-center"><img class="rounded-circle" width="70" src=' + userPhoto + ' alt="">' +
 			'</div><div class="col-sm-10"><h4>' + fullName  + ' </h4><div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> Prije 0 minuta</div><p>' + text + '</p>' +
-			'<img height="170" width="170" src=' + imageComment + '><br></div></div><hr>';
+			'<img height="170" width="170" src=' + imageComment + '><br></div></div>' + hrTag;
         }else{
         	html =  '<div class="row" style="margin:5px"><div class="col-sm-2 text-center"><img class="rounded-circle" width="70" src=' + userPhoto + ' alt="">' +
 			'</div><div class="col-sm-10"><h4>' + fullName  + '</h4><div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> Prije 0 minuta</div><p>' + text + '</p>' +
-			'<br></div></div><hr>';
+			'<br></div></div>' + hrTag;
         }
         
 		div.innerHTML = html + output.innerHTML;
