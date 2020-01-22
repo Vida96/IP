@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import net.etfbl.dto.Comment;
@@ -12,7 +15,7 @@ import net.etfbl.dto.User;
 
 public class CommentDAO {
 
-	private static final String SQL_INSERT = "INSERT INTO comment (text, image, time, postId) VALUES (?,?,?,?)";
+	private static final String SQL_INSERT = "INSERT INTO comment (text, image, time, post_Id, user_Id) VALUES (?,?,?,?,?)";
 	
 	private static final String SQL_SELECT_POST_COMMENTS = "SELECT * FROM comment WHERE post_id=?";
 	
@@ -21,7 +24,10 @@ public class CommentDAO {
 		Connection connection = null;
 		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 		ResultSet generatedKeys = null;
-		Object values[] = { postComment.getText(), postComment.getText(), postComment.getPostId()};
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentTime = sdf.format(postComment.getTime());
+		
+		Object values[] = { postComment.getText(), postComment.getImage(), currentTime, postComment.getPostId(), postComment.getUserId()};
 		try {
 			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
@@ -52,7 +58,10 @@ public class CommentDAO {
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_POST_COMMENTS, false, values);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				Comment comment = new Comment(rs.getString(2), rs.getString(3), rs.getInt(4), "");//, rs.getString(5));
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				Date date = df.parse(rs.getString("time"));
+				Comment comment = new Comment(rs.getString(2), rs.getString(3), rs.getInt(4), date, rs.getInt(6));
+				
 				postComments.add(comment);
 			}
 		} catch (Exception e) {

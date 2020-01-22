@@ -25,12 +25,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
 <hr>	
 <div class="container bootstrap snippet">
     <div class="row">
   		<div class="col-sm-10"><h1>Izmjena profila</h1></div>
-    	<div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
     </div>
     <div class="row">
   		<div class="col-sm-3"><!--left col-->
@@ -44,12 +42,7 @@
                
           
         </div><!--/col-3-->
-    	<div class="col-sm-9">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">Informacije o korisniku</a></li>
-              </ul>
-
-              
+    	<div class="col-sm-9">   
           <div class="tab-content">
             <div class="tab-pane active" id="home">
                 <hr>

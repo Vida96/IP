@@ -1,18 +1,30 @@
 package net.etfbl.dto;
 
+import java.util.Date;
+
 public class Comment {
 
 	private String text;
 	private String image;
-	private String time;
+	private Date time;
 	private Integer postId;
-
-    public Comment(String text, String image, Integer postId, String time) {
+	private Integer userId;
+	
+    public Comment(String text, String image, Integer postId) {
 		super();
 		this.text = text;
 		this.image = image;
 		this.postId = postId;
-		this.setTime(time);
+		this.time = new java.util.Date();
+	}
+	
+    public Comment(String text, String image, Integer postId, Date time, Integer userId) {
+		super();
+		this.text = text;
+		this.image = image;
+		this.postId = postId;
+		this.time = time;
+		this.userId = userId;
 	}
 	
     public String getText() {
@@ -39,12 +51,20 @@ public class Comment {
 		this.postId = postId;
 	}
 
-	public String getTime() {
+	public Date getTime() {
 		return time;
 	}
 
-	public void setTime(String time) {
+	public void setTime(Date time) {
 		this.time = time;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 }

@@ -13,8 +13,6 @@ import net.etfbl.dto.User;
 
 public class PostBean {
 
-private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
-
 	public List<Post> getAllActiveUnemergencyPosts(){
 		return PostDAO.getAllUnemergencyPosts();
 	}

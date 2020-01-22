@@ -103,9 +103,9 @@ public class PostContoller extends HttpServlet {
 		Post post = new Post(description, postCreator, postTime, location, video, isEmergency, link);
 		post.setImages(images);
 		post.setUserId(userBean.getUser().getId());
-		PostDAO.insert(post);
-		ImageDAO.insert(images, 1); //postId
-		PostCategoryDAO.insert(categoriesId, 1); //postId
+		Integer postId = PostDAO.insert(post);
+		ImageDAO.insert(images, postId);
+		PostCategoryDAO.insert(categoriesId, postId); 
 		if(isEmergency == 1 )
 		{
 			sendMailToUsers(post, userBean.getUser().getMail());

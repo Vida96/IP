@@ -22,7 +22,7 @@ import net.etfbl.dto.Post;
 import net.etfbl.dto.Comment;
 import net.etfbl.dto.User;
 
-@WebServlet("/PostComment")
+@WebServlet("/Comment")
 public class CommentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -45,6 +45,8 @@ public class CommentController extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean userBean = (UserBean)session.getAttribute("userBean");
 		String description = null, image = null;
+		Integer postId = jsonObject.getInt("postId");
+		Integer userId = jsonObject.getInt("userId");
 		
 		if (!jsonObject.isNull("description")){
 			description = jsonObject.getString("description");
@@ -54,9 +56,7 @@ public class CommentController extends HttpServlet {
 		}
 		
 		java.util.Date dt = new java.util.Date();
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String currentTime = sdf.format(dt);
-		Comment postComment = new Comment(description, image, 1, currentTime); //id objave dodati
+		Comment postComment = new Comment(description, image, postId, dt, userId);
 		CommentDAO.insert(postComment);
 	}
 

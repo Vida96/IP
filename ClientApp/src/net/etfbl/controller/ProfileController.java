@@ -41,7 +41,7 @@ public class ProfileController extends HttpServlet {
 					response.sendRedirect(request.getContextPath()+"/Login");
 				}
 				else {
-					address = "/WEB-INF/pages/profileUpdate.jsp";
+					address = "/WEB-INF/pages/profile.jsp";
 					RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 					dispatcher.forward(request, response);
 				}

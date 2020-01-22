@@ -20,7 +20,7 @@ public class ImageDAO {
 	    ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 		
 		for(String image : images) {
-		Object values[] = { "putanjaDoSlike", postId}; //{ image, postId};
+		Object values[] = { image, postId};
 		try {
 			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);

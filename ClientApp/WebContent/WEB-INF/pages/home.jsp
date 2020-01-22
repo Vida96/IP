@@ -1,7 +1,9 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="net.etfbl.dto.User"%>
 <%@page import="net.etfbl.dto.Post"%>
+<%@page import="net.etfbl.dto.Comment"%>
 <%@page import="net.etfbl.dto.PostCategory"%>
+<%@page import="net.etfbl.dao.UserDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Date"%>
 <jsp:useBean id="userBean" type="net.etfbl.beans.UserBean" scope="session"/>
@@ -217,23 +219,8 @@ background-color:  #ffffff;;
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <ul class="navbar-nav mr-auto">
-  <li class="nav-item active">
-    <a class="nav-link" href="#">Početna strana<span class="sr-only">(current)</span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="Profile">Izmjena profila</a>
-  </li>
-</ul>
-<ul class="navbar-nav ml-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="Login?action=signOut">Odjava</a>
-  </li>
-</ul>
-</nav>
+<jsp:include page="../pages/profileUpdate.jsp"/>
 <br>
-
     <div class="container-fluid gedf-wrapper">
         <div class="row">
             <div class="col-md-3">
@@ -284,8 +271,8 @@ background-color:  #ffffff;;
 
                     </div>
                              <%
-                        Date commentTime = p.getCreationTime();
-                        Long result = ((new Date().getTime()/60000) - (commentTime.getTime()/60000));
+                        Date postTime = p.getCreationTime();
+                        Long result = ((new Date().getTime()/60000) - (postTime.getTime()/60000));
                        	String differnce;
                         if(result > 60)
                        	{
@@ -296,7 +283,7 @@ background-color:  #ffffff;;
                        		differnce = result.toString() + " min";
                        	}
                        	if(result < 0 )
-                       		System.out.println((new Date())  + " " + (commentTime));
+                       		System.out.println((new Date())  + " " + (postTime));
                         %>
                     
                     <div class="card-body">
@@ -356,12 +343,7 @@ background-color:  #ffffff;;
                 <!--- \\\\\\\Post-->
                 <div class="card gedf-card">
                     <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Detalji potencijalne opasnosti</a>
-                            </li>
-                          
-                        </ul>
+                                <h3 id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Detalji potencijalne opasnosti</h3>
                     </div>
                     
                     <div class="card-body">
@@ -450,8 +432,8 @@ background-color:  #ffffff;;
 
                     </div>
                              <%
-                        Date commentTime = p.getCreationTime();
-                        Long result = ((new Date().getTime()/60000) - (commentTime.getTime()/60000));
+                        Date postTime = p.getCreationTime();
+                        Long result = ((new Date().getTime()/60000) - (postTime.getTime()/60000));
                        	String differnce;
                         if(result > 60)
                        	{
@@ -462,7 +444,7 @@ background-color:  #ffffff;;
                        		differnce = result.toString() + " min";
                        	}
                        	if(result < 0 )
-                       		System.out.println((new Date())  + " " + (commentTime));
+                       		System.out.println((new Date())  + " " + (postTime));
                         %>
                     
                     <div class="card-body">
@@ -506,11 +488,48 @@ background-color:  #ffffff;;
                        <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
                        <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
                     </div>
-                    <div class="commentsZone<%=i[0]%>">         
+                    <div class="commentsZone<%=i[0]%>">  
+                    <% List<Comment> postComments = p.getCommments();   
+                    for(Comment comment : postComments){
+                    	User user = UserDAO.getById(comment.getUserId()); 
+                        Date commentTime = comment.getTime();
+                        Long resultTime = ((new Date().getTime()/60000) - (commentTime.getTime()/60000));
+                       	String differnceTime;
+                        if(resultTime > 60)
+                       	{
+                       		resultTime /= 60;
+                       		differnceTime = resultTime.toString() + " h";
+                       	}else
+                       	{
+                       		differnceTime = resultTime.toString() + " min";
+                       	}
+                        if(resultTime < 0 )
+                       		System.out.println((new Date())  + " " + (commentTime));
+                        
+                        %>
+                    
+                    <div class="row" style="margin:5px" >
+    <div class="col-sm-2 text-center">
+                <img class="rounded-circle" width="60" src="<%=user.getPhoto()%>" alt="">
+    </div>
+    <div class="col-sm-10">
+      <h4><%=user.getFirstName()  + " " + user.getLastName()%></h4>
+      <div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> Prije <%=differnceTime%></div>
+      <p><%=comment.getText()%></p>
+      <%String image = comment.getImage();
+      if(image!= null){%>
+      <img height="170" width="170" src='<%=image%>'>
+      <%}%>
+      <br>
+      </div>
+    </div>
+    <%  if(postComments.indexOf(comment) != postComments.size()-1){ %>
+    	<hr>	
+    <%}}%>
     <div class="card gedf-card">
             <div class="panel panel-info">
                 <div class="panel-body">
-                    <textarea id="commentBox<%=i[0]%>" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress('<%=i[0]%>', '<%=userBean.getUser().getUsername()%>', '<%=userBean.getUser().getPhoto()%>'), '<%=p.getId()%>';"></textarea>
+                    <textarea id="commentBox<%=i[0]%>" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress('<%=i[0]%>', '<%=userBean.getUser().getUsername()%>', '<%=userBean.getUser().getPhoto()%>', '<%=p.getId()%>', '<%=userBean.getUser().getId()%>');"></textarea>
       <div style="float:right; display: none;" class="preview-images-zone<%=i[0]%>"></div>      
             </div>
         </div>

@@ -223,7 +223,8 @@ function shareDanger(id, username, fullName, userPhoto){
 		  
 			if(emergencyCb.checked == 0)
 				displayDanger(username, fullName, userPhoto, description, location, images, video, link, id, categoriesNames);
-			
+			else
+				displayDanger(username, fullName, userPhoto, description, location, images, video, link, id, categoriesNames, "emergencyPostsZone")
 			//izbrisati sve podatke 
 			images = [];
 			video = null;
@@ -246,9 +247,14 @@ function shareDanger(id, username, fullName, userPhoto){
 
 }
 
-function displayDanger(username, fullName, userPhoto, description, location, images, video, link, id, categoriesNames){
+function displayDanger(username, fullName, userPhoto, description, location, images, video, link, id, categoriesNames, emergencyZone){
     var div = document.createElement("div");
-    var output = document.getElementsByClassName("postsZone")[0];  
+    var output;
+    if(emergencyZone == null)
+     output = document.getElementsByClassName("postsZone")[0];  
+    else
+     output = document.getElementsByClassName(emergencyZone)[0];  
+    
     var imagesHtml ="";
     var categoriesHtml ="";
     var locationHtml ="";
@@ -281,12 +287,13 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     if(link != null){
     	linkHtml+='<a href=' + link + 'class="card-link">Pro&#269;itajte vi&#353;e</a>' 
     }
-    
+    var html;
+    if(emergencyZone == null){
     var proimage = "pro-image2" + id;
     var commentBox = "commentBox" + id;
 	var previewImagesZone = "preview-images-zone" + id;
    
-    var html =  '<br><div class="card gedf-card"><div class="card-header"><div class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-between align-items-center">' +
+    html =  '<br><div class="card gedf-card"><div class="card-header"><div class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-between align-items-center">' +
     '<div class="mr-2"><img class="rounded-circle" width="45" src=' + userPhoto + ' alt=""></div><div class="ml-2"><div class="h5 m-0">@' + username + '</div><div class="h7 text-muted">' + fullName + '</div>' +
     '</div></div><div></div></div></div>' +
     '<div class="card-body"><div class="well"> <div class="row"><div class="col-md-12"><div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 0 minuta' + locationHtml + '</div>' +
@@ -299,7 +306,15 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     '</div></div><div class="commentsZone'+id+'"><div class="card gedf-card"><div class="panel panel-info"><div class="panel-body"><textarea id=' + commentBox +' style="width:100%" placeholder="Napi&#353;ite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress(\'' + id + '\',\'' + fullName + '\',\'' + userPhoto + '\')";  ></textarea>' +
     '<div style="float:right; display: none;" class=' + previewImagesZone + '></div></div></div></div></div><fieldset style="float:right" class="form-group"><a  href="javascript:void(0)" style="float:right;"onclick="$(\'#pro-image2' + id + '\').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>' +
     '<input type="file" id='+ proimage +' name=' + proimage + ' style="display: none;" class="form-control" onChange="readImageForComment(' + id + ')" ></fieldset><br><br>';
-
+    }else{
+    	html =  '<br><div class="card gedf-card"><div class="card-header"><div class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-between align-items-center">' +
+        '<div class="mr-2"><img class="rounded-circle" width="45" src=' + userPhoto + ' alt=""></div><div class="ml-2"><div class="h5 m-0">@' + username + '</div><div class="h7 text-muted">' + fullName + '</div>' +
+        '</div></div><div></div></div></div>' +
+        '<div class="card-body"><div class="well"> <div class="row"><div class="col-md-12"><div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 0 minuta' + locationHtml + '</div>' +
+        '<h1>'+ categoriesHtml +'</h1>' +	imagesHtml
+         +
+        '<p>' + description + '<br></p>'  + linkHtml + '</div></div></div></div></div>';
+    }
 	div.innerHTML = html + output.innerHTML;
 	output.innerHTML = "";
 	output.append(div);	
@@ -427,13 +442,14 @@ function searchWeather(cityName) {
 	    weatherNum = weatherNum + 1;
 	}
 	
-	function onEnterPress(id, fullName, userPhoto, postId) {
+	function onEnterPress(id, fullName, userPhoto, postId, userId) {
 	    var key = window.event.keyCode;
  
 	    if (key === 13) {
 	    	var text = document.getElementById("commentBox"+id).value;
 	    	if(text != '' || imageComment != null){
-	    	addComment(text, imageComment, id, fullName, userPhoto, postId);
+	    	console.log(text, imageComment, id, fullName, userPhoto, postId, userId);
+	    	addComment(text, imageComment, id, fullName, userPhoto, postId, userId);
 
 	        var previewImage = document.getElementsByClassName("preview-images-zone"+id)[0];
 	        previewImage.innerHTML = "";
@@ -448,11 +464,32 @@ function searchWeather(cityName) {
 	    }
 	}
 	
-	function addComment(text, imageComment, id, fullName, userPhoto, postId){
+	function addComment(text, imageComment, id, fullName, userPhoto, postId, userId){
 
-		//sendComment //poslati komentar POST zahtjevom full
-		
-		
+		  if((text == null) && (imageComment == null))
+		    	return false;
+		    
+			let object = {
+					description: text,
+					image: imageComment,
+					userId: userId,
+					postId: postId,
+			}
+		 
+			let request = new XMLHttpRequest();
+			request.onreadystatechange = function(){
+				
+				if((request.readyState ==4) && (request.status==200))
+				{
+					displayComment(text, imageComment, id, fullName, userPhoto);
+				}
+			}
+			request.open("POST","Comment");
+			request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+			request.send(JSON.stringify(object));			
+	}	
+	
+	function displayComment(text, imageComment, id, fullName, userPhoto){		
 	    var div = document.createElement("div");
         var output = document.getElementsByClassName("commentsZone"+id)[0];  
         var nodesSameClass = output.getElementsByClassName("row");
@@ -478,8 +515,7 @@ function searchWeather(cityName) {
 		div.innerHTML = html + output.innerHTML;
 		output.innerHTML = "";
 		output.append(div);
-		
-	}	
+	}
 	
 	function getFeed()
 	{

@@ -10,25 +10,44 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <title>Insert title here</title>
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+</style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <ul class="navbar-nav mr-auto">
-  <li class="nav-item active">
-    <a class="nav-link" href="Home">Početna strana<span class="sr-only">(current)</span></a>
+ <ul>
+  <li>
+    <a href="Home">Početna strana<span class="sr-only">(current)</span></a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="Profile">Izmjena profila</a>
+  <li>
+    <a href="Profile">Izmjena profila</a>
   </li>
-</ul>
-<ul class="navbar-nav ml-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="Login?action=signOut">Odjava</a>
+  <li style="float:right">
+    <a href="Login?action=signOut">Odjava</a>
   </li>
 </ul>
-</nav>
 <br>
-<jsp:include page="../pages/profile.jsp"/>
 </body>
 </html>
