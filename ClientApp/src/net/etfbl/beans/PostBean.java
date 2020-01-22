@@ -15,7 +15,11 @@ public class PostBean {
 
 private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 
-	public List<Post> getAllActivePosts(){
-		return PostDAO.getAllActivePosts();
+	public List<Post> getAllActiveUnemergencyPosts(){
+		return PostDAO.getAllUnemergencyPosts();
+	}
+	
+	public List<Post> getAllActiveEmergencyPosts(){
+		return PostDAO.getAllEmergencyPosts();
 	}
 }

@@ -4,23 +4,18 @@
 <html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-<title>Bootstrap Simple Registration Form</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>Forma za registraciju</title>
 <style type="text/css">
 	body{
 		color: #fff;
 		background: #63738a;
-		font-family: 'Roboto', sans-serif;
 		margin-top:70px;
 	}
     .form-control{
 		height: 40px;
-		box-shadow: none;
-		color: #969fa4;
 	}
 	.form-control:focus{
 		border-color: #5cb85c;
@@ -99,13 +94,29 @@
 	.signup-form form a:hover{
 		text-decoration: underline;
 	}  
+	@media screen and (max-device-width: 500px) {
+      .signup-form {
+        width: 300px;
+      }
+    }
+    @media screen and (max-device-width: 400px) {
+      .signup-form {
+        width: 280px;
+      }
+      .signup-form .hint-text{
+      	font-size:12px;
+      }
+      .h1{
+      	font-size:30px;
+      }
+    }
 </style>
 </head>
 <body>
 <div class="signup-form">
      <form id="registrationForm">
-		<h1 align="center">Registracija</h1>
-		<p class="hint-text">Napravite Vaš nalog. Besplatno je i brzo.</p>
+		<h1 class="h1" align="center">Registracija</h1>
+		<p class="hint-text">Napravite nalog. Besplatno je i brzo.</p>
         <div class="form-group">
 		 <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Unesite vaše ime" required autofocus oninvalid="this.setCustomValidity('Unesite ime')" oninput="this.setCustomValidity('')"required autofocus oninvalid="this.setCustomValidity('Unesite ime')" oninput="this.setCustomValidity('')">
 				  <label id="firstNameLabel"></label>
@@ -136,7 +147,7 @@
             <button name="submit" class="btn btn-success btn-lg btn-block" onclick="event.preventDefault(); return validateFields()">Registrujte se</button>
         </div>
     </form>
-	<div class="text-center"><h4>Već imate nalog? <a style="color:black" href="Login">Prijavite se</a></h4></div>
+	<div class="text-center"><h3>Već imate nalog? <a style="color:black" href="Login">Prijavite se</a></h3></div>
 </div>
 </body>
 </html>                            

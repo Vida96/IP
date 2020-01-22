@@ -5,14 +5,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Forma za prijavljivanje</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-<title>Bootstrap Simple Registration Form</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style type="text/css">
 	body{
 		color: #fff;
@@ -22,8 +19,6 @@
 	}
     .form-control{
 		height: 40px;
-		box-shadow: none;
-		color: #969fa4;
 	}
 	.form-control:focus{
 		border-color: #5cb85c;
@@ -102,6 +97,7 @@
 	.signup-form form a:hover{
 		text-decoration: underline;
 	}  
+}
 </style>
 </head>
 <body>
@@ -117,9 +113,8 @@
       <label id="passwordLabel"></label>
         </div>
             <button type="submit" class="btn btn-success btn-lg btn-block" onclick="event.preventDefault(); return validateFields()">Prijavite se</button>
-        </div>
     </form>
+    </div>
 	<div class="text-center"><h4>Nemate nalog? <a href="Registration?action=registration" style="color:black">Registrujte se</a></h4></div>
-</div>
 </body>
 </html>         

@@ -19,6 +19,8 @@ public class PostDAO {
 	
 	private static final String SQL_SELECT_ACTIVE_UNEMERGENCY_POSTS = "SELECT * FROM post WHERE active=1 AND isEmergency=0"; //dohvatanje svih aktivnih objava i opasnosti koje nisu hitna upozorenja za prikaz po sredini stranice
 	
+	private static final String SQL_SELECT_ACTIVE_EMERGENCY_POSTS = "SELECT * FROM post WHERE active=1 AND isEmergency=1"; //dohvatanje svih aktivnih objava i opasnosti koje su hitna upozorenja za prikaz sa lijeve strane stranice
+	
 	public static boolean insert(Post post) {
 		boolean result = false;
 		Connection connection = null;
@@ -47,7 +49,7 @@ public class PostDAO {
 		return result;
 	}
 	
-	public static List<Post> getAllActivePosts(){
+	public static List<Post> getAllUnemergencyPosts(){
 		List<Post> activePosts = new java.util.ArrayList<>();
 		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 		Connection connection = null;
@@ -80,4 +82,39 @@ public class PostDAO {
 
 		return activePosts;
 	}
+	
+	public static List<Post> getAllEmergencyPosts(){
+		List<Post> activePosts = new java.util.ArrayList<>();
+		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
+		Connection connection = null;
+		User postCreator = null;
+		List<String> images, categories;
+		List<Comment> comments;
+		Integer postId;
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ACTIVE_EMERGENCY_POSTS);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Integer userId = rs.getInt("user_Id");
+				postCreator = UserDAO.getById(userId);
+				postId = rs.getInt("id");
+				Post post = new Post(postId, rs.getString("text"), postCreator, rs.getTimestamp("time"), rs.getString("location"), rs.getString("video"), rs.getString("link"));
+				images  = ImageDAO.getById(postId);
+				post.setImages(images);
+				comments = CommentDAO.getAllpostComments(postId);
+				post.setCommments(comments);
+				categories = PostHasPostCategory.getById(postId);
+				post.setCategories(categories);
+				activePosts.add(post);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+
+		return activePosts;
+	}
+
 }
