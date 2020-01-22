@@ -2,7 +2,7 @@ var countries = [];
 var regions = [];
 var cities = [];
 
-function validateFields(){
+function validateFields(numberOfLogins){
 	let firstName = document.getElementById("firstName").value;
 	
 	if(firstName == null || firstName == "")
@@ -113,6 +113,7 @@ function validateFields(){
 			photo: photo,
 			notificationOnMail: notificationOnMail,
 			notificationInApp: notificationInApp,
+			numberOfLogins: numberOfLogins
 	}
  
 	let request = new XMLHttpRequest();

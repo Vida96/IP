@@ -76,10 +76,9 @@ function readImage() {
                 var picFile = event.target;
                 var div = document.createElement("div");
     var html;           
-  
+    
 if(file.type.match('image')){
 	images.push(picFile.result);
-	console.log(picFile.result);
 	html = '<div style="float: left;" class="preview-image preview-show-' + num + '">' +
 	'<div class="image-cancel" data-no="' + num + '">x</div>' +
     '<div class="image-zone"><img style="width:100px;height:100px"  id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
@@ -428,13 +427,13 @@ function searchWeather(cityName) {
 	    weatherNum = weatherNum + 1;
 	}
 	
-	function onEnterPress(id, fullName, userPhoto) {
+	function onEnterPress(id, fullName, userPhoto, postId) {
 	    var key = window.event.keyCode;
  
 	    if (key === 13) {
 	    	var text = document.getElementById("commentBox"+id).value;
 	    	if(text != '' || imageComment != null){
-	    	addComment(text, imageComment, id, fullName, userPhoto);
+	    	addComment(text, imageComment, id, fullName, userPhoto, postId);
 
 	        var previewImage = document.getElementsByClassName("preview-images-zone"+id)[0];
 	        previewImage.innerHTML = "";
@@ -449,8 +448,11 @@ function searchWeather(cityName) {
 	    }
 	}
 	
-	function addComment(text, imageComment, id, fullName, userPhoto){
+	function addComment(text, imageComment, id, fullName, userPhoto, postId){
 
+		//sendComment //poslati komentar POST zahtjevom full
+		
+		
 	    var div = document.createElement("div");
         var output = document.getElementsByClassName("commentsZone"+id)[0];  
         var nodesSameClass = output.getElementsByClassName("row");
@@ -477,7 +479,6 @@ function searchWeather(cityName) {
 		output.innerHTML = "";
 		output.append(div);
 		
-		//sendComment //poslati komentar POST zahtjevom
 	}	
 	
 	function getFeed()

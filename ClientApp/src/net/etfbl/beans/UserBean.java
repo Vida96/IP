@@ -14,7 +14,7 @@ public class UserBean implements Serializable {
 	private boolean isLoggedIn = false;
 
 	public boolean login(String username, String password) {
-		if ((user = UserDAO.getUserByUsernameAndActive(username, 1)) != null) {
+		if ((user = UserDAO.getUserByUsernameAndPasswordAndActive(username, password, 1)) != null) {
 			isLoggedIn = true;
 			return true;
 		}
@@ -48,6 +48,14 @@ public class UserBean implements Serializable {
 			areAllowed = false;
 			pw.println("MAIL_ERROR");
 			
+		}
+		if(!UserDAO.isUsernameOnHold(username)) {
+			areAllowed = false;
+			pw.println("USERNAME_ON_HOLD");
+		}
+		if(!UserDAO.isMailOnHold(mail)) {
+			areAllowed = false;
+			pw.println("MAIL_ON_HOLD");
 		}
 		pw.close();
 		return areAllowed;

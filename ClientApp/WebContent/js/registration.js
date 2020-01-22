@@ -85,6 +85,14 @@ function validateFields(){
 				document.getElementById("mailLabel").innerHTML = "* Mail je već zauzet";
 				condition = false;
 			}
+			if(this.responseText.includes("USERNAME_ON_HOLD")) {
+				document.getElementById("usernameLabel").innerHTML = "* Korisnik sa ovim korisnickim imenom ceka na odobrenje";
+				condition = false;
+			}
+			if(this.responseText.includes("MAIL_ON_HOLD")) {
+				document.getElementById("mailLabel").innerHTML = "* Korisnik sa ovim mailom ceka na odobrenje";
+				condition = false;
+			}
 			if(condition == false)
 				return false;
 			else

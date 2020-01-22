@@ -68,6 +68,11 @@ public class ProfileController extends HttpServlet {
 				String photoData = jsonObject.getString("photo");
 				Integer notificationOnMail = jsonObject.isNull("notificationOnMail")? 0 : jsonObject.getBoolean("notificationOnMail")? 1 : 0;
 				Integer notificationInApp = jsonObject.isNull("notificationInApp")? 0 : jsonObject.getBoolean("notificationInApp")? 1 : 0;
+				Integer numberOfLogins;
+				if(!jsonObject.isNull("numberOfLogins"))
+					numberOfLogins = jsonObject.getInt("numberOfLogins");
+				else
+					numberOfLogins = 0;
 				String country = null, region = null, city = null;
 				
 				if (!jsonObject.isNull("country")){
@@ -91,7 +96,7 @@ public class ProfileController extends HttpServlet {
 					if (username != null) {
 			 			User u = UserDAO.getUserByUsernameAndActive(username, active);
 			 			user.setId(u.getId());
-			 			Integer numberOfLogins = u.getNumberOfLogins();
+			 			//Integer numberOfLogins = u.getNumberOfLogins();
 			 			user.setNumberOfLogins(numberOfLogins);
 			 			UserDAO.update(user);
 			 			if(numberOfLogins == 0) //ako se izmjena vrsi odmah nakon registracije treba ponistiti sesiju, jer nismo jos dobili odobrenje da se mozemo prijavti

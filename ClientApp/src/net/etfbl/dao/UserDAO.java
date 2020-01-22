@@ -12,19 +12,48 @@ import net.etfbl.dto.User;
 public class UserDAO {
 	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 	
+	private static final String SQL_SELECT_BY_USERNAME_AND_PASSWORD_AND_ACTIVE = "SELECT * FROM user WHERE username=? AND password=? AND active=?";
+	
 	private static final String SQL_SELECT_BY_USERNAME_AND_ACTIVE = "SELECT * FROM user WHERE username=? AND active=?";
 	
 	private static final String SQL_SELECT_BY_ID = "SELECT * FROM user WHERE id=?";
 	
-	private static final String SQL_IS_USERNAME_USED = "SELECT * FROM user WHERE username = ?";
+	private static final String SQL_IS_USERNAME_USED = "SELECT * FROM user WHERE username = ? AND active = 1";
 
-	private static final String SQL_IS_MAIL_USED = "SELECT * FROM user WHERE mail = ?";
+	private static final String SQL_IS_USERNAME_ON_HOLD = "SELECT * FROM user WHERE username = ? AND active = 0 AND loginTime IS NULL";
+	
+	private static final String SQL_IS_MAIL_USED = "SELECT * FROM user WHERE mail = ? AND active = 1";
 
+	private static final String SQL_IS_MAIL_ON_HOLD = "SELECT * FROM user WHERE mail = ? AND active = 0 AND loginTime IS NULL";
+	
 	private static final String SQL_INSERT = "INSERT INTO user (username, password, firstname, lastname, mail) VALUES (?,?,?,?,?)";
 	
 	private static final String SQL_UPDATE = "UPDATE user set firstname=?, lastname=?, username=?, password=?, photo=?, country=?, region=?, city=?, numberoflogins=?, notificationOnMail=?, notificationInApp=? WHERE id=?";
 	
 	private static final String SQL_SELECT_USERS_FOR_EMERGENCY_MAIL = "SELECT mail FROM user WHERE active=1 AND notificationOnMail=1 AND mail <>?";
+	
+	public static User getUserByUsernameAndPasswordAndActive(String username, String password, Integer active){
+		User user = null;
+		Connection connection = null;
+		ResultSet rs = null;
+		Object values[] = {username, password, active};
+		
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_BY_USERNAME_AND_PASSWORD_AND_ACTIVE, false, values);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				user = new User(rs.getInt("id"),rs.getString("firstName"),rs.getString("lastName"),rs.getString("username"), rs.getString("password"),rs.getString("mail"), rs.getString("photo"), rs.getString("country"), rs.getString("region"), rs.getString("city"), rs.getInt("notificationOnMail") , rs.getInt("notificationInApp"),rs.getInt("numberoflogins"));
+			}
+																														
+			pstmt.close();
+		} catch (SQLException exp) {
+			exp.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		} 
+		return user;
+	}
 	
 	public static User getUserByUsernameAndActive(String username, Integer active){
 		User user = null;
@@ -70,6 +99,27 @@ public class UserDAO {
 		return result;
 	}
 	
+	public static boolean isUsernameOnHold(String username) {
+		boolean result = true;
+		Connection connection = null;
+		ResultSet rs = null;
+		Object values[] = {username};
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_IS_USERNAME_ON_HOLD, false, values);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				result = false;
+			}
+			pstmt.close();
+		} catch (SQLException exp) {
+			exp.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+		return result;
+	}
+	
 	public static boolean isMailAllowed(String mail) {
 		boolean result = true;
 		Connection connection = null;
@@ -91,6 +141,27 @@ public class UserDAO {
 		return result;
 	}
 
+	public static boolean isMailOnHold(String mail) {
+		boolean result = true;
+		Connection connection = null;
+		ResultSet rs = null;
+		Object values[] = {mail};
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_IS_MAIL_ON_HOLD, false, values);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				result = false;
+			}
+			pstmt.close();
+		} catch (SQLException exp) {
+			exp.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+		return result;
+	}
+	
 	public static boolean insert(User user) {
 		boolean result = false;
 		Connection connection = null;
