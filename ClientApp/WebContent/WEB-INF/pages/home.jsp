@@ -144,8 +144,22 @@ hr {
    overflow-y: scroll;
    overflow:auto;
 background-color:  #ffffff;;
-
    
+}
+
+::-webkit-scrollbar {
+  width: 1em;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #000000;
+  outline: 2px solid slategrey;
 }
 
 .multiselect {
@@ -244,12 +258,12 @@ background-color:  #ffffff;;
                         </li>
                      </ul>
 						</div>
-						  <%if(userBean.getUser().getNotificationInApp() == 1){ %>
+						  <%if(userBean.getUser().getNotificationInApp() == 0){ %>
 						<!-- Post /////-->
 <div class="emergencyPostsZone">
 
    						   <%
-				               List<Post> posts = postBean.getAllActivePosts();
+				               List<Post> posts = postBean.getAllActiveEmergencyPosts();
    						   	   int[] i = {0};
 				           	   for(Post p : posts){
 				           	%>
@@ -363,7 +377,7 @@ background-color:  #ffffff;;
 				               List<PostCategory> postCategories = postCategoryBean.getAllActivePostCategories();
 				           	   for(PostCategory pc : postCategories){
 				           	%>
-				           	<label><input id=<%=pc.getId()%> class="checkboxes" type="checkbox" name="cbCategory" onClick="fillArea();"/> <%out.println(pc.getName());%></label>
+				           	<label style="font-weight:bold"><input id="<%=pc.getId() + " " + pc.getName()%>" class="checkboxes" type="checkbox" name="cbCategory" onClick="fillArea();"/> <%out.println(pc.getName());%></label>
 				           	<hr>
                         <%} %>
     </div>
@@ -376,6 +390,11 @@ background-color:  #ffffff;;
 <div class="form-group">
     <label>Lokacija opasnosti:</label>
     <input style="width:250px" type="text" class="form-control" id="searchInput" placeholder="Unesite lokaciju" />
+      <div style="float:right">
+<label>
+<span>Ukoliko se radi o hitnom upozorenju, molimo Vas da oznacite</span>
+<input type="checkbox" id="emergencyCb" class="checkbox style-2 right">
+</label> </div>
 </div>
                             <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                                 <div class="form-group">
@@ -390,16 +409,12 @@ background-color:  #ffffff;;
     </fieldset>
                                    <div class="preview-images-zone">
     </div>
-    <div style="float:right">
-<label>
-<span>Ukoliko se radi o hitnom upozorenju, molimo Vas da oznacite</span>
-<input type="checkbox" id="emergencyCb" class="checkbox style-2 right">
-</label> </div>
+  
 <br>
 
 <br>
    <% 
-   List<Post> posts = postBean.getAllActivePosts();
+   List<Post> posts = postBean.getAllActiveUnemergencyPosts();
   	  %>  
                         <div style="float:right" class="btn-toolbar justify-content-between">
                             <div class="btn-group">
@@ -491,23 +506,11 @@ background-color:  #ffffff;;
                        <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
                        <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
                     </div>
-                    <div class="commentsZone<%=i[0]%>">
-                     <div class="row" style="margin:5px" >
-    <div class="col-sm-2 text-center">
-                <img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">
-    </div>
-    <div class="col-sm-10">
-      <h4>John Row</h4>
-      <div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> Prije 40 minuta</div>
-      <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-      <img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg">
-      <br>
-      </div>
-    </div>
+                    <div class="commentsZone<%=i[0]%>">         
     <div class="card gedf-card">
             <div class="panel panel-info">
                 <div class="panel-body">
-                    <textarea id="commentBox<%=i[0]%>" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress('<%=i[0]%>', '<%=userBean.getUser().getUsername()%>', '<%=userBean.getUser().getPhoto()%>');"></textarea>
+                    <textarea id="commentBox<%=i[0]%>" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress('<%=i[0]%>', '<%=userBean.getUser().getUsername()%>', '<%=userBean.getUser().getPhoto()%>'), '<%=p.getId()%>';"></textarea>
       <div style="float:right; display: none;" class="preview-images-zone<%=i[0]%>"></div>      
             </div>
         </div>
@@ -526,114 +529,10 @@ background-color:  #ffffff;;
 
 
                 <!--- \\\\\\\Post-->
-                <!-- Post /////-->
-
       <br>
-                <!--- \\\\\\\Post-->
-                <div class="card gedf-card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
-                                </div>
-                                <div class="ml-2">
-                                    <div class="h5 m-0">@LeeCross</div>
-                                    <div class="h7 text-muted">Miracles Lee Cross</div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="dropdown">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-ellipsis-h"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                        <div class="h6 dropdown-header">Configuration</div>
-                                        <a class="dropdown-item" href="#">Save</a>
-                                        <a class="dropdown-item" href="#">Hide</a>
-                                        <a class="dropdown-item" href="#">Report</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="card-body">
-                     
-                    
-    <div class="well"> 
-        <div class="row">
-             <div class="col-md-12">
-              <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 40 minuta</div>
-                <h1>TITULO LARGO DE UNA INVESTIGACION cualquiera</h1> 
-                     
-                 <img width="200" height="200"  class="center-block img-responsive" src='https://thumbs.dreamstime.com/b/danger-warning-sign-word-text-as-stencil-yellow-black-stripes-painted-over-concrete-wall-cement-texture-background-129318369.jpg' />
-            	 <p>Sed porttitor lectus nibh. Nulla quis lorem ut libero malesuada feugiat. 
-                 Quisque velit nisi, pretium ut lacinia in, elementum id enim. Sed porttitor lectus nibh.
-                 Nulla porttitor accumsan tincidunt. Vivamus suscipit tortor eget felis porttitor volutpat.
-                 Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur aliquet quam id dui posuere blandit.
-                 Sed porttitor lectus nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sapien massa, 
-                 convallis a pellentesque nec, egestas non nisi. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat.
-                 Donec rutrum congue leo eget malesuada.<br><br>
-              </p> 
-             </div>
-        </div>
-    </div>
- 
-                     </div>
-             
-                    <div class="card-footer">
-                       <button type="button" onClick="focusCommentBox()" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
-                       <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
-                       <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
-                    </div>
-                    <div class="commentsZone">
-                     <div class="row" style="margin:5px" >
-    <div class="col-sm-2 text-center">
-                <img class="rounded-circle" width="60" src="https://picsum.photos/50/50" alt="">
-    </div>
-    <div class="col-sm-10">
-      <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
-      <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-      <img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg">
-      <br>
+	  </div> <!-- ne diraj ovaj tag kada budes brisao -->
+      <br><br><br>
       </div>
-    </div>
-    <hr>
-       <div class="row" style="margin:5px" >
-    <div class="col-sm-2 text-center">
-    	<img class="rounded-circle" width="60" src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" alt="">
-    </div>
-    <div class="col-sm-10">
-      <h4>John Row &nbsp &nbsp</h4>
-      <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Prije 40 minuta</div>
-      <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-      <img height="170" width="170" src="http://i.stack.imgur.com/WCveg.jpg">
-      <br>
-      </div>
-    </div>
-    
-                        <div class="card gedf-card">
-            <div class="panel panel-info">
-                <div class="panel-body">
-                    <textarea id="commentBox" style="width:100%" placeholder="Napišite svoj komentar ovdje" class="pb-cmnt-textarea" onkeypress="onEnterPress();"></textarea>
-      <div style="float:right; display: none;" class="preview-images-zone"></div>      
-            </div>
-        </div>
-    </div>  
-                </div>
-                          
-                    <fieldset style="float:right" class="form-group">
-        <a  href="javascript:void(0)" style="float:right;" onclick="$('#pro-image2').click()"><span class="fa fa-picture-o fa-lg"></span>Dodaj sliku</a>
-        <input type="file" id="pro-image2" name="pro-image2" style="display: none;" class="form-control" onChange="readImageForComment()" multiple>
-                            
-    </fieldset>
-        </div>
-        
-        </div> <!-- ne diraj ovaj tag kada budes brisao -->
-                   <br><br><br>
-    
-                    </div>
             <div class="col-md-3">
                 <div class="card gedf-card">
                     <div class="weatherContainer" id="weatherContainer0">
