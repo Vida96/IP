@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import net.etfbl.dto.PostCategory;
@@ -32,6 +34,10 @@ public class UserDAO {
 	
 	private static final String SQL_SELECT_USERS_FOR_EMERGENCY_MAIL = "SELECT mail FROM user WHERE active=1 AND notificationOnMail=1 AND mail <>?";
 	
+	private static final String SQL_UPDATE_LOGIN_TIME_AND_NUMBER_OF_LOGINS = "UPDATE user SET logintime=?, numberoflogins=? WHERE id=?";
+	
+	private static final String SQL_UPDATE_LOGOUT_TIME = "UPDATE user SET logouttime=? WHERE id=?";
+	
 	public static User getUserByUsernameAndPasswordAndActive(String username, String password, Integer active){
 		User user = null;
 		Connection connection = null;
@@ -43,7 +49,8 @@ public class UserDAO {
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_BY_USERNAME_AND_PASSWORD_AND_ACTIVE, false, values);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
-				user = new User(rs.getInt("id"),rs.getString("firstName"),rs.getString("lastName"),rs.getString("username"), rs.getString("password"),rs.getString("mail"), rs.getString("photo"), rs.getString("country"), rs.getString("region"), rs.getString("city"), rs.getInt("notificationOnMail") , rs.getInt("notificationInApp"),rs.getInt("numberoflogins"));
+				user = new User(rs.getInt("id"),rs.getString("firstName"),rs.getString("lastName"),rs.getString("username"), rs.getString("password"),rs.getString("mail"), rs.getString("photo"), rs.getString("country"), rs.getString("region"), rs.getString("city"), rs.getInt("notificationOnMail") , rs.getInt("notificationInApp"), rs.getInt("numberoflogins") + 1);
+				setNumberOfLoginsAndLoginTime(user.getId(), user.getNumberOfLogins());
 			}
 																														
 			pstmt.close();
@@ -55,6 +62,31 @@ public class UserDAO {
 		return user;
 	}
 	
+	private static Boolean setNumberOfLoginsAndLoginTime(Integer userId, Integer numberOfLogins) {
+		boolean result = false;
+		Connection connection = null;
+	
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = connection.prepareStatement(SQL_UPDATE_LOGIN_TIME_AND_NUMBER_OF_LOGINS);
+			Date date = new Date();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
+			String currentDateTime = format.format(date);
+			pstmt.setString(1, currentDateTime);
+			pstmt.setInt(2, numberOfLogins);
+			pstmt.setInt(3, userId);
+			pstmt.executeUpdate();
+			if (pstmt.getUpdateCount() > 0) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+		return result;
+	}
+
 	public static User getUserByUsernameAndActive(String username, Integer active){
 		User user = null;
 		Connection connection = null;
@@ -189,7 +221,6 @@ public class UserDAO {
 	public static boolean update(User user) {
 		boolean result = false;
 		Connection connection = null;
-	
 		try {
 			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = connection.prepareStatement(SQL_UPDATE);
@@ -263,5 +294,25 @@ public class UserDAO {
 			connectionPool.checkIn(connection);
 		}
 		return usersMails;
+	}
+
+	public static void logout(Integer id) {
+		Connection connection = null;
+	
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = connection.prepareStatement(SQL_UPDATE_LOGOUT_TIME);
+			Date date = new Date();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
+			String logoutTime = format.format(date);
+			
+			pstmt.setString(1, logoutTime);
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
 	}
 }

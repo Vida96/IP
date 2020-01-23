@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import net.etfbl.beans.PostBean;
 import net.etfbl.beans.PostCategoryBean;
 import net.etfbl.beans.UserBean;
+import net.etfbl.dao.UserDAO;
 import net.etfbl.dto.User;
 
 @WebServlet("/Login")
@@ -38,8 +39,11 @@ public class LoginController extends HttpServlet {
 		if (action == null || action.equals("")) {
   			address = "/WEB-INF/pages/login.jsp";
 		} else if (action.equals("logout")) {
+			UserBean userBean = (UserBean)session.getAttribute("userBean");
+			if(userBean != null)
+				UserDAO.logout(userBean.getUser().getId());
+		
 			session.invalidate();
-			//pozvati UserBean, a zatim odraditi i odjavljivanje korisnika
 			address = "/WEB-INF/pages/login.jsp";
 		} else if (action.equals("login")) {
 			System.out.println("USLO");
@@ -69,12 +73,8 @@ public class LoginController extends HttpServlet {
 		String address = "/WEB-INF/pages/login.jsp";
 		String action = jsonObject.getString("action");
 		HttpSession session = request.getSession();
-  
-		if (action.equals("logout")) {
-			session.invalidate();
-			//pozvati UserBean, a zatim odraditi i odjavljivanje korisnika
-			address = "/WEB-INF/pages/login.jsp";
-		} else if (action.equals("login")) {
+
+		if (action.equals("login")) {
 			UserBean userBean = new UserBean();
 			PostBean postBean = new PostBean();
 			PostCategoryBean postCategoryBean = new PostCategoryBean();

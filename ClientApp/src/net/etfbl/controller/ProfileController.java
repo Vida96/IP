@@ -52,14 +52,18 @@ public class ProfileController extends HttpServlet {
 				String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 				JSONObject jsonObject = new JSONObject(jsonText);
 				String action = jsonObject.getString("action");
-
+				HttpSession session = request.getSession();
+				
 				if ("updateProfile".equals(action)) {
-					validateFields(jsonObject, response, request, 0); //prvi put se vrsi izmjena profila, odmah nakon registracije pa je active na 0 jer administrator jos nije odobrio profil
+					UserBean userBean = (UserBean)session.getAttribute("userBean");
+					
+					validateFields(jsonObject, response, request, userBean.isLoggedIn() ? 1 : 0, userBean.getUser().getNumberOfLogins(), userBean.getUser().getId()); //prvi put se vrsi izmjena profila, odmah nakon registracije pa je active na 0 jer administrator jos nije odobrio profil
 				}
 		    }
 
-			private void validateFields(JSONObject jsonObject, HttpServletResponse response, HttpServletRequest request, Integer active) {
+			private void validateFields(JSONObject jsonObject, HttpServletResponse response, HttpServletRequest request, Integer active, Integer numberOfLogins, Integer userId) {
 				HttpSession session = request.getSession();
+				UserBean userBean = (UserBean)session.getAttribute("userBean");
 				String firstName = jsonObject.getString("firstName");
 				String lastName = jsonObject.getString("lastName");
 				String username = jsonObject.getString("username");
@@ -68,7 +72,7 @@ public class ProfileController extends HttpServlet {
 				String photoData = jsonObject.getString("photo");
 				Integer notificationOnMail = jsonObject.isNull("notificationOnMail")? 0 : jsonObject.getBoolean("notificationOnMail")? 1 : 0;
 				Integer notificationInApp = jsonObject.isNull("notificationInApp")? 0 : jsonObject.getBoolean("notificationInApp")? 1 : 0;
-				Integer numberOfLogins;
+				
 				if(!jsonObject.isNull("numberOfLogins"))
 					numberOfLogins = jsonObject.getInt("numberOfLogins");
 				else
@@ -87,21 +91,17 @@ public class ProfileController extends HttpServlet {
 					 city = jsonObject.getString("city");
 					}
 				
-				UserBean userBean = new UserBean();
 				String attribute;
 				 
-				User user = new User(0, firstName, lastName, username, password, mail, photoData, country, region, city, notificationOnMail, notificationInApp, 0);
+				User user = new User(userId, firstName, lastName, username, password, mail, photoData, country, region, city, notificationOnMail, notificationInApp, numberOfLogins);
 				try {
 					PrintWriter pw = new PrintWriter(response.getWriter());
-					if (username != null) {
-			 			User u = UserDAO.getUserByUsernameAndActive(username, active);
-			 			user.setId(u.getId());
-			 			//Integer numberOfLogins = u.getNumberOfLogins();
-			 			user.setNumberOfLogins(numberOfLogins);
-			 			UserDAO.update(user);
-			 			if(numberOfLogins == 0) //ako se izmjena vrsi odmah nakon registracije treba ponistiti sesiju, jer nismo jos dobili odobrenje da se mozemo prijavti
+						UserDAO.update(user);
+			 			
+						if(numberOfLogins == 0) //ako se izmjena vrsi odmah nakon registracije treba ponistiti sesiju, jer nismo jos dobili odobrenje da se mozemo prijavti
 			 				session.invalidate();
-					}
+						else
+							userBean.setUser(user);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

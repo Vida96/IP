@@ -2,12 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
- 
-<!------ Include the above in your HEAD tag ---------->
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <title>Insert title here</title>
 <style>
@@ -45,7 +39,7 @@ li a:hover {
     <a href="Profile">Izmjena profila</a>
   </li>
   <li style="float:right">
-    <a href="Login?action=signOut">Odjava</a>
+    <a href="Login?action=logout">Odjava</a>
   </li>
 </ul>
 <br>

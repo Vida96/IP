@@ -245,7 +245,7 @@ background-color:  #ffffff;;
                         </li>
                      </ul>
 						</div>
-						  <%if(userBean.getUser().getNotificationInApp() == 0){ %>
+						  <%if(userBean.getUser().getNotificationInApp() == 1){ %>
 						<!-- Post /////-->
 <div class="emergencyPostsZone">
 

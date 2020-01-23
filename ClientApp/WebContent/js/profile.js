@@ -78,6 +78,7 @@ function validateFields(numberOfLogins){
 	var city  = cityOption.options[cityOption.selectedIndex].value;
 	var notificationOnMail;
 	var notificationInApp;
+	
 	if(document.getElementById("notifications-blog").checked){
 	var radioButtons = document.getElementsByName("notifications");
 	 
@@ -91,7 +92,7 @@ function validateFields(numberOfLogins){
     var output =  document.getElementById('profileImage');
     var photo;
     
-    if((output.getAttribute('src') == "") || (output.getAttribute('src') == 'https://www.serenbooks.com/sites/default/files/default_images/default-user-image.png'))
+    if((output.getAttribute('src') == "") || (output.getAttribute('src') == 'https://www.serenbooks.com/sites/default/files/default_images/default-user-image.png')|| output.getAttribute('src').includes("https://restcountries.eu"))
     {
     	var userCountry = countries.filter(function (c) {
     	    return c.name === country;
@@ -126,9 +127,10 @@ function validateFields(numberOfLogins){
 				document.getElementById("usernameLabel").innerHTML = "Korisničko ime je zauzeto";
 				return false;
 			}
-			else
+			else if(numberOfLogins == 0)
 				window.location.replace("Login?action=");
-	 
+			else
+				document.getElementById("successLabel").innerHTML = "Uspjesno izvrsena izmjena profila";
 		}
 	}
 	

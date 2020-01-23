@@ -61,6 +61,10 @@ public class UserBean implements Serializable {
 		return areAllowed;
 	}
 	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	public boolean add(User user) {
 		this.user = user;
 		return UserDAO.insert(user);

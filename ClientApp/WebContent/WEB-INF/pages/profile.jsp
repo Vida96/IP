@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<jsp:include page="../pages/profileUpdate.jsp"/>
 <hr>	
 <div class="container bootstrap snippet">
     <div class="row">
@@ -34,8 +36,15 @@
   		<div class="col-sm-3"><!--left col-->
                
       <div class="text-center">
+     <%
+     String userPhoto = user.getPhoto();
+     if(userPhoto == null){ %>
         <img id="profileImage" src="https://www.serenbooks.com/sites/default/files/default_images/default-user-image.png" class="avatar img-circle img-thumbnail" alt="avatar">
-        <input type='file'id="selectedImage" onChange="handleImageChange()" class="hidden"/>  
+     <%}else{ %>  
+        <img id="profileImage" src=<%=userPhoto%> class="avatar img-circle img-thumbnail" alt="avatar">
+    
+        <%} %>
+        <input type='file' id='selectedImage' class='hidden' onChange='handleChange()' />  
 <label for="selectedImage">Odaberite profilnu sliku</label>
       </div></hr><br>
 
@@ -99,8 +108,15 @@
                       <div class="form-group">
                           <div class="col-xs-7">
                              <label for="country"><h4>Država</h4></label>
+                             
                                <select style="height:30px;" class="form-control" id="country"  onChange="fillRegions()">
                 <script>fillCountries();</script> 
+                <%String country = userBean.getUser().getCountry();
+                if(country != null){ %>
+                <option selected>  
+  				<%=country%>
+  				</option> 
+  				<%}%>
                 </select>
                          </div>
                          </div>
@@ -109,6 +125,12 @@
                     <div class="col-xs-7">
                              <label for="region"><h4>Region</h4></label>
                                <select style="height:30px;" class="form-control" id="region"  onChange="fillCities()">
+                               <%String region = userBean.getUser().getRegion();
+                				if(region != null){ %>
+                				<option selected>  
+  								<%=region%>
+  								</option> 
+  								<%}%>
                 </select>
                          </div>
                          </div> 
@@ -117,6 +139,12 @@
                     <div class="col-xs-7">
                              <label for="city"><h4>Grad</h4></label>
                                <select style="height:30px;" id="city" class="form-control">
+                                <%String city = userBean.getUser().getCity();
+                				if(city != null){ %>
+                				<option selected>  
+  								<%=city%>
+  								</option> 
+  								<%}%>
                		 </select>
                          </div>
                          </div> 
@@ -124,18 +152,36 @@
                        <div class="form-group">
                     <div class="col-xs-7">
                     <br>
-                            <input type="checkbox" class="custom-control-input" id="notifications-blog" onChange="toggle_visibility()">
+                    <%Integer notificationOnMail = userBean.getUser().getNotificationOnMail();
+                   	  Integer notificationInApp = userBean.getUser().getNotificationInApp();	
+                      String display;
+                      String nOM = "";
+                      String nIA = ""; 
+                      String cbChecked ="";
+                   	  if(notificationOnMail == 1){
+                   		 display = "block";
+       					 nOM = "checked";
+       				   	 cbChecked = "checked";
+                      }else if(notificationInApp == 1){
+                    		 display = "block";
+           					 nIA = "checked";
+           				   	 cbChecked = "checked";
+                      }
+                   	   else
+                    	 display = "none";
+                    %>
+                            <input type="checkbox" class="custom-control-input" id="notifications-blog" checked="<%=cbChecked%>"onChange="toggle_visibility()">
                                 <label style="padding-left: 20px;" class="custom-control-label" for="notifications-blog">Notifikacije o hitnim upozorenjima</label>
-                                    <div class="col-sm-6" id="radioButtons" style="display: none">
+                                    <div class="col-sm-6" id="radioButtons" style="display:<%=display%>">
                         <div class="row">
                             <div class="col-sm-4">
                                 <label class="radio-inline">
-                                    <input type="radio" name="notifications" value="notificationsOnMail" checked="checked">Na mail
+                                    <input type="radio" name="notifications" value="notificationsOnMail" checked="<%=nOM%>">Na mail
                                 </label>
                             </div>
                             <div class="col-sm-4">
                                 <label class="radio-inline">
-                                    <input type="radio" name="notifications" value="notificationsInApp" style="padding-right: 20px;">U aplikaciji
+                                    <input type="radio" name="notifications" value="notificationsInApp" checked="<%=nIA%>" style="padding-right: 20px;">U aplikaciji
                                 </label>
                             </div>
                         </div>
@@ -148,6 +194,7 @@
                            <div class="col-xs-12">
                                 <br>
                               	<button class="btn btn-lg btn-success" type="submit" onclick="event.preventDefault(); return validateFields(<%=userBean.getUser().getNumberOfLogins()%>)"><i class="glyphicon glyphicon-ok-sign"></i> Sačuvaj</button>
+                               	&nbsp&nbsp<label style="color: green" id="successLabel"></label>
                             </div>
                       </div>
               	</form>
