@@ -8,13 +8,19 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -155,7 +161,7 @@ sendMail("", "", post);
 //        session.setDebug(true);
 
         try {
-        	Message msg = new MimeMessage(session);
+       /* 	Message msg = new MimeMessage(session);
         	 
           
         	// Create a default MimeMessage object.
@@ -169,16 +175,62 @@ sendMail("", "", post);
 
             // Set Subject: header field
             message.setSubject("This is the Subject Line!");
-
+*/
             // Now set the actual message
          //   message.setText("This is actual message");
-            String msg2 = getMessageContent(post); // "<i>Greetings!</i><br>";
+        //    String msg2 = getMessageContent(post); // "<i>Greetings!</i><br>";
           //  msg2 += "<b>Wish you a nice day!</b><br>";
            // msg2 += "<font color=red>Duke</font><br>";
-            msg2 +="<img src='https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png' alt='Smiley face' height='100' width='100'>";
-            message.setContent(msg2, "text/html");
+          //  msg2 +="<img src='https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png' alt='Smiley face' height='100' width='100'>";
+           // message.setContent(msg2, "text/html");
             
-            System.out.println("sending...");
+            
+        	Message message = new MimeMessage(session);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress(from));
+
+            // Set To: header field of the header.
+            message.setRecipients(Message.RecipientType.TO,
+               InternetAddress.parse(to));
+
+            // Set Subject: header field
+            message.setSubject("Testing Subject");
+
+            // This mail has 2 part, the BODY and the embedded image
+            MimeMultipart multipart = new MimeMultipart("related");
+
+            // first part (the html)
+            BodyPart messageBodyPart = new MimeBodyPart();
+            String htmlText = "<H1>Hello</H1><img src=\"cid:image\">";
+            messageBodyPart.setContent(htmlText, "text/html");
+            // add it
+            multipart.addBodyPart(messageBodyPart);
+
+            // second part (the image)
+            messageBodyPart = new MimeBodyPart();
+            DataSource fds = new FileDataSource(
+               "C:/Users/Nikola/Desktop/download.jfif");
+
+            messageBodyPart.setDataHandler(new DataHandler(fds));
+            messageBodyPart.setHeader("Content-ID", "<image>");
+            // add image to the multipart
+            multipart.addBodyPart(messageBodyPart);
+
+            messageBodyPart = new MimeBodyPart();
+            fds = new FileDataSource("C:/Users/Nikola/Desktop/images.jfif");
+
+            messageBodyPart.setDataHandler(new DataHandler(fds));
+            messageBodyPart.setHeader("Content-ID", "<image>");
+            // add image to the multipart
+            multipart.addBodyPart(messageBodyPart);
+
+            
+         
+            // put everything together
+      
+            message.setContent(multipart);
+                 System.out.println("sending...");
             // Send message
             Transport.send(message);
             System.out.println("Sent message successfully....");
@@ -210,11 +262,13 @@ sendMail("", "", post);
 		   
 		    List<String> images = post.getImages(); 
 		    images.forEach(image -> {
-		    	if(images.indexOf(image) == 0  && images.indexOf(image) == 4)
-		    		 imagesHtml[0] +="<img src='https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png' alt='Smiley face' height='100' width='100'>";
-		        else
-		    		 imagesHtml[0] +="<img src='https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png' alt='Smiley face' height='100' width='100'>";
-		           
+		//    	if(images.indexOf(image) == 0  && images.indexOf(image) == 4)
+			 imagesHtml[0] +="<img src=" + image +" alt='Smiley face' height='100' width='100'>";
+				
+		    	imagesHtml[0] +="<img src=" + image + "height='100' width='100'>";
+		 //       else
+		   // 		 imagesHtml[0] +="<img src='https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png' alt='Smiley face' height='100' width='100'>";
+		     System.out.println(image);      
 		    	}); 
 		    if(imagesHtml[0] != ""){
 		    	imagesHtml[0] += "<br><br><br><br><br><br><br><br><br>";
