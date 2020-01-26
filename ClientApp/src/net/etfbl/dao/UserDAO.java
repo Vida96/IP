@@ -34,9 +34,9 @@ public class UserDAO {
 	
 	private static final String SQL_SELECT_USERS_FOR_EMERGENCY_MAIL = "SELECT mail FROM user WHERE active=1 AND notificationOnMail=1 AND mail <>?";
 	
-	private static final String SQL_UPDATE_LOGIN_TIME_AND_NUMBER_OF_LOGINS = "UPDATE user SET logintime=?, numberoflogins=? WHERE id=?";
+	private static final String SQL_UPDATE_LOGIN_TIME_AND_NUMBER_OF_LOGINS = "UPDATE user SET logintime=?, numberoflogins=?, isLogedIn = 1 WHERE id=?";
 	
-	private static final String SQL_UPDATE_LOGOUT_TIME = "UPDATE user SET logouttime=? WHERE id=?";
+	private static final String SQL_UPDATE_LOGOUT_TIME = "UPDATE user SET logouttime=?, isLogedIn = 0 WHERE id=?";
 	
 	public static User getUserByUsernameAndPasswordAndActive(String username, String password, Integer active){
 		User user = null;

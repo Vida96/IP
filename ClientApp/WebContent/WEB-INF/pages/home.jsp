@@ -141,7 +141,8 @@ hr {
 <style>
 .multiselect {
  position: absolute;
-   z-index:1; 
+   z-index:1;
+   height:70px; 
    max-height: 90px;
    overflow-y: scroll;
    overflow:auto;
@@ -328,8 +329,11 @@ background-color:  #ffffff;;
 				           	 i[0]++;
 				           	 } %>
 
+<a href="https://www.facebook.com/share.php?u=google.com&quote=your+text+goes+here" target="_blank">Share this page on your wall</a>
 
-                <!--- \\\\\\\Post-->
+
+
+ <!--- \\\\\\\Post-->
                 <!-- Post /////-->
 
       <br>
@@ -470,7 +474,12 @@ background-color:  #ffffff;;
                             </h3>
                         <%
    						List<String> images = p.getImages();
-                        for(String image : images){%>
+                        String firstImage ="";
+                        if(images.size() > 0)
+                        	firstImage = images.get(0);
+                      
+                        for(String image : images){
+                        %>
                         <img width="200" height="200"  class="center-block img-responsive" src='<%=image%>' />
                         <%}%>
                         
@@ -485,8 +494,8 @@ background-color:  #ffffff;;
                     </div>
                     <div class="card-footer">
                        <button type="button" onClick="focusCommentBox(<%=i[0]%>)" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
-                       <button type="button" onClick="focusShareOnFacebook(500, 300)" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
-                       <button type="button" onClick="focusShareOnTwitter()" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
+                       <button type="button" onClick="focusShareOnFacebook('<%=p.getText()%>', '<%=firstImage%>', '<%=location%>','<%=p.getLink()%>' )" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
+                       <button type="button" onClick="focusShareOnTwitter('<%=p.getText()%>','<%=p.getLink()%>', '<%=userBean.getUser().getUsername()%>', '<%=location%>')" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
                     </div>
                     <div class="commentsZone<%=i[0]%>">  
                     <% List<Comment> postComments = p.getCommments();   

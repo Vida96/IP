@@ -153,15 +153,47 @@ function readImageForComment(id) {
 	 }
 }
 
-function focusShareOnFacebook(width, height){
-	var desc=encodeURIComponent("Hey, I scored "+ 2 +" in a quiz"); 
-	window.open("https://www.facebook.com/sharer.php?u=http://192.168.1.2&caption='Top 3 reasons why you should care about your finance&description=What happens when you don't take care of your finances?&message:sdadsaasdas"); 
-}
+function focusShareOnFacebook(text, image, location, link){
+u="https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png";
+t='dsadsdas';
+if(location)
+	text += "  Lokacija: " + location;
 
-function focusShareOnTwitter(){
-	var url = "http://192.168.1.2/ClientApp/Home";
-	var text = "Replace this with your text";
-	window.open('http://twitter.com/share?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+if(link != 'null')
+	text+= "  Detaljnije na linku: " + link;
+
+if(image)
+{	
+	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(image)+'&u='+encodeURIComponent(image)+'&quote=' + encodeURIComponent(text) +'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');return false;
+}
+else{
+	image = "https://thumbs.dreamstime.com/z/stencil-type-red-danger-word-watermark-frame-red-danger-stencil-103746758.jpg";
+	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(image)+'&quote=' + encodeURIComponent(text) +'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');return false;
+}}
+
+function focusShareOnTwitter(text, link, username, location){
+//	var url = "http://192.168.1.2/ClientApp/Home";
+	//var text = "Replace this with your text";
+//	window.open('http://twitter.com/share?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+	
+	var shareURL = "http://twitter.com/share?"; //url base
+    //params
+	u="https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png";
+	
+	if(location)
+		username += "  Lokacija: " + location;
+	
+	if(link)
+		text+= "  Detaljnije na linku: ";
+	
+	var params = {
+      text: text,
+      via: username,
+      url: link, 
+  //    hashtags: "hashtag1,hashtag2"
+    }
+    for(var prop in params) shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);//+'&u='+encodeURIComponent(u));
+	window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
 }
 
 function shareDanger(id, username, fullName, userPhoto){

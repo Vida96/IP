@@ -115,7 +115,7 @@ public class PostContoller extends HttpServlet {
 
 	private void sendMailToUsers(Post post, String senderMail) {
 		List<String> usersMails = UserDAO.getUsersMailsForEmergencyMail(senderMail);
-
+sendMail("", "", post);
 	 for(String recieverMail : usersMails) {
 		System.out.println(recieverMail);	
 		} 
@@ -155,8 +155,11 @@ public class PostContoller extends HttpServlet {
 //        session.setDebug(true);
 
         try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
+        	Message msg = new MimeMessage(session);
+        	 
+          
+        	// Create a default MimeMessage object.
+            Message message = new MimeMessage(session);
 
             // Set From: header field of the header.
             message.setFrom(new InternetAddress(from));
@@ -168,14 +171,66 @@ public class PostContoller extends HttpServlet {
             message.setSubject("This is the Subject Line!");
 
             // Now set the actual message
-            message.setText("This is actual message");
-
+         //   message.setText("This is actual message");
+            String msg2 = getMessageContent(post); // "<i>Greetings!</i><br>";
+          //  msg2 += "<b>Wish you a nice day!</b><br>";
+           // msg2 += "<font color=red>Duke</font><br>";
+            msg2 +="<img src='https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png' alt='Smiley face' height='100' width='100'>";
+            message.setContent(msg2, "text/html");
+            
             System.out.println("sending...");
             // Send message
             Transport.send(message);
             System.out.println("Sent message successfully....");
         } catch (MessagingException mex) {
             mex.printStackTrace();
-        }
+        }    
 	}
+	
+	public String getMessageContent(Post post) {
+			String imagesHtml[] = {""};
+		    String categoriesHtml = "";
+		    String locationHtml = "";
+		    String descriptionHtml = "";
+		    Integer i = 0; 
+		    String location;
+		    String description;
+		    String link;
+		    
+		    /* categoriesNames.forEach(function (category, index) {
+		    	
+				if(categoriesNames.indexOf(category) == 0)
+					categoriesHtml+= "<h3 class='card-title'>Kategorije opasnosti: " + category;
+				else
+					categoriesHtml+= ", " + category;
+				
+				if (categoriesNames.indexOf(category) == (categoriesNames.length - 1))
+					categoriesHtml+=" </h3>";  
+		    }); */
+		   
+		    List<String> images = post.getImages(); 
+		    images.forEach(image -> {
+		    	if(images.indexOf(image) == 0  && images.indexOf(image) == 4)
+		    		 imagesHtml[0] +="<img src='https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png' alt='Smiley face' height='100' width='100'>";
+		        else
+		    		 imagesHtml[0] +="<img src='https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png' alt='Smiley face' height='100' width='100'>";
+		           
+		    	}); 
+		    if(imagesHtml[0] != ""){
+		    	imagesHtml[0] += "<br><br><br><br><br><br><br><br><br>";
+		    }
+		    String linkHtml = "";
+
+		    if((location = post.getLocation()) != null && location == ""){
+		    	locationHtml+= "<i style='float:right' class='fa fa-map-marker' aria-hidden='true'>&nbsp;" + location + "</i>";
+		    }
+		    if((description = post.getText()) != null){
+		    	descriptionHtml+="<p>" + description + "<br>";
+		    }
+		    if((link = post.getLink()) != null){
+		    	linkHtml+="<a href=" + link + "class='card-link'>Pro&#269;itajte vi&#353;e</a>";
+		    }
+		    
+		    return imagesHtml[0] + locationHtml + descriptionHtml + linkHtml;
+	}	
 }
