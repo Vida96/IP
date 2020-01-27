@@ -139,6 +139,23 @@ function validateFields(numberOfLogins){
 	request.send(JSON.stringify(object));
 }
 
+function handleChange(){
+	 if (window.File && window.FileList && window.FileReader) {
+		 var files = event.target.files; //FileList object
+	     var output =  document.getElementById('profileImage');
+         var file = files[0];
+         if (!file.type.match('image')) 
+        	 return false;
+         var picReader = new FileReader();
+         picReader.readAsDataURL(file);            
+          picReader.addEventListener('load', function (event) {
+               var picFile = event.target; 
+               var picFile = event.target;
+               output.src = picFile.result;
+         });
+	 }	
+}
+
 function handleImageChange(){
     
 	 if (window.File && window.FileList && window.FileReader) {

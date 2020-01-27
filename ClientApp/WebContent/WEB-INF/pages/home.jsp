@@ -19,6 +19,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyASALqo3BcfC125acwVTv1AspJGx1K-F_E"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .weatherContainer {
     background-color: rgba(0, 0, 0, 0.25);
@@ -311,8 +312,6 @@ background-color:  #ffffff;;
 				           	 i[0]++;
 				           	 } %>
 
-<a href="https://www.facebook.com/share.php?u=google.com&quote=your+text+goes+here" target="_blank">Share this page on your wall</a>
-
 
 
  <!--- \\\\\\\Post-->
@@ -476,8 +475,8 @@ background-color:  #ffffff;;
                     </div>
                     <div class="card-footer">
                        <button type="button" onClick="focusCommentBox(<%=i[0]%>)" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
-                       <button type="button" onClick="focusShareOnFacebook('<%=p.getText()%>', '<%=firstImage%>', '<%=location%>','<%=p.getLink()%>' )" class="btn btn-link"><i class="fa fa-facebook-square" aria-hidden="true"></i>Podijeli na fb</button>
-                       <button type="button" onClick="focusShareOnTwitter('<%=p.getText()%>','<%=p.getLink()%>', '<%=userBean.getUser().getUsername()%>', '<%=location%>')" class="btn btn-link"><i class="fa fa-twitter-square" aria-hidden="true"></i>Podijeli na twitter</button>
+                       <button type="button" onClick="focusShareOnFacebook('<%=p.getText()%>', '<%=firstImage%>', '<%=location%>','<%=p.getLink()%>' )" class="btn btn-link"><i class="fa fa-facebook-square"></i>Podijeli na fb</button>
+                       <button type="button" onClick="focusShareOnTwitter('<%=p.getText()%>','<%=p.getLink()%>', '<%=userBean.getUser().getUsername()%>', '<%=location%>')" class="btn btn-link"><i class="fa fa-twitter-square"></i>Podijeli na twitter</button>
                     </div>
                     <div class="commentsZone<%=i[0]%>">  
                     <% List<Comment> postComments = p.getCommments();   
