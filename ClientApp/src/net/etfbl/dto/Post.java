@@ -16,7 +16,7 @@ public class Post {
 	private List<Comment> commments;
 	private List<String> categories;
 	private Integer userId;
-	
+	private Boolean isFeed = false;
 	
 	public Post(Integer id, String text, User creator, Date creationTime, String location, String video, String link) {
 		super();
@@ -38,6 +38,10 @@ public class Post {
 		this.video = video;
 		this.isEmergency = isEmergency;
 		this.link = link;
+	}
+
+	public Post() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public Integer getId() {
@@ -135,6 +139,14 @@ public class Post {
 
 	public void setCategories(List<String> categories) {
 		this.categories = categories;
+	}
+	
+	public Boolean getIsFeed() {
+		return isFeed;
+	}
+
+	public void setIsFeed(Boolean isFeed) {
+		this.isFeed = isFeed;
 	}
 	
 	@Override

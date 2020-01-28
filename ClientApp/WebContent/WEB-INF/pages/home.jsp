@@ -456,13 +456,14 @@ background-color:  #ffffff;;
                         <%
    						List<String> images = p.getImages();
                         String firstImage ="";
+                        if(images != null){
                         if(images.size() > 0)
                         	firstImage = images.get(0);
                       
                         for(String image : images){
                         %>
                         <img width="200" height="200"  class="center-block img-responsive" src='<%=image%>' />
-                        <%}%>
+                        <%}}%>
                         
                         <p class="card-text">
                              <% out.println(p.getText()); %>
@@ -474,10 +475,13 @@ background-color:  #ffffff;;
                         <%}%>
                     </div>
                     <div class="card-footer">
+                       <%if(!p.getIsFeed()){%>
                        <button type="button" onClick="focusCommentBox(<%=i[0]%>)" class="btn btn-link"><i class="fa fa-comment"></i>Komentariši</button>
+                       <%}%>
                        <button type="button" onClick="focusShareOnFacebook('<%=p.getText()%>', '<%=firstImage%>', '<%=location%>','<%=p.getLink()%>' )" class="btn btn-link"><i class="fa fa-facebook-square"></i>Podijeli na fb</button>
                        <button type="button" onClick="focusShareOnTwitter('<%=p.getText()%>','<%=p.getLink()%>', '<%=userBean.getUser().getUsername()%>', '<%=location%>')" class="btn btn-link"><i class="fa fa-twitter-square"></i>Podijeli na twitter</button>
                     </div>
+                    <%if(!p.getIsFeed()){ %>
                     <div class="commentsZone<%=i[0]%>">  
                     <% List<Comment> postComments = p.getCommments();   
                     for(Comment comment : postComments){
@@ -530,6 +534,7 @@ background-color:  #ffffff;;
       
         <input type="file" id="pro-image2<%=i[0]%>" name="pro-image2<%=i[0]%>" style="display: none;" class="form-control" onChange="readImageForComment('<%=i[0] %>')"></input>
     </fieldset>
+    <%}%>
                 </div>
 				      <br>     	
 				           	 <%

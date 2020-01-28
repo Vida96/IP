@@ -156,7 +156,7 @@ function readImageForComment(id) {
 function focusShareOnFacebook(text, image, location, link){
 u="https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png";
 t='dsadsdas';
-if(location)
+if(location != 'null')
 	text += "  Lokacija: " + location;
 
 if(link != 'null')
@@ -172,26 +172,21 @@ else{
 }}
 
 function focusShareOnTwitter(text, link, username, location){
-//	var url = "http://192.168.1.2/ClientApp/Home";
-	//var text = "Replace this with your text";
-//	window.open('http://twitter.com/share?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
-	
+
 	var shareURL = "http://twitter.com/share?"; //url base
-    //params
 	u="https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png";
 	
-	if(location)
+	if(location != 'null')
 		username += "  Lokacija: " + location;
 	
-	if(link)
+	if(link != 'null')
 		text+= "  Detaljnije na linku: ";
 	
 	var params = {
       text: text,
       via: username,
       url: link, 
-  //    hashtags: "hashtag1,hashtag2"
-    }
+   }
     for(var prop in params) shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);//+'&u='+encodeURIComponent(u));
 	window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
 }

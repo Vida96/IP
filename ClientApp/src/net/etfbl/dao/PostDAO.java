@@ -12,6 +12,7 @@ import java.util.List;
 import net.etfbl.dto.Comment;
 import net.etfbl.dto.Post;
 import net.etfbl.dto.User;
+import net.etfbl.rss.RSSReader;
 
 public class PostDAO {
 
@@ -83,7 +84,7 @@ public class PostDAO {
 		} finally {
 			connectionPool.checkIn(connection);
 		}
-
+		activePosts.addAll(RSSReader.parseRSSData());
 		return activePosts;
 	}
 	
