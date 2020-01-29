@@ -35,12 +35,9 @@
         <img id="profileImage" src=<%=userPhoto%> class="avatar img-circle img-thumbnail" alt="avatar">
     
         <%} %>
-        <input type='file' id='selectedImage' class='hidden' onChange='handleChange()' />  
-<label for="selectedImage">Odaberite profilnu sliku</label>
-      </div></hr><br>
-
-               
-          
+     <div class="d-flex ml-1 mr-1 mt-1" style="float:right">
+						      <label class="btn btn-secondary"> Pronađite novu sliku <input id="image-input" type="file" accept="image/*" hidden="hidden" onchange="showImage()"> </label>
+						</div></div><br>
         </div><!--/col-3-->
     	<div class="col-sm-9">   
           <div class="tab-content">

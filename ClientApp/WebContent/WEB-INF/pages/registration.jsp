@@ -140,14 +140,14 @@
        		  <label id="confirmedPasswordLabel"></label>
         </div>
             <div class="form-group">
-              <input type="email" class="form-control" name="mail" id="mail" placeholder="vaš@email.com">
+              <input type="email" class="form-control" name="mail" id="mail" placeholder="Unesite vaš gmail">
         	  <label id="mailLabel"></label>
         </div>
 		<div class="form-group">
             <button name="submit" class="btn btn-success btn-lg btn-block" onclick="event.preventDefault(); return validateFields()">Registrujte se</button>
         </div>
     </form>
-	<div class="text-center"><h3>Već imate nalog? <a style="color:black" href="Login">Prijavite se</a></h3></div>
+	<div class="text-center"><h4>Već imate nalog? <a style="color:black" href="Login">Prijavite se</a></h4></div>
 </div>
 </body>
 </html>                            

@@ -139,7 +139,7 @@ function validateFields(numberOfLogins){
 	request.send(JSON.stringify(object));
 }
 
-function handleChange(){
+function showImage(){
 	 if (window.File && window.FileList && window.FileReader) {
 		 var files = event.target.files; //FileList object
 	     var output =  document.getElementById('profileImage');
