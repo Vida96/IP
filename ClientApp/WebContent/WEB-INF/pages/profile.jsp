@@ -10,7 +10,8 @@
 		User user = userBean.getUser();
 	%>
 <head>
-  <title>Bootstrap Example</title>
+<script> window.onload = initializeComponents('<%=userBean.getUser().getUsername()%>', '<%=userBean.getUser().getMail()%>');</script>
+  <title>Izmjena profila</title>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

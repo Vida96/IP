@@ -72,6 +72,8 @@ public class ProfileController extends HttpServlet {
 				String photoData = jsonObject.getString("photo");
 				Integer notificationOnMail = jsonObject.isNull("notificationOnMail")? 0 : jsonObject.getBoolean("notificationOnMail")? 1 : 0;
 				Integer notificationInApp = jsonObject.isNull("notificationInApp")? 0 : jsonObject.getBoolean("notificationInApp")? 1 : 0;
+				String previousUsername = jsonObject.getString("previousUsername");
+				String previousMail = jsonObject.getString("previousMail");
 				
 				if(!jsonObject.isNull("numberOfLogins"))
 					numberOfLogins = jsonObject.getInt("numberOfLogins");
@@ -92,7 +94,10 @@ public class ProfileController extends HttpServlet {
 					}
 				
 				String attribute;
-				 
+
+			//	UserDAO.isNewUsernameAllowed(username);
+			//	UserDAO.isNewMailAllowed(mail);
+				
 				User user = new User(userId, firstName, lastName, username, password, mail, photoData, country, region, city, notificationOnMail, notificationInApp, numberOfLogins);
 				try {
 					PrintWriter pw = new PrintWriter(response.getWriter());

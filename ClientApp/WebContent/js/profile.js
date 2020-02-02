@@ -1,6 +1,14 @@
 var countries = [];
 var regions = [];
 var cities = [];
+var previousUsername;
+var previousMail;
+
+function initializeComponents(username, mail)
+{
+	previousUsername = username;
+	previousMail = mail;
+}
 
 function validateFields(numberOfLogins){
 	let firstName = document.getElementById("firstName").value;
@@ -114,23 +122,25 @@ function validateFields(numberOfLogins){
 			photo: photo,
 			notificationOnMail: notificationOnMail,
 			notificationInApp: notificationInApp,
-			numberOfLogins: numberOfLogins
+			numberOfLogins: numberOfLogins,
+			previousUsername: previousUsername,
+			previousMail: previousMail
 	}
  
 	let request = new XMLHttpRequest();
 	request.onreadystatechange = function(){
-		
+
 		if((request.readyState ==4) && (request.status==200))
 		{
 			console.log(this.responseText.trim());
 			if(this.responseText.trim() == "USERNAME_ERROR") {
-				document.getElementById("usernameLabel").innerHTML = "Korisničko ime je zauzeto";
+				document.getElementById("usernameLabel").innerHTML = "Korisni&#269ko ime je zauzeto";
 				return false;
 			}
 			else if(numberOfLogins == 0)
 				window.location.replace("Login?action=");
 			else
-				document.getElementById("successLabel").innerHTML = "Uspjesno izvrsena izmjena profila";
+				document.getElementById("successLabel").innerHTML = "Uspjesno izvrsena izmjena li&#269nih podataka";
 		}
 	}
 	
@@ -233,7 +243,7 @@ function JsonpHttpsRequest(url, callback) {
 function fillRegions(){
 	var selectedCountry = document.getElementById("country");
 	var alpha2Code = selectedCountry.options[selectedCountry.selectedIndex].value; 
-	JsonpHttpRequest('http://battuta.medunes.net/api/region/' + alpha2Code + '/all/?key=5b47cb4975aac7db892603d659b225fd&callback=cb', "cb");	
+	JsonpHttpRequest('http://battuta.medunes.net/api/region/' + alpha2Code + '/all/?key=ceab192fc6bd24fbec5aa769affe791c&callback=cb', "cb");	
 };
 
 function fillCountries(){
@@ -257,7 +267,7 @@ function fillCities(){
 	  var selectedRegion = document.getElementById("region");
 	  var region = selectedRegion.options[selectedRegion.selectedIndex].value; 
 	
-	  JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region + '&key=5b47cb4975aac7db892603d659b225fd&callback=cb', "cb");
+	  JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region + '&key=ceab192fc6bd24fbec5aa769affe791c&callback=cb', "cb");
 
 };
 
