@@ -1,26 +1,28 @@
 function validateFields(){
 	
 	let username = document.getElementById("username").value;
-	 
+	var condition = true;
 	if(/\s/.test(username)) {
  		document.getElementById("usernameLabel").innerHTML = "* Korisničko ime neispravno";
-		return false; 
+ 		condition = false; 
 	}
 	else if(username == null || username == "")
 	{
 		document.getElementById("usernameLabel").innerHTML = "* Polje ne smije biti prazno";
-		return false; 
-	}	
-	document.getElementById("usernameLabel").innerHTML = "";
+		condition =  false; 
+	}else
+		document.getElementById("usernameLabel").innerHTML = "";
  
 	let password = document.getElementById("password").value; 
 	if(password == null || password == "")
 	{
 		document.getElementById("passwordLabel").innerHTML = "* Polje ne smije biti prazno";
-		return false; 
-	}	
-	document.getElementById("passwordLabel").innerHTML = "";
+		condition =  false; 
+	}else
+		document.getElementById("passwordLabel").innerHTML = "";
 
+	if(condition == false)
+		return condition;
 	 
 	let object = {
 			username: username,
@@ -33,8 +35,8 @@ function validateFields(){
 		
 		if((request.readyState ==4) && (request.status==200))
 		{
-			if(this.responseText.trim() == "USERNAME_ERROR") {
-				document.getElementById("usernameLabel").innerHTML = "Neispravno korisnicko ime ili lozinka";
+			if(this.responseText.trim() == "ERROR") {
+				document.getElementById("errorLabel").innerHTML = "Neispravno korisnicko ime ili lozinka";
 				return false;
 			}
 			else

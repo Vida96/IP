@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +72,7 @@ public class PostDAO {
 				postId = rs.getInt("id");
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				Date date = df.parse(rs.getString("time"));
-				System.out.println(date + " sad");
+			
 				Post post = new Post(postId, rs.getString("text"), postCreator, date, rs.getString("location"), rs.getString("video"), rs.getString("link"));
 				images  = ImageDAO.getById(postId);
 				post.setImages(images);
@@ -84,9 +87,16 @@ public class PostDAO {
 		} finally {
 			connectionPool.checkIn(connection);
 		}
-		activePosts.addAll(RSSReader.parseRSSData());
+		try {
+			activePosts.addAll(RSSReader.parseRSSData());
+			Collections.sort(activePosts, (o1, o2) -> o1.getCreationTime().compareTo(o2.getCreationTime()));
+			Collections.reverse(activePosts);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		finally{
 		return activePosts;
-	}
+	}}
 	
 	public static List<Post> getAllEmergencyPosts(){
 		List<Post> activePosts = new java.util.ArrayList<>();

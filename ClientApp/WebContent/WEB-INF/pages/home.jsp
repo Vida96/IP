@@ -258,16 +258,18 @@ background-color:  #ffffff;;
                         Date postTime = p.getCreationTime();
                         Long result = ((new Date().getTime()/60000) - (postTime.getTime()/60000));
                        	String differnce;
-                        if(result > 60)
+                       	if(result > 60)
                        	{
                        		result /= 60;
-                       		differnce = result.toString() + " h";
+                       		if(result > 730){
+                           		result /= 730;
+                           		differnce = result.toString() + " mjeseci";
+                           	}else
+                       			differnce = result.toString() + " h";
                        	}else
                        	{
                        		differnce = result.toString() + " min";
                        	}
-                       	if(result < 0 )
-                       		System.out.println((new Date())  + " " + (postTime));
                         %>
                     
                     <div class="card-body">
@@ -328,7 +330,7 @@ background-color:  #ffffff;;
                 <!--- \\\\\\\Post-->
                 <div class="card gedf-card">
                     <div class="card-header">
-                                <h3 id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Detalji potencijalne opasnosti</h3>
+                                <h3 id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Detalji nove objave</h3>
                     </div>
                     
                     <div class="card-body">
@@ -423,13 +425,15 @@ background-color:  #ffffff;;
                         if(result > 60)
                        	{
                        		result /= 60;
+                        	if(result > 730){
+                           		result /= 730;
+                           		differnce = result.toString() + " mjeseci";
+                           	}else{
                        		differnce = result.toString() + " h";
-                       	}else
+                       	}}else
                        	{
                        		differnce = result.toString() + " min";
                        	}
-                       	if(result < 0 )
-                       		System.out.println((new Date())  + " " + (postTime));
                         %>
                     
                     <div class="card-body">
@@ -456,6 +460,8 @@ background-color:  #ffffff;;
                         <%
    						List<String> images = p.getImages();
                         String firstImage ="";
+                        String video = p.getVideo();
+                        
                         if(images != null){
                         if(images.size() > 0)
                         	firstImage = images.get(0);
@@ -464,15 +470,20 @@ background-color:  #ffffff;;
                         %>
                         <img width="200" height="200"  class="center-block img-responsive" src='<%=image%>' />
                         <%}}%>
-                        
+                        <%if(video != null){%>
+                  	     <video style="width:200px;height:200px" controls autoplay src='<%=video%>'></video>
+                        <%} %>
                         <p class="card-text">
                              <% out.println(p.getText()); %>
                         </p>
                        	<%
                        	String link;
-                       	if((link = p.getLink()) != null){%>
+                       	if((link = p.getLink()) != null){
+                       	if(link.contains("youtube")){%>
+                       	<a href=<%=link%> class="card-link">Pogledajte više</a>	
+                       	<%}else{%>
                         <a href=<%=link%> class="card-link">Pročitajte više</a>
-                        <%}%>
+                        <%}}%>
                     </div>
                     <div class="card-footer">
                        <%if(!p.getIsFeed()){%>
@@ -491,8 +502,13 @@ background-color:  #ffffff;;
                        	String differnceTime;
                         if(resultTime > 60)
                        	{
-                       		resultTime /= 60;
-                       		differnceTime = resultTime.toString() + " h";
+                        	resultTime /= 60;
+                       		
+                        	if(result > 730){
+                           		result /= 730;
+                           		differnceTime = result.toString() + " mjeseci";
+                           	}else
+                       			differnceTime = resultTime.toString() + " h";
                        	}else
                        	{
                        		differnceTime = resultTime.toString() + " min";

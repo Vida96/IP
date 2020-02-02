@@ -113,6 +113,7 @@
       <label id="passwordLabel"></label>
         </div>
             <button type="submit" class="btn btn-success btn-lg btn-block" onclick="event.preventDefault(); return validateFields()">Prijavite se</button>
+      <label id="errorLabel"></label>      
     </form>
     </div>
 	<div class="text-center"><h4>Nemate nalog? <a href="Registration?action=registration" style="color:black">Registrujte se</a></h4></div>

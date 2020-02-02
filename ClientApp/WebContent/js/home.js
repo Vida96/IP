@@ -80,8 +80,7 @@ function readImage() {
 if(file.type.match('image')){
 	images.push(picFile.result);
 	html = '<div style="float: left;" class="preview-image preview-show-' + num + '">' +
-	'<div class="image-cancel" data-no="' + num + '">x</div>' +
-    '<div class="image-zone"><img style="width:100px;height:100px"  id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
+	'<div class="image-zone"><img style="width:100px;height:100px"  id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
     '</div>';
 }
 else
@@ -89,7 +88,6 @@ else
 	 var fileURL = URL.createObjectURL(file);
 	 video = fileURL;
 	html = '<div style="float: left;" class="preview-image preview-show-' + num + '">' +
-    '<div class="image-cancel" data-no="' + num + '">x</div>' +
     '<div class="image-zone"><video style="width:100px;height:100px" controls autoplay src="'+ fileURL + '"></video>' +
     '</div>';
 
@@ -138,7 +136,6 @@ function readImageForComment(id) {
             var div = document.createElement("div");
             imageComment = picFile.result;
             var html =  '<div class="preview-image preview-show-' + num + '">' +
-                            '<div class="image-cancel" data-no="' + num + '">x</div>' +
                             '<div class="image-zone"><img  width="150" height="100" id="pro-img-' + num + '" src="' + picFile.result + '"></div>' +
                             '</div>';
              div.innerHTML = html;
@@ -175,8 +172,7 @@ function focusShareOnTwitter(text, link, username, location){
 
 	var shareURL = "http://twitter.com/share?"; //url base
 	u="https://www.pngitem.com/pimgs/m/247-2473457_current-location-icon-png-location-vector-icon-transparent.png";
-	
-	if(location != 'null')
+	if((location !== "") && (location != 'null'))
 		username += "  Lokacija: " + location;
 	
 	if(link != 'null')
@@ -188,7 +184,7 @@ function focusShareOnTwitter(text, link, username, location){
       url: link, 
    }
     for(var prop in params) shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);//+'&u='+encodeURIComponent(u));
-	window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+	window.open(shareURL, '', 'left=0,top=0,width=650,height=650,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
 }
 
 function shareDanger(id, username, fullName, userPhoto){
@@ -285,6 +281,7 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     var imagesHtml ="";
     var categoriesHtml ="";
     var locationHtml ="";
+    var videoHtml = "";
     var i = 0; 
     categoriesNames.forEach(function (category, index) {
     	
@@ -297,6 +294,12 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
 			categoriesHtml+=" </h3>";  
     });
    
+    if(video != null && video != '')
+    {
+    	videoHtml+= '<video style="width:200px;height:200px" controls autoplay src='+ video + '></video>&nbsp;';		
+    }
+    imagesHtml = videoHtml; 
+   
     images.forEach(function (image, index) {
     	if(index != 0 && index % 4 == 0)
     		imagesHtml += ' <div style="float: left;" class="image-zone"><img style="width:200px;height:200px"  id="pro-img-' + i++ + '" src="' + image + '"></div> &nbsp;<br>';
@@ -304,7 +307,7 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     		imagesHtml += '<div style="float: left;" class="image-zone"><img style="width:200px;height:200px"  id="pro-img-' + i++ + '" src="' + image + '"></div>&nbsp;';
     	}); 
     if(imagesHtml != ""){
-    	imagesHtml += '<br><br><br><br><br><br><br><br><br>'
+    	imagesHtml += '<br>'
     }
     var linkHtml = "";
 

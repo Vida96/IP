@@ -35,7 +35,7 @@
         <img id="profileImage" src=<%=userPhoto%> class="avatar img-circle img-thumbnail" alt="avatar">
     
         <%} %>
-     <div class="d-flex ml-1 mr-1 mt-1" style="float:right">
+     <div class="d-flex ml-1 mr-1 mt-1" style="float:right;">
 						      <label class="btn btn-secondary"> Pronađite novu sliku <input id="image-input" type="file" accept="image/*" hidden="hidden" onchange="showImage()"> </label>
 						</div></div><br>
         </div><!--/col-3-->
@@ -97,7 +97,7 @@
                           <div class="col-xs-7">
                              <label for="country"><h4>Država</h4></label>
                              
-                               <select style="height:30px;" class="form-control" id="country"  onChange="fillRegions()">
+                               <select class="form-control" id="country"  onChange="fillRegions()">
                 <script>fillCountries();</script> 
                 <%String country = userBean.getUser().getCountry();
                 if(country != null){ %>
@@ -112,7 +112,7 @@
                        <div class="form-group">
                     <div class="col-xs-7">
                              <label for="region"><h4>Region</h4></label>
-                               <select style="height:30px;" class="form-control" id="region"  onChange="fillCities()">
+                               <select class="form-control" id="region"  onChange="fillCities()">
                                <%String region = userBean.getUser().getRegion();
                 				if(region != null){ %>
                 				<option selected>  
@@ -126,7 +126,7 @@
                        <div class="form-group">
                     <div class="col-xs-7">
                              <label for="city"><h4>Grad</h4></label>
-                               <select style="height:30px;" id="city" class="form-control">
+                               <select id="city" class="form-control">
                                 <%String city = userBean.getUser().getCity();
                 				if(city != null){ %>
                 				<option selected>  
@@ -138,7 +138,7 @@
                          </div> 
                       
                        <div class="form-group">
-                    <div class="col-xs-7">
+                    <div class="col-xs-7" style="margin-left:25px">
                     <br>
                     <%Integer notificationOnMail = userBean.getUser().getNotificationOnMail();
                    	  Integer notificationInApp = userBean.getUser().getNotificationInApp();	
@@ -158,8 +158,8 @@
                    	   else
                     	 display = "none";
                     %>
-                            <input type="checkbox" class="custom-control-input" id="notifications-blog" checked="<%=cbChecked%>"onChange="toggle_visibility()">
-                                <label style="padding-left: 20px;" class="custom-control-label" for="notifications-blog">Notifikacije o hitnim upozorenjima</label>
+                            <input  style="position: absolute;margin-left: 600px;"  type="checkbox" class="custom-control-input" id="notifications-blog" checked="<%=cbChecked%>"onChange="toggle_visibility()">
+                                <label class="custom-control-label" for="notifications-blog">Notifikacije o hitnim upozorenjima</label>
                                     <div class="col-sm-6" id="radioButtons" style="display:<%=display%>">
                         <div class="row">
                             <div class="col-sm-4">

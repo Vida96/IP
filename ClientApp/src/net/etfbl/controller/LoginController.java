@@ -1,6 +1,7 @@
 package net.etfbl.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -84,6 +85,10 @@ public class LoginController extends HttpServlet {
 				session.setAttribute("userBean", userBean);
 				session.setAttribute("postBean", postBean);
 				session.setAttribute("postCategoryBean", postCategoryBean);
+			}else {
+				PrintWriter pw = response.getWriter();
+				pw.print("ERROR");
+				pw.close();
 			}  
 	}
 	}
