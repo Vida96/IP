@@ -72,8 +72,14 @@ public class ProfileController extends HttpServlet {
 				String photoData = jsonObject.getString("photo");
 				Integer notificationOnMail = jsonObject.isNull("notificationOnMail")? 0 : jsonObject.getBoolean("notificationOnMail")? 1 : 0;
 				Integer notificationInApp = jsonObject.isNull("notificationInApp")? 0 : jsonObject.getBoolean("notificationInApp")? 1 : 0;
-				String previousUsername = jsonObject.getString("previousUsername");
-				String previousMail = jsonObject.getString("previousMail");
+				String previousMail = "";
+				String previousUsername = "";
+				
+				if(!jsonObject.isNull("numberOfLogins"))
+					previousUsername = jsonObject.getString("previousUsername");
+			
+				if(!jsonObject.isNull("numberOfLogins"))
+					previousMail = jsonObject.getString("previousMail");
 				
 				if(!jsonObject.isNull("numberOfLogins"))
 					numberOfLogins = jsonObject.getInt("numberOfLogins");
@@ -94,13 +100,42 @@ public class ProfileController extends HttpServlet {
 					}
 				
 				String attribute;
-
-			//	UserDAO.isNewUsernameAllowed(username);
-			//	UserDAO.isNewMailAllowed(mail);
+				Boolean condition = true;
+				
+				System.out.println(previousMail);
+				System.out.println(mail);
+				
+				if((!"".equals(previousMail)) && (!previousMail.equals(mail)))
+					if(!UserDAO.isMailAllowed(mail)){
+						try {
+							System.out.println("C");
+							condition = false;
+							PrintWriter pw = new PrintWriter(response.getWriter());
+							pw.print("MAIL_ERROR");
+							pw.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				
+				if((!"".equals(previousUsername)) && (!previousUsername.equals(username)))
+					if(!UserDAO.isUsernameAllowed(username))
+					{
+						try {
+							condition = false;
+							PrintWriter pw = new PrintWriter(response.getWriter());
+							pw.print("USERNAME_ERROR");
+							pw.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}	
+					}
+				if(!condition)
+					return;	//ako je korisnicko ime ili mail zauzet ne dozvoli UPDATE
 				
 				User user = new User(userId, firstName, lastName, username, password, mail, photoData, country, region, city, notificationOnMail, notificationInApp, numberOfLogins);
 				try {
-					PrintWriter pw = new PrintWriter(response.getWriter());
+					
 						UserDAO.update(user);
 			 			
 						if(numberOfLogins == 0) //ako se izmjena vrsi odmah nakon registracije treba ponistiti sesiju, jer nismo jos dobili odobrenje da se mozemo prijavti

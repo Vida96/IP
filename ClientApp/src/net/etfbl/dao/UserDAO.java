@@ -24,7 +24,7 @@ public class UserDAO {
 	private static final String SQL_IS_USERNAME_USED = "SELECT * FROM user WHERE username = ? AND active = 1";
 
 	private static final String SQL_IS_USERNAME_ON_HOLD = "SELECT * FROM user WHERE username = ? AND active = 0 AND loginTime IS NULL";
-	
+ 
 	private static final String SQL_IS_MAIL_USED = "SELECT * FROM user WHERE mail = ? AND active = 1";
 
 	private static final String SQL_IS_MAIL_ON_HOLD = "SELECT * FROM user WHERE mail = ? AND active = 0 AND loginTime IS NULL";
@@ -315,5 +315,5 @@ public class UserDAO {
 		} finally {
 			connectionPool.checkIn(connection);
 		}
-	}
+	}	
 }

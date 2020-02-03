@@ -61,7 +61,7 @@ function validateFields(numberOfLogins){
 		document.getElementById("confirmedPasswordLabel").innerHTML = "";
 	
 	let mail = document.getElementById("email").value;
-	let regex = /[^@]+@[^@]+.[a-zA-Z]{2,6}/;
+	let regex = /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/;
 	if(!regex.test(String(mail).toLowerCase())) {
 		document.getElementById("mailLabel").innerHTML = "* Samo google mail prihvatljiv";
 		return false;
@@ -132,9 +132,13 @@ function validateFields(numberOfLogins){
 
 		if((request.readyState ==4) && (request.status==200))
 		{
-			console.log(this.responseText.trim());
-			if(this.responseText.trim() == "USERNAME_ERROR") {
-				document.getElementById("usernameLabel").innerHTML = "Korisni&#269ko ime je zauzeto";
+			document.getElementById("successLabel").innerHTML = "";
+			if((this.responseText.trim() == "USERNAME_ERROR") || (this.responseText.trim() == "MAIL_ERROR")) {
+				if((this.responseText.trim() == "USERNAME_ERROR"))
+					document.getElementById("usernameLabel").innerHTML = "Korisni&#269ko ime je zauzeto";
+				if((this.responseText.trim() == "MAIL_ERROR")) 
+					document.getElementById("mailLabel").innerHTML = "Mail je zauzet";
+				
 				return false;
 			}
 			else if(numberOfLogins == 0)
