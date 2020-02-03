@@ -1,4 +1,4 @@
-  .form-control{
+    .form-control{
 		height: 40px;
 	}
 	.form-control:focus{
@@ -78,19 +78,4 @@
 	.signup-form form a:hover{
 		text-decoration: underline;
 	}  
-	@media screen and (max-device-width: 500px) {
-      .signup-form {
-        width: 300px;
-      }
-    }
-    @media screen and (max-device-width: 400px) {
-      .signup-form {
-        width: 280px;
-      }
-      .signup-form .hint-text{
-      	font-size:12px;
-      }
-      .h1{
-      	font-size:30px;
-      }
-    }
+}

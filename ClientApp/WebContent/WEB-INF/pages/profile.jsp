@@ -6,8 +6,7 @@
 <script><%@include file="/js/script.js"%></script>
 
 <%
-	//	int id = Integer.parseInt(request.getParameter("id"));
-		User user = userBean.getUser();
+	User user = userBean.getUser();
 	%>
 <head>
 <script> window.onload = initializeComponents('<%=userBean.getUser().getUsername()%>', '<%=userBean.getUser().getMail()%>');</script>
