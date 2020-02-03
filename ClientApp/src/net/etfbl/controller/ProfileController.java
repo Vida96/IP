@@ -49,21 +49,21 @@ public class ProfileController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		UserBean userBean = (UserBean) session.getAttribute("userBean");
+		if(userBean != null && userBean.isLoggedIn()) {
 		String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		JSONObject jsonObject = new JSONObject(jsonText);
 		String action = jsonObject.getString("action");
-		HttpSession session = request.getSession();
 
 		if ("updateProfile".equals(action)) {
-			UserBean userBean = (UserBean) session.getAttribute("userBean");
-
-			validateFields(jsonObject, response, request, userBean.isLoggedIn() ? 1 : 0,
+				validateFields(jsonObject, response, request, userBean.isLoggedIn() ? 1 : 0,
 					userBean.getUser().getNumberOfLogins(), userBean.getUser().getId()); // prvi put se vrsi izmjena
 																							// profila, odmah nakon
 																							// registracije pa je active
 																							// na 0 jer administrator
 																							// jos nije odobrio profil
-		}
+		}}
 	}
 
 	private void validateFields(JSONObject jsonObject, HttpServletResponse response, HttpServletRequest request,

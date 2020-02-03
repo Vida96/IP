@@ -32,9 +32,13 @@ public class CommentController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-		JSONObject jsonObject = new JSONObject(jsonText);
-		createComment(jsonObject, request);
+		HttpSession session = request.getSession();
+		UserBean userBean = (UserBean) session.getAttribute("userBean");
+		if(userBean != null && userBean.isLoggedIn()) {
+			String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+			JSONObject jsonObject = new JSONObject(jsonText);
+			createComment(jsonObject, request);
+		}
 	}
 
 	private void createComment(JSONObject jsonObject, HttpServletRequest request) {
