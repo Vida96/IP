@@ -7,17 +7,17 @@ public class Post {
 	private Integer id;
 	private String text;
 	private User creator;
-	private Date creationTime; 
+	private Date creationTime;
 	private String location;
 	private String video;
 	private String link;
 	private List<String> images;
-    private Integer isEmergency;
+	private Integer isEmergency;
 	private List<Comment> commments;
 	private List<String> categories;
 	private Integer userId;
 	private Boolean isFeed = false;
-	
+
 	public Post(Integer id, String text, User creator, Date creationTime, String location, String video, String link) {
 		super();
 		this.id = id;
@@ -29,7 +29,8 @@ public class Post {
 		this.link = link;
 	}
 
-    public Post(String text, User creator, Date creationTime, String location, String video, Integer isEmergency, String link) {
+	public Post(String text, User creator, Date creationTime, String location, String video, Integer isEmergency,
+			String link) {
 		super();
 		this.text = text;
 		this.creator = creator;
@@ -108,14 +109,13 @@ public class Post {
 		this.commments = commments;
 	}
 
-  	public Integer getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-
 
 	public Integer getIsEmergency() {
 		return isEmergency;
@@ -132,7 +132,7 @@ public class Post {
 	public void setLink(String link) {
 		this.link = link;
 	}
-	
+
 	public List<String> getCategories() {
 		return categories;
 	}
@@ -140,7 +140,7 @@ public class Post {
 	public void setCategories(List<String> categories) {
 		this.categories = categories;
 	}
-	
+
 	public Boolean getIsFeed() {
 		return isFeed;
 	}
@@ -148,11 +148,10 @@ public class Post {
 	public void setIsFeed(Boolean isFeed) {
 		this.isFeed = isFeed;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Post [id=" + id + ", text=" + text + ", creator=" + creator + ", creationTime=" + creationTime
 				+ ", location=" + location + ", video=" + video + ", images=" + images + "]";
 	}
 }
-

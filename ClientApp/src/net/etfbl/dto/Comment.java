@@ -9,16 +9,16 @@ public class Comment {
 	private Date time;
 	private Integer postId;
 	private Integer userId;
-	
-    public Comment(String text, String image, Integer postId) {
+
+	public Comment(String text, String image, Integer postId) {
 		super();
 		this.text = text;
 		this.image = image;
 		this.postId = postId;
 		this.time = new java.util.Date();
 	}
-	
-    public Comment(String text, String image, Integer postId, Date time, Integer userId) {
+
+	public Comment(String text, String image, Integer postId, Date time, Integer userId) {
 		super();
 		this.text = text;
 		this.image = image;
@@ -26,28 +26,28 @@ public class Comment {
 		this.time = time;
 		this.userId = userId;
 	}
-	
-    public String getText() {
+
+	public String getText() {
 		return text;
 	}
-	
-    public void setText(String text) {
+
+	public void setText(String text) {
 		this.text = text;
 	}
-	
-    public String getImage() {
+
+	public String getImage() {
 		return image;
 	}
-	
-    public void setImage(String image) {
+
+	public void setImage(String image) {
 		this.image = image;
 	}
-	
-    public Integer getPostId() {
+
+	public Integer getPostId() {
 		return postId;
 	}
-	
-    public void setPostId(Integer postId) {
+
+	public void setPostId(Integer postId) {
 		this.postId = postId;
 	}
 

@@ -21,37 +21,40 @@ import net.etfbl.dto.User;
 public class RegistrationController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-    
-    public RegistrationController() {
-        super();
-    }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");		
+	public RegistrationController() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		String address = "/WEB-INF/pages/registration.jsp";
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
-		
+
 		if (("registration").equals(action)) {
 			address = "/WEB-INF/pages/registration.jsp";
 		}
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 		dispatcher.forward(request, response);
 	}
-    
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		JSONObject jsonObject = new JSONObject(jsonText);
 		String action = jsonObject.getString("action");
 		HttpSession session = request.getSession();
 		if ("registration".equals(action)) {
-		checkRegistrationFields(jsonObject, request, response);
+			checkRegistrationFields(jsonObject, request, response);
 		}
 	}
-    
-	private void checkRegistrationFields(JSONObject jsonObject, HttpServletRequest request, HttpServletResponse response) {
+
+	private void checkRegistrationFields(JSONObject jsonObject, HttpServletRequest request,
+			HttpServletResponse response) {
 		String firstName = jsonObject.getString("firstName");
 		String lastName = jsonObject.getString("lastName");
 		String username = jsonObject.getString("username");
@@ -60,22 +63,22 @@ public class RegistrationController extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean userBean = new UserBean();
 		String attribute;
-		
+
 		try {
 			PrintWriter pw = new PrintWriter(response.getWriter());
-			 
-			 
+
 			if (username != null) {
-			
+
 				if (userBean.areUsernameAndMailAllowed(username, mail, pw)) {
-				  User user = new User(firstName, lastName, username, password, mail);
-			      if (userBean.add(user)) { 
-			    	  session.setAttribute("userBean", userBean);
-			    	  //dodati podatke da sacuvam, da bih mogao iskorisiti za promjenu profila
-			      }
-				} }
-			} catch (Exception e) {
-				e.printStackTrace();
+					User user = new User(firstName, lastName, username, password, mail);
+					if (userBean.add(user)) {
+						session.setAttribute("userBean", userBean);
+						// dodati podatke da sacuvam, da bih mogao iskorisiti za promjenu profila
+					}
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

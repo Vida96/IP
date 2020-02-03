@@ -1,10 +1,8 @@
 package net.etfbl.dto;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class User implements Serializable {
-
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
@@ -17,12 +15,13 @@ public class User implements Serializable {
 	private String region;
 	private String city;
 	private String photo;
-    private Integer numberOfLogins;
-    private Integer notificationOnMail;
-    private Integer notificationInApp;
+	private Integer numberOfLogins;
+	private Integer notificationOnMail;
+	private Integer notificationInApp;
 
-    public User(Integer id, String firstName, String lastName, String username, String password, String mail,
-    		String photo, String country, String region, String city, Integer notificationOnMail, Integer notificationInApp, Integer numberOfLogins) {
+	public User(Integer id, String firstName, String lastName, String username, String password, String mail,
+			String photo, String country, String region, String city, Integer notificationOnMail,
+			Integer notificationInApp, Integer numberOfLogins) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -38,8 +37,8 @@ public class User implements Serializable {
 		this.notificationInApp = notificationInApp;
 		this.numberOfLogins = numberOfLogins;
 	}
-    
-    @Override
+
+	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
 				+ ", password=" + password + ", mail=" + mail + ", country=" + country + ", region=" + region
@@ -68,7 +67,7 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public User(String firstName, String lastName, String username, String password, String mail) {
 		super();
 		this.firstName = firstName;
@@ -77,19 +76,19 @@ public class User implements Serializable {
 		this.password = password;
 		this.mail = mail;
 	}
-	
-	 
-		public User(Integer id, Integer numberOfLogins, String username, String firstName, String lastName, String photo) {
-			super();
-			this.id = id;
-			this.numberOfLogins = numberOfLogins;
-			this.username = username;
-			this.firstName = firstName;
-			this.lastName = lastName;
-			this.photo = photo;
-		}
 
-	public User() {}
+	public User(Integer id, Integer numberOfLogins, String username, String firstName, String lastName, String photo) {
+		super();
+		this.id = id;
+		this.numberOfLogins = numberOfLogins;
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.photo = photo;
+	}
+
+	public User() {
+	}
 
 	public User(Integer id) {
 		this.id = id;
@@ -175,7 +174,7 @@ public class User implements Serializable {
 		this.numberOfLogins = numberOfLogins;
 	}
 
-    public Integer getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -193,7 +192,7 @@ public class User implements Serializable {
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result +((photo == null) ? 0 : photo.hashCode());
+		result = prime * result + ((photo == null) ? 0 : photo.hashCode());
 		result = prime * result + ((region == null) ? 0 : region.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;

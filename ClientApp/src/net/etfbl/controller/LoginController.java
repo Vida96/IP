@@ -2,8 +2,6 @@ package net.etfbl.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
@@ -20,12 +18,11 @@ import net.etfbl.beans.PostBean;
 import net.etfbl.beans.PostCategoryBean;
 import net.etfbl.beans.UserBean;
 import net.etfbl.dao.UserDAO;
-import net.etfbl.dto.User;
 
 @WebServlet("/Login")
 public class LoginController extends HttpServlet {
-	//private static final long serialVersionUID = 1L;
- 
+	// private static final long serialVersionUID = 1L;
+
 	public LoginController() {
 		super();
 	}
@@ -36,14 +33,14 @@ public class LoginController extends HttpServlet {
 		String address = "/WEB-INF/pages/login.jsp";
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
-  
+
 		if (action == null || action.equals("")) {
-  			address = "/WEB-INF/pages/login.jsp";
+			address = "/WEB-INF/pages/login.jsp";
 		} else if (action.equals("logout")) {
-			UserBean userBean = (UserBean)session.getAttribute("userBean");
-			if(userBean != null)
+			UserBean userBean = (UserBean) session.getAttribute("userBean");
+			if (userBean != null)
 				UserDAO.logout(userBean.getUser().getId());
-		
+
 			session.invalidate();
 			address = "/WEB-INF/pages/login.jsp";
 		} else if (action.equals("login")) {
@@ -51,18 +48,16 @@ public class LoginController extends HttpServlet {
 			UserBean userBean = new UserBean();
 			PostBean postBean = new PostBean();
 			String username = request.getParameter("username");
-			String password = request.getParameter("password");	
+			String password = request.getParameter("password");
 			if (userBean.login(username, password)) {
-			System.out.println("USLO");
-				
-			//	MessageBean messageBean = new MessageBean();
-		//		session.setAttribute("messageBean", messageBean);
-			}  
-		}  
-		else
+				System.out.println("USLO");
+
+				// MessageBean messageBean = new MessageBean();
+				// session.setAttribute("messageBean", messageBean);
+			}
+		} else
 			address = "/WEB-INF/pages/login.jsp";
-		 
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 		dispatcher.forward(request, response);
 	}
@@ -80,16 +75,16 @@ public class LoginController extends HttpServlet {
 			PostBean postBean = new PostBean();
 			PostCategoryBean postCategoryBean = new PostCategoryBean();
 			String username = jsonObject.getString("username");
-			String password = jsonObject.getString("password");	
+			String password = jsonObject.getString("password");
 			if (userBean.login(username, password)) {
 				session.setAttribute("userBean", userBean);
 				session.setAttribute("postBean", postBean);
 				session.setAttribute("postCategoryBean", postCategoryBean);
-			}else {
+			} else {
 				PrintWriter pw = response.getWriter();
 				pw.print("ERROR");
 				pw.close();
-			}  
-	}
+			}
+		}
 	}
 }

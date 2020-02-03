@@ -15,15 +15,16 @@ public class PostHasPostCategory {
 		List<String> categories = null;
 		Connection connection = null;
 		ResultSet rs = null;
-		Object values[] = {postId};
+		Object values[] = { postId };
 		ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
-		
+
 		try {
 			connection = connectionPool.checkOut();
-			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_POST_POST_CATEGORIES, false, values);
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_SELECT_POST_POST_CATEGORIES, false,
+					values);
 			rs = pstmt.executeQuery();
 			categories = new ArrayList<>();
-			
+
 			while (rs.next()) {
 				String categoryName = rs.getString("name");
 				categories.add(categoryName);
@@ -33,7 +34,7 @@ public class PostHasPostCategory {
 			exp.printStackTrace();
 		} finally {
 			connectionPool.checkIn(connection);
-		} 
+		}
 		return categories;
 	}
 }

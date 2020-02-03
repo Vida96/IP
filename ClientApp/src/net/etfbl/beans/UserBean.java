@@ -5,12 +5,12 @@ import java.io.Serializable;
 
 import net.etfbl.dao.UserDAO;
 import net.etfbl.dto.User;
- 
+
 public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private User user = new User();
-	
+
 	private boolean isLoggedIn = false;
 
 	public boolean login(String username, String password) {
@@ -40,31 +40,31 @@ public class UserBean implements Serializable {
 
 	public Boolean areUsernameAndMailAllowed(String username, String mail, PrintWriter pw) {
 		Boolean areAllowed = true;
-		if(!UserDAO.isUsernameAllowed(username)) {
+		if (!UserDAO.isUsernameAllowed(username)) {
 			areAllowed = false;
 			pw.println("USERNAME_ERROR");
 		}
-		if(!UserDAO.isMailAllowed(mail)) {
+		if (!UserDAO.isMailAllowed(mail)) {
 			areAllowed = false;
 			pw.println("MAIL_ERROR");
-			
+
 		}
-		if(!UserDAO.isUsernameOnHold(username)) {
+		if (!UserDAO.isUsernameOnHold(username)) {
 			areAllowed = false;
 			pw.println("USERNAME_ON_HOLD");
 		}
-		if(!UserDAO.isMailOnHold(mail)) {
+		if (!UserDAO.isMailOnHold(mail)) {
 			areAllowed = false;
 			pw.println("MAIL_ON_HOLD");
 		}
 		pw.close();
 		return areAllowed;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public boolean add(User user) {
 		this.user = user;
 		return UserDAO.insert(user);
