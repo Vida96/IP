@@ -34,15 +34,22 @@ public class ProfileController extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String address = "/WEB-INF/pages/profileUpdate.jsp";
-		String action = request.getParameter("action");
+		 
 		HttpSession session = request.getSession();
 		UserBean userBean = (UserBean) session.getAttribute("userBean");
 		if (userBean == null) {
 			response.sendRedirect(request.getContextPath() + "/Login");
 		} else {
-			address = "/WEB-INF/pages/profile.jsp";
+			if(userBean.getUser().getNumberOfLogins() != 0) {
+			address = "/WEB-INF/pages/profileUpdate.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 			dispatcher.forward(request, response);
+			}else
+			{
+				address = "/WEB-INF/pages/profile.jsp";
+				RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+				dispatcher.forward(request, response);
+			}
 		}
 	}
 
@@ -106,12 +113,7 @@ public class ProfileController extends HttpServlet {
 		if (!jsonObject.isNull("city")) {
 			city = jsonObject.getString("city");
 		}
-
-		String attribute;
 		Boolean condition = true;
-
-		System.out.println(previousMail);
-		System.out.println(mail);
 
 		if ((!"".equals(previousMail)) && (!previousMail.equals(mail)))
 			if (!UserDAO.isMailAllowed(mail)) {

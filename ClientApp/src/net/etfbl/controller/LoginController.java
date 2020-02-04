@@ -33,29 +33,19 @@ public class LoginController extends HttpServlet {
 		String address = "/WEB-INF/pages/login.jsp";
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
-
-		if (action == null || action.equals("")) {
-			address = "/WEB-INF/pages/login.jsp";
-		} else if (action.equals("logout")) {
-			UserBean userBean = (UserBean) session.getAttribute("userBean");
+		UserBean userBean = (UserBean) session.getAttribute("userBean");
+		
+		if ((action != null) && (action.equals("logout"))) {
 			if (userBean != null)
 				UserDAO.logout(userBean.getUser().getId());
 
 			session.invalidate();
 			address = "/WEB-INF/pages/login.jsp";
-		} else if (action.equals("login")) {
-			System.out.println("USLO");
-			UserBean userBean = new UserBean();
-			PostBean postBean = new PostBean();
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
-			if (userBean.login(username, password)) {
-				System.out.println("USLO");
-
-				// MessageBean messageBean = new MessageBean();
-				// session.setAttribute("messageBean", messageBean);
-			}
-		} else
+		}else if((userBean != null)&&(userBean.isLoggedIn())) {
+			address = "/WEB-INF/pages/home.jsp";
+		} else if ((action == null) || (action.equals(""))) {
+			address = "/WEB-INF/pages/login.jsp";
+		}else
 			address = "/WEB-INF/pages/login.jsp";
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(address);

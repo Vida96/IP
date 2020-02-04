@@ -6,17 +6,8 @@
 <title>NavBar</title>
 </head>
 <body>
- <ul>
-  <li>
-    <a href="Home">Početna strana<span class="sr-only">(current)</span></a>
-  </li>
-  <li>
-    <a href="Profile">Izmjena profila</a>
-  </li>
-  <li style="float:right">
-    <a href="Login?action=logout">Odjava</a>
-  </li>
-</ul>
-<br>
+
+<jsp:include page="../pages/header.jsp"/>
+<jsp:include page="../pages/profile.jsp"/>
 </body>
 </html>

@@ -27,6 +27,7 @@ import net.etfbl.beans.UserBean;
 import net.etfbl.dao.ImageDAO;
 import net.etfbl.dao.PostCategoryDAO;
 import net.etfbl.dao.PostDAO;
+import net.etfbl.dao.PostHasPostCategory;
 import net.etfbl.dao.UserDAO;
 import net.etfbl.dto.Post;
 import net.etfbl.dto.User;
@@ -90,7 +91,7 @@ public class PostContoller extends HttpServlet {
 			video = jsonObject.getString("video");
 		}
 		if (!jsonObject.isNull("link")) {
-			link = jsonObject.getString("link");
+			link = jsonObject.getString("link").toString();
 		}
 
 		Integer isEmergency = jsonObject.getBoolean("isEmergency") ? 1 : 0;
@@ -102,24 +103,21 @@ public class PostContoller extends HttpServlet {
 		post.setUserId(userBean.getUser().getId());
 		Integer postId = PostDAO.insert(post);
 		ImageDAO.insert(images, postId);
-		PostCategoryDAO.insert(categoriesId, postId);
+		PostHasPostCategory.insert(categoriesId, postId);
 		if (isEmergency == 1) {
-			sendMailToUsers(post, userBean.getUser().getMail());
+			sendMailToUsers(post, userBean.getUser().getMail(), userBean.getUser().getPassword());
 		}
 	}
 
-	private void sendMailToUsers(Post post, String senderMail) {
+	private void sendMailToUsers(Post post, String senderMail, String senderPassword) {
 		List<String> usersMails = UserDAO.getUsersMailsForEmergencyMail(senderMail);
-		sendMail("", "", post);
 		for (String recieverMail : usersMails) {
-			// sendMail("", "", post);
-			System.out.println(recieverMail);
+		    sendMail(senderMail, senderPassword, recieverMail, post);
 		}
+		System.out.println("Sent messages successfully....");
 	}
 
-	private void sendMail(String senderMail, String recieverMail, Post post) {
-		String to = "nikolavidovic813@gmail.com";
-		String from = "nikolavidovic813@gmail.com";
+	private void sendMail(String senderMail, String senderPassword, String recieverMail, Post post) {
 		String host = "smtp.gmail.com";
 
 		Properties properties = System.getProperties();
@@ -132,7 +130,7 @@ public class PostContoller extends HttpServlet {
 
 			protected PasswordAuthentication getPasswordAuthentication() {
 
-				return new PasswordAuthentication("nikolavidovic813@gmail.com", "srbin1996");
+				return new PasswordAuthentication(senderMail, senderPassword);
 
 			}
 
@@ -140,8 +138,8 @@ public class PostContoller extends HttpServlet {
 
 		try {
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(from));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			message.setFrom(new InternetAddress(senderMail));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(recieverMail));
 			message.setSubject("Obavjestenje o hitnom upozorenju");
 
 			String msg = getMessageContent(post);

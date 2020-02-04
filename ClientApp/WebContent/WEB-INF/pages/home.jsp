@@ -25,7 +25,7 @@
 </head>
 <body>
 
-<jsp:include page="../pages/profileUpdate.jsp"/>
+<jsp:include page="../pages/header.jsp"/>
 <br>
     <div class="container-fluid gedf-wrapper">
         <div class="row">
@@ -77,22 +77,22 @@
 
                     </div>
                              <%
-                        Date postTime = p.getCreationTime();
-                        Long result = ((new Date().getTime()/60000) - (postTime.getTime()/60000));
-                       	String differnce;
-                       	if(result > 60)
-                       	{
-                       		result /= 60;
-                       		if(result > 730){
-                           		result /= 730;
-                           		differnce = result.toString() + " mjeseci";
-                           	}else
-                       			differnce = result.toString() + " h";
-                       	}else
-                       	{
-                       		differnce = result.toString() + " min";
-                       	}
-                        %>
+                             Date postTime = p.getCreationTime();
+                             Long result = ((new Date().getTime()/60000) - (postTime.getTime()/60000));
+                            	String differnce;
+                            	if(result > 60)
+                            	{
+                            		result /= 60;
+                            		if(result > 730){
+                                		result /= 730;
+                                		differnce = result.toString() + " mjeseci";
+                                	}else
+                            			differnce = result.toString() + " h";
+                            	}else
+                            	{
+                            		differnce = result.toString() + " min";
+                            	}
+                             %>
                     
                     <div class="card-body">
                         <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"> Prije <%=differnce%> </i>
@@ -271,18 +271,24 @@
                              <%
                             List<String> categories = p.getCategories();	
                             if(categories != null){
-                            	for(String category : categories)
+                            	for(String category : categories){
                             		if(categories.indexOf(category) == 0)
                             			out.print("Kategorije opasnosti: " + category);
                             		else
                             			out.print(", " + category);
-                            }
+                            }}
                             %>
                             </h3>
                         <%
+                        String video = p.getVideo();
+                        
+                        if(video != null){%>
+                  	     <video style="width:200px;height:200px" class="center-block img-responsive"  controls autoplay src='<%=video%>'></video>
+                        <%} %>
+                       
+                        <%
    						List<String> images = p.getImages();
                         String firstImage ="";
-                        String video = p.getVideo();
                         
                         if(images != null){
                         if(images.size() > 0)
@@ -292,9 +298,7 @@
                         %>
                         <img width="200" height="200"  class="center-block img-responsive" src='<%=image%>' />
                         <%}}%>
-                        <%if(video != null){%>
-                  	     <video style="width:200px;height:200px" controls autoplay src='<%=video%>'></video>
-                        <%} %>
+                       
                         <p class="card-text">
                              <% out.println(p.getText()); %>
                         </p>

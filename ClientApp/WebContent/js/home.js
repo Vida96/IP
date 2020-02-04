@@ -204,12 +204,12 @@ function shareDanger(id, username, fullName, userPhoto){
 	}
 	
 	var url = description;
-    var regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i, match = String(url).match(regExp);
+    var regExp = /(?:https:www\.youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i, match = String(url).match(regExp);
     var link;
     
     if (match) {
-    	  video = match;
-    	  description = description.replace(video,'');
+    	  link = match[0];
+    	  description = description.replace(link,'');
     }else{
     	var str = description;
     	var urlRE= new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
@@ -307,7 +307,7 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     		imagesHtml += '<div style="float: left;" class="image-zone"><img style="width:200px;height:200px"  id="pro-img-' + i++ + '" src="' + image + '"></div>&nbsp;';
     	}); 
     if(imagesHtml != ""){
-    	imagesHtml += '<br>'
+    	imagesHtml += '<br><br><br><br><br><br><br><br><br>'
     }
     var linkHtml = "";
 
@@ -315,7 +315,10 @@ function displayDanger(username, fullName, userPhoto, description, location, ima
     	locationHtml+= '<i style="float:right" class="fa fa-map-marker" aria-hidden="true">&nbsp;' + location + '</i>';
     }
     if(link != null){
-    	linkHtml+='<a href=' + link + 'class="card-link">Pro&#269;itajte vi&#353;e</a>' 
+    	if(link.includes("youtube"))
+    		linkHtml+='<a href=' + link + 'class="card-link">Pogledajte vi&#353;e</a>' 
+    	else
+    		linkHtml+='<a href=' + link + 'class="card-link">Pro&#269;itajte vi&#353;e</a>' 
     }
     var html;
     if(emergencyZone == null){
@@ -383,7 +386,7 @@ function JsonpHttpsRequest(url, callback, isLastRegion) {
     }
 
     if(cities.length == 0)
-    	document.getElementById("errorLabel").innerHTML = "Prognoza nije dostupna za trazene gradove";
+    	document.getElementById("errorLabel").innerHTML = "Prognoza za trazene gradove";
 }
 
 function JsonpHttpRequest(url, callback, alpha2Code) {

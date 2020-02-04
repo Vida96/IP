@@ -142,7 +142,9 @@ public class PostDAO {
 				Integer userId = rs.getInt("user_Id");
 				postCreator = UserDAO.getById(userId);
 				postId = rs.getInt("id");
-				Post post = new Post(postId, rs.getString("text"), postCreator, rs.getTimestamp("time"),
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				Date date = df.parse(rs.getString("time"));
+				Post post = new Post(postId, rs.getString("text"), postCreator, date,
 						rs.getString("location"), rs.getString("video"), rs.getString("link"));
 				images = ImageDAO.getById(postId);
 				post.setImages(images);
@@ -157,7 +159,8 @@ public class PostDAO {
 		} finally {
 			connectionPool.checkIn(connection);
 		}
-
+		Collections.sort(activePosts, (o1, o2) -> o1.getCreationTime().compareTo(o2.getCreationTime()));
+		Collections.reverse(activePosts);
 		return activePosts;
 	}
 

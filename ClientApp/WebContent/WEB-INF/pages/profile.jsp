@@ -17,7 +17,6 @@
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 </head>
 <body>
-<jsp:include page="../pages/profileUpdate.jsp"/>
 <hr>	
 <div class="container bootstrap snippet">
     <div class="row">
@@ -145,20 +144,24 @@
                       String display;
                       String nOM = "";
                       String nIA = ""; 
-                      String cbChecked ="";
+                      String cbChecked = "";
                    	  if((notificationOnMail != null) && (notificationOnMail == 1)){
                    		 display = "block";
        					 nOM = "checked";
        				   	 cbChecked = "checked";
-                      }else if((notificationOnMail != null) && (notificationOnMail == 1)){
+                      }else if((notificationInApp != null) && (notificationInApp == 1)){
                     		 display = "block";
            					 nIA = "checked";
            				   	 cbChecked = "checked";
                       }
                    	   else
                     	 display = "none";
-                    %>
+                   	 if("".equals(cbChecked)){
+                   	 %>
                             <input  style="position: absolute;margin-left: 600px;"  type="checkbox" class="custom-control-input" id="notifications-blog" onChange="toggle_visibility()">
+                              <%}else{ %>
+                                  <input  style="position: absolute;margin-left: 600px;"  type="checkbox" class="custom-control-input" id="notifications-blog" checked="checked" onChange="toggle_visibility()">
+                              <%}%>
                                 <label class="custom-control-label" for="notifications-blog">Notifikacije o hitnim upozorenjima</label>
                                     <div class="col-sm-6" id="radioButtons" style="display:<%=display%>">
                         <div class="row">

@@ -31,7 +31,6 @@ public class RegistrationController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String address = "/WEB-INF/pages/registration.jsp";
 		String action = request.getParameter("action");
-		HttpSession session = request.getSession();
 
 		if (("registration").equals(action)) {
 			address = "/WEB-INF/pages/registration.jsp";
@@ -62,8 +61,7 @@ public class RegistrationController extends HttpServlet {
 		String mail = jsonObject.getString("mail");
 		HttpSession session = request.getSession();
 		UserBean userBean = new UserBean();
-		String attribute;
-
+	 
 		try {
 			PrintWriter pw = new PrintWriter(response.getWriter());
 
@@ -71,6 +69,7 @@ public class RegistrationController extends HttpServlet {
 
 				if (userBean.areUsernameAndMailAllowed(username, mail, pw)) {
 					User user = new User(firstName, lastName, username, password, mail);
+					user.setNumberOfLogins(0);
 					if (userBean.add(user)) {
 						session.setAttribute("userBean", userBean);
 						// dodati podatke da sacuvam, da bih mogao iskorisiti za promjenu profila
