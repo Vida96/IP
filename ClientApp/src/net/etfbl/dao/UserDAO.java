@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,11 @@ public class UserDAO {
 	private static final String SQL_UPDATE_LOGIN_TIME_AND_NUMBER_OF_LOGINS = "UPDATE user SET logintime=?, numberoflogins=?, isLogedIn = 1 WHERE id=?";
 
 	private static final String SQL_UPDATE_LOGOUT_TIME = "UPDATE user SET logouttime=?, isLogedIn = 0 WHERE id=?";
-
+	
+	private static final String USER_LOGGED_IN = "INSERT INTO user_logged (user_id, loggedInDate) VALUES (?, ?)";
+	
+	private static final String USER_LOGGED_OUT = "UPDATE user_logged SET loggedOutDate=? WHERE user_id=? AND loggedOutDate IS null";
+	
 	public static User getUserByUsernameAndPasswordAndActive(String username, String password, Integer active) {
 		User user = null;
 		Connection connection = null;
@@ -74,6 +79,7 @@ public class UserDAO {
 			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = connection.prepareStatement(SQL_UPDATE_LOGIN_TIME_AND_NUMBER_OF_LOGINS);
 			Date date = new Date();
+			updateLoginTime(userId);
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String currentDateTime = format.format(date);
 			pstmt.setString(1, currentDateTime);
@@ -89,6 +95,26 @@ public class UserDAO {
 			connectionPool.checkIn(connection);
 		}
 		return result;
+	}
+
+	private static void updateLoginTime(Integer userId) {
+			 
+			Connection connection = null;
+		 
+			try {
+				connection = connectionPool.checkOut();
+				PreparedStatement pstmt = connection.prepareStatement(USER_LOGGED_IN);
+				pstmt.setInt(1, userId);
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				pstmt.setString(2, dateFormat.format(new Date()));
+				pstmt.execute();
+				pstmt.close();
+			 
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				connectionPool.checkIn(connection);
+			}
 	}
 
 	public static User getUserByUsernameAndActive(String username, Integer active) {
@@ -310,16 +336,33 @@ public class UserDAO {
 		Connection connection = null;
 
 		try {
+			setLogoutTime(id);
 			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = connection.prepareStatement(SQL_UPDATE_LOGOUT_TIME);
 			Date date = new Date();
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String logoutTime = format.format(date);
-
 			pstmt.setString(1, logoutTime);
 			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+	}
+
+	private static void setLogoutTime(Integer id) {
+		Connection connection = null;
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = connection.prepareStatement(USER_LOGGED_OUT);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+			pstmt.setString(1, dateFormat.format(new Date()));
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			connectionPool.checkIn(connection);

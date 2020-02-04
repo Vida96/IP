@@ -51,11 +51,11 @@ public class ProfileController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		UserBean userBean = (UserBean) session.getAttribute("userBean");
-		if(userBean != null && userBean.isLoggedIn()) {
+		if(userBean != null) {
 		String jsonText = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		JSONObject jsonObject = new JSONObject(jsonText);
 		String action = jsonObject.getString("action");
-
+ 
 		if ("updateProfile".equals(action)) {
 				validateFields(jsonObject, response, request, userBean.isLoggedIn() ? 1 : 0,
 					userBean.getUser().getNumberOfLogins(), userBean.getUser().getId()); // prvi put se vrsi izmjena

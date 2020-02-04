@@ -146,11 +146,11 @@
                       String nOM = "";
                       String nIA = ""; 
                       String cbChecked ="";
-                   	  if(notificationOnMail == 1){
+                   	  if((notificationOnMail != null) && (notificationOnMail == 1)){
                    		 display = "block";
        					 nOM = "checked";
        				   	 cbChecked = "checked";
-                      }else if(notificationInApp == 1){
+                      }else if((notificationOnMail != null) && (notificationOnMail == 1)){
                     		 display = "block";
            					 nIA = "checked";
            				   	 cbChecked = "checked";
@@ -158,7 +158,7 @@
                    	   else
                     	 display = "none";
                     %>
-                            <input  style="position: absolute;margin-left: 600px;"  type="checkbox" class="custom-control-input" id="notifications-blog" checked="<%=cbChecked%>"onChange="toggle_visibility()">
+                            <input  style="position: absolute;margin-left: 600px;"  type="checkbox" class="custom-control-input" id="notifications-blog" onChange="toggle_visibility()">
                                 <label class="custom-control-label" for="notifications-blog">Notifikacije o hitnim upozorenjima</label>
                                     <div class="col-sm-6" id="radioButtons" style="display:<%=display%>">
                         <div class="row">
@@ -181,7 +181,7 @@
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<button class="btn btn-lg btn-success" type="submit" onclick="event.preventDefault(); return validateFields(<%=userBean.getUser().getNumberOfLogins()%>)"><i class="glyphicon glyphicon-ok-sign"></i> Sačuvaj</button>
+                              	<button class="btn btn-lg btn-success" type="submit" onclick="event.preventDefault(); return validateFields(<%=userBean.getUser().getNumberOfLogins() != null? userBean.getUser().getNumberOfLogins():0%>)"><i class="glyphicon glyphicon-ok-sign"></i> Sačuvaj</button>
                                	&nbsp&nbsp<label style="color: green" id="successLabel"></label>
                             </div>
                       </div>

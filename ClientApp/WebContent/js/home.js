@@ -381,6 +381,9 @@ function JsonpHttpsRequest(url, callback, isLastRegion) {
     		citiesForWeather = [];
     	}
     }
+
+    if(cities.length == 0)
+    	document.getElementById("errorLabel").innerHTML = "Prognoza nije dostupna za trazene gradove";
 }
 
 function JsonpHttpRequest(url, callback, alpha2Code) {
@@ -398,6 +401,8 @@ function JsonpHttpRequest(url, callback, alpha2Code) {
     	    
     	});
     }
+    if(regions.length == 0)
+    	document.getElementById("errorLabel").innerHTML = "Prognoza nije dostupna za trazene gradove";
 }
 
 function fillCountries(country){
@@ -418,11 +423,6 @@ function fillCountries(country){
 
 function searchWeatherForCities(country){
 	fillCountries(country);
-	/*
-	searchWeather("Banja Luka");
-	searchWeather("Doboj");
-	searchWeather("Mrkonjic Grad");
-	*/
 }
 
 function searchWeather(cityName) {

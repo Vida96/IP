@@ -428,13 +428,15 @@
                 <div id="humidity2" class="bottom-details"></div>
             </div>
         </div>
+        <label id="errorLabel"></label>
                 </div>
                 
+            
                 
                 
                <script>
                var country = "<%= userBean.getUser().getCountry() %>";
-           //    searchWeatherForCities(country);
+               searchWeatherForCities(country);
            </script>
   
             </div>

@@ -142,7 +142,7 @@ function validateFields(numberOfLogins){
 				return false;
 			}
 			else if(numberOfLogins == 0)
-				window.location.replace("Login?action=");
+				window.location.replace("Login");
 			else
 				document.getElementById("successLabel").innerHTML = "Uspjesno izvrsena izmjena li&#269nih podataka";
 		}
