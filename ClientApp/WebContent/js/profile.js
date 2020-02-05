@@ -247,7 +247,7 @@ function JsonpHttpsRequest(url, callback) {
 function fillRegions(){
 	var selectedCountry = document.getElementById("country");
 	var alpha2Code = selectedCountry.options[selectedCountry.selectedIndex].value; 
-	JsonpHttpRequest('http://battuta.medunes.net/api/region/' + alpha2Code + '/all/?key=ceab192fc6bd24fbec5aa769affe791c&callback=cb', "cb");	
+	JsonpHttpRequest('http://battuta.medunes.net/api/region/' + alpha2Code + '/all/?key=e16e5ad6830e66c295fa0d35ac8ed8bd&callback=cb', "cb");	
 };
 
 function fillCountries(){
@@ -271,7 +271,7 @@ function fillCities(){
 	  var selectedRegion = document.getElementById("region");
 	  var region = selectedRegion.options[selectedRegion.selectedIndex].value; 
 	
-	  JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region + '&key=ceab192fc6bd24fbec5aa769affe791c&callback=cb', "cb");
+	  JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region + '&key=e16e5ad6830e66c295fa0d35ac8ed8bd&callback=cb', "cb");
 
 };
 

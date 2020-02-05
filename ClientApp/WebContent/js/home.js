@@ -400,7 +400,7 @@ function JsonpHttpRequest(url, callback, alpha2Code) {
     	   if (idx === regions.length - 1){ 
     	 		isLastRegion = true;
     	   }
-    	   	JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region.region + '&key=ceab192fc6bd24fbec5aa769affe791c&callback=cb', "cb", isLastRegion); 
+    	   	JsonpHttpsRequest('http://battuta.medunes.net/api/city/' + alpha2Code + '/search/?region='+ region.region + '&key=e16e5ad6830e66c295fa0d35ac8ed8bd&callback=cb', "cb", isLastRegion); 
     	    
     	});
     }
@@ -417,7 +417,7 @@ function fillCountries(country){
 			var userCountry = countries.filter(function (c) {
 	    	    return c.name === country;
 	    	})[0];
-			JsonpHttpRequest('http://battuta.medunes.net/api/region/' + userCountry.alpha2Code + '/all/?key=ceab192fc6bd24fbec5aa769affe791c&callback=cb', "cb", userCountry.alpha2Code);
+			JsonpHttpRequest('http://battuta.medunes.net/api/region/' + userCountry.alpha2Code + '/all/?key=e16e5ad6830e66c295fa0d35ac8ed8bd&callback=cb', "cb", userCountry.alpha2Code);
 	};
 	}
 		request.open("GET", "https://restcountries.eu/rest/v2/region/europe", true);
