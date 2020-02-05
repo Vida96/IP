@@ -36,7 +36,7 @@ function validateFields(){
 		if((request.readyState ==4) && (request.status==200))
 		{
 			if(this.responseText.trim() == "ERROR") {
-				document.getElementById("errorLabel").innerHTML = "Neispravno korisnicko ime ili lozinka";
+				document.getElementById("errorLabel").innerHTML = "* Neispravno korisnicko ime ili lozinka";
 				return false;
 			}
 			else
